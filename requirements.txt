@@ -1,0 +1,4 @@
+feedparser>=6.0
+requests>=2.31
+tzdata>=2024.1
+pywin32>=306; sys_platform == "win32"
