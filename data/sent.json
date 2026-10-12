@@ -1,0 +1,26 @@
+[
+  {
+    "date": "2026-10-12",
+    "link": "https://developers.googleblog.com/build-zero-trust-ai-agents-that-judge-intent-not-just-syntax/",
+    "title": "Build zero-trust AI agents that judge intent, not just syntax",
+    "source": "Google Developers Blog"
+  },
+  {
+    "date": "2026-10-12",
+    "link": "https://www.therundown.ai/articles/microsoft-s-jacob-andreou-on-ai-s-product-gap",
+    "title": "Microsoft's Jacob Andreou on AI's product gap",
+    "source": "The Rundown AI"
+  },
+  {
+    "date": "2026-10-12",
+    "link": "https://huggingface.co/blog/allenai/impactful-scheduling",
+    "title": "Impactful scheduling for GPU clusters",
+    "source": "Hugging Face Blog"
+  },
+  {
+    "date": "2026-10-12",
+    "link": "https://aws.amazon.com/blogs/machine-learning/icymi-what-landed-for-ai-builders-in-september-2026/",
+    "title": "ICYMI: What landed for AI builders in September 2026",
+    "source": "AWS Machine Learning Blog"
+  }
+]
