@@ -521,6 +521,9 @@ def main() -> int:
         return check_sources(config["sources"])
 
     today = NOW.astimezone(ZoneInfo(os.getenv("TIP_TIMEZONE") or config.get("timezone", "UTC")))
+    if os.getenv("GITHUB_EVENT_NAME") == "schedule" and (OUT_DIR / "archive" / f"{today:%Y-%m-%d}.html").exists():
+        log("Today's tip is already built by an earlier scheduled run - nothing to do.")
+        return 0
     theme = THEMES.get(today.weekday() if args.day is None else args.day, WEEKEND_THEME)
     log(f"Theme: {theme['emoji']} {theme['name']}")
 
