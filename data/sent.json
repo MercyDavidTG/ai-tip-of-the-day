@@ -22,5 +22,29 @@
     "link": "https://aws.amazon.com/blogs/machine-learning/icymi-what-landed-for-ai-builders-in-september-2026/",
     "title": "ICYMI: What landed for AI builders in September 2026",
     "source": "AWS Machine Learning Blog"
+  },
+  {
+    "date": "2026-10-13",
+    "link": "https://www.reddit.com/r/ChatGPTPro/comments/1x40nry/using_chatgpt_to_fix_camera_drift_in_ai_product/",
+    "title": "Using ChatGPT to fix \"camera drift\" in AI product shots.",
+    "source": "Reddit r/ChatGPTPro"
+  },
+  {
+    "date": "2026-10-13",
+    "link": "https://arstechnica.com/ai/2026/10/ai-coding-agents-generate-more-code-but-not-more-software/",
+    "title": "AI coding agents generate more code, but not more software",
+    "source": "Hacker News (AI, 100+ points)"
+  },
+  {
+    "date": "2026-10-13",
+    "link": "https://simonwillison.net/2026/Oct/12/web-edit/",
+    "title": "web-edit 0.1a0",
+    "source": "Simon Willison"
+  },
+  {
+    "date": "2026-10-13",
+    "link": "https://github.blog/ai-and-ml/github-copilot/github-copilot-app-for-beginners-how-to-teach-copilot-about-your-codebase/",
+    "title": "GitHub Copilot app for Beginners: How to teach Copilot about your codebase",
+    "source": "GitHub Blog - AI & ML"
   }
 ]
