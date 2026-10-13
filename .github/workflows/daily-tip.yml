@@ -2,7 +2,7 @@ name: Build AI Tip of the Day
 
 on:
   schedule:
-    - cron: "30 3 * * *"     # 03:30 UTC = 09:00 IST, every day; the email goes out at 11:00 IST (2 h buffer)
+    - cron: "30 3 * * 1-5"   # 03:30 UTC = 09:00 IST, Monday-Friday; the email goes out at 11:00 IST (2 h buffer)
   workflow_dispatch:          # lets you run it by hand from the Actions tab
 
 permissions:
