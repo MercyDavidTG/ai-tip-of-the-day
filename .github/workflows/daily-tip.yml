@@ -6,8 +6,6 @@ on:
     # eight chances at :17 and :47 (06:47 to 10:17 IST); the first one builds the tip, the others see
     # it's done and stop. The email goes out at 11:00 IST from Power Automate.
     - cron: "17,47 1-4 * * 1-5"
-    # TEMPORARY (14 Oct only): proves the scheduler fires for this repo and builds today's missed tip.
-    - cron: "7,22,37,52 6-7 14 10 *"
   workflow_dispatch:          # lets you run it by hand from the Actions tab
 
 permissions:
