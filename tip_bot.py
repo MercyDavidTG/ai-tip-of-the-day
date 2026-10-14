@@ -120,6 +120,7 @@ AI_TERMS = re.compile(r"\b(ai|a\.i\.|llms?|gpt\S*|chatgpt|claude|gemini|copilot|
 BOILERPLATE = [
     r"The post .*? appeared first on .*?\.", r"arXiv:\S+\s+Announce Type:\s*\S+\s*Abstract:\s*",
     r"submitted by\s+/u/\S+", r"\[link\]|\[comments\]", r"(Read|Continue reading|Read more)[^.]*$",
+    r"(Article URL|Comments URL):\s*\S+", r"Points:\s*\d+", r"#\s*Comments:\s*\d+",  # Hacker News feed metadata
     r"^(In this (post|article|blog post|video),?\s*)", r"^This (blog )?post (explores|covers|shows|explains|describes)\s+",
 ]
 
