@@ -46,5 +46,29 @@
     "link": "https://github.blog/ai-and-ml/github-copilot/github-copilot-app-for-beginners-how-to-teach-copilot-about-your-codebase/",
     "title": "GitHub Copilot app for Beginners: How to teach Copilot about your codebase",
     "source": "GitHub Blog - AI & ML"
+  },
+  {
+    "date": "2026-10-14",
+    "link": "https://aws.amazon.com/blogs/machine-learning/build-long-horizon-agents-with-grok-4-7-on-amazon-bedrock/",
+    "title": "Build long-horizon agents with Grok 4.7 on Amazon Bedrock",
+    "source": "AWS Machine Learning Blog"
+  },
+  {
+    "date": "2026-10-14",
+    "link": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-argon/",
+    "title": "Gemini 4 Argon: Built to solve your hardest problems",
+    "source": "Google AI Blog"
+  },
+  {
+    "date": "2026-10-14",
+    "link": "https://deepmind.google/blog/developing-gemini-4-argon-responsibly-and-safely/",
+    "title": "Developing Gemini 4 Argon responsibly and safely",
+    "source": "Google DeepMind"
+  },
+  {
+    "date": "2026-10-14",
+    "link": "https://openai.com/index/higgsfield-longer-videos-voice",
+    "title": "Higgsfield takes AI video from 1 minute to over 10",
+    "source": "OpenAI News"
   }
 ]
