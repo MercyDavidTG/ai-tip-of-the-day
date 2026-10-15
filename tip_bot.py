@@ -124,19 +124,6 @@ BOILERPLATE = [
     r"^(In this (post|article|blog post|video),?\s*)", r"^This (blog )?post (explores|covers|shows|explains|describes)\s+",
 ]
 
-PROMPT = """You write "AI Tip of the Day": a 20-second email that keeps a busy business team up to date with AI.
-Today's theme: {theme}.
-Using ONLY the source below, return a JSON object with exactly these keys:
-  "headline": at most 9 words, punchy, plain English, no clickbait
-  "update": 1 sentence, at most 22 words: what is new and why it matters at work
-  "think": 1 thought-provoking question, at most 18 words, that sparks ideas for the reader's own work
-  "try_this": 1 concrete action a non-technical colleague can do in 5 minutes, at most 18 words
-Do not invent facts that are not in the source.
-
-SOURCE: {source}
-TITLE: {title}
-TEXT: {text}
-"""
 
 
 def log(message: str) -> None:
@@ -153,7 +140,8 @@ def load_json(path: Path, default):
 def clean_text(raw: str) -> str:
     text = re.sub(r"<(script|style)[^>]*>.*?</\1>", " ", raw or "", flags=re.S | re.I)
     text = re.sub(r"<[^>]+>", " ", text)
-    return re.sub(r"\s+", " ", html.unescape(text)).strip()
+    text = re.sub(r"\s*[\u2013\u2014]\s*", " - ", html.unescape(text))  # en/em dashes become hyphens
+    return re.sub(r"\s+", " ", text).strip()
 
 
 def norm_title(title: str) -> str:
@@ -316,50 +304,11 @@ def page_image(url: str) -> str:
 
 # ---------------------------------------------------------------- write
 
-def ask_gemini(prompt: str) -> str:
-    model = os.getenv("GEMINI_MODEL", "gemini-flash-latest")
-    resp = requests.post(
-        f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent",
-        headers={"x-goog-api-key": os.environ["GEMINI_API_KEY"], "Content-Type": "application/json"},
-        json={"contents": [{"parts": [{"text": prompt}]}],
-              "generationConfig": {"responseMimeType": "application/json", "temperature": 0.4}},
-        timeout=60,
-    )
-    resp.raise_for_status()
-    return resp.json()["candidates"][0]["content"]["parts"][0]["text"]
-
-
-def ask_ollama(prompt: str) -> str:
-    host = os.getenv("OLLAMA_HOST", "http://localhost:11434")
-    resp = requests.post(
-        f"{host}/api/generate",
-        json={"model": os.getenv("OLLAMA_MODEL", "llama3.2"), "prompt": prompt, "stream": False, "format": "json"},
-        timeout=180,
-    )
-    resp.raise_for_status()
-    return resp.json()["response"]
-
-
-def ai_copy(item: dict, theme: dict) -> dict | None:
-    provider = os.getenv("LLM_PROVIDER", "none").strip().lower()
-    if provider not in ("gemini", "ollama"):
-        return None
-    prompt = PROMPT.format(theme=theme["name"], source=item["source"], title=item["title"],
-                           text=item["summary"][:3000])
-    try:
-        raw = ask_gemini(prompt) if provider == "gemini" else ask_ollama(prompt)
-        data = json.loads(re.search(r"\{.*\}", raw, re.S).group(0))
-        return {key: clean_text(str(data[key])) for key in ("headline", "update", "think", "try_this")}
-    except Exception as exc:  # the email still goes out with the plain wording
-        log(f"  ! AI wording skipped ({exc}); using the plain wording")
-        return None
-
-
 def shorten(text: str, max_words: int) -> str:
     words = text.split()
     if len(words) <= max_words:
         return text.rstrip()
-    return " ".join(words[:max_words]).rstrip(",;:-–") + "…"
+    return " ".join(words[:max_words]).rstrip(",;:-") + "…"
 
 
 def first_sentence(summary: str, title: str) -> str:
@@ -367,7 +316,7 @@ def first_sentence(summary: str, title: str) -> str:
     text = summary
     for pattern in BOILERPLATE:
         text = re.sub(pattern, " ", text, flags=re.I)
-    text = re.sub(r"\s+", " ", text).strip(" -–:")
+    text = re.sub(r"\s+", " ", text).strip(" -:")
     for sentence in re.split(r"(?<=[.!?])\s+", text):
         sentence = sentence.strip()
         # skip fragments, questions, first-person chatter and sentences that only repeat the headline
@@ -391,7 +340,7 @@ def brainstorm(item: dict, theme: dict) -> tuple[str, str]:
     return (theme["think"], theme["try"]) if item["type"] in theme["types"] else GENERIC
 
 
-def plain_copy(item: dict, theme: dict) -> dict:
+def tip_copy(item: dict, theme: dict) -> dict:
     think, action = brainstorm(item, theme)
     personal_post = "reddit.com" in item["link"]  # Reddit summaries are personal stories, not news
     return {
@@ -460,7 +409,7 @@ def render_email(main: dict, copy: dict, extras: list[dict], theme: dict, today:
 </td></tr>
 {TEAM_PICK_SLOT}
 {more}
-<tr><td style="padding:14px 24px 16px;font-size:11px;color:#9ca3af;">Curated automatically from trusted public AI sources · Mon–Fri · no tracking{submit_line}</td></tr>
+<tr><td style="padding:14px 24px 16px;font-size:11px;color:#9ca3af;">Curated automatically from trusted public AI sources · Mon-Fri · no tracking{submit_line}</td></tr>
 </table></td></tr></table></body></html>"""
     return subject, body
 
@@ -538,7 +487,7 @@ def main() -> int:
     if not main_item["image"]:
         main_item["image"] = page_image(main_item["link"])
 
-    copy = ai_copy(main_item, theme) or plain_copy(main_item, theme)
+    copy = tip_copy(main_item, theme)
     submit_url = os.getenv("TIP_SUBMIT_URL") or config.get("submit_url", "")
     subject, body = render_email(main_item, copy, extras, theme, today, submit_url)
     log(f"Picked [{main_item['score']}] {main_item['source']}: {main_item['title']}")

@@ -32,16 +32,13 @@ jobs:
       - name: Build today's tip
         run: python tip_bot.py
         env:
-          LLM_PROVIDER: ${{ vars.LLM_PROVIDER || 'none' }}      # set to "gemini" to enable AI summaries
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}         # only needed when LLM_PROVIDER=gemini
-          GEMINI_MODEL: ${{ vars.GEMINI_MODEL }}
           TIP_SUBMIT_URL: ${{ vars.TIP_SUBMIT_URL }}
           PAGES_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/
 
       - name: Publish (commit) today's tip
         run: |
-          git config user.name "ai-tip-bot"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "MercyDavidTG"
+          git config user.email "285697807+MercyDavidTG@users.noreply.github.com"
           git add docs data
           git commit -m "AI tip for $(date -u +%F)" || echo "Nothing new to commit"
           git pull --rebase
