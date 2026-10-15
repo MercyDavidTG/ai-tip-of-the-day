@@ -70,5 +70,29 @@
     "link": "https://openai.com/index/higgsfield-longer-videos-voice",
     "title": "Higgsfield takes AI video from 1 minute to over 10",
     "source": "OpenAI News"
+  },
+  {
+    "date": "2026-10-15",
+    "link": "https://simonwillison.net/2026/Oct/14/tree-appreciator/",
+    "title": "Tree Appreciator",
+    "source": "Simon Willison"
+  },
+  {
+    "date": "2026-10-15",
+    "link": "https://www.youtube.com/watch?v=z_sXLlLVUls",
+    "title": "OpenAI’s New AI Is Doing Things We Barely Understand",
+    "source": "Two Minute Papers (YouTube)"
+  },
+  {
+    "date": "2026-10-15",
+    "link": "https://openai.com/index/amp-beyond-coding",
+    "title": "Amp puts AI agents to work beyond code with OpenAI models",
+    "source": "OpenAI News"
+  },
+  {
+    "date": "2026-10-15",
+    "link": "https://arxiv.org/abs/2610.14574",
+    "title": "CB-Agent: Concept-Based In-Context Learning for Sequential Action Selection",
+    "source": "arXiv cs.AI"
   }
 ]
