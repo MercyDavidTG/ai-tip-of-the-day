@@ -39,9 +39,10 @@ MAX_ENTRIES_PER_FEED = 40
 HISTORY_LIMIT = 1000
 TEAM_PICK_SLOT = "<!--TEAM_PICK-->"  # Power Automate may replace this with an approved team submission
 
-# One theme per weekday (tips go out Monday-Friday only). Sources of the matching type get a big boost.
-# Wednesday and Thursday are data days: "only" limits the pick to that day's source types
-# (falling back to the full pool if none of them has anything fresh).
+# One theme per weekday (tips go out Monday-Friday only). The tip always comes from the day's source types first;
+# only when none of them has a useful, trusted item does the bot fall back: first to a related tip (data on data
+# days, AI on AI days), then to the best tip from any source, and if even that fails to an evergreen tip
+# (EVERGREEN below), so every weekday gets a tip.
 # "think" and "try" are the fallback brainstorm question and 5-minute action when no topic below matches.
 THEMES = {
     0: {"name": "Tool Monday", "emoji": "🛠️", "types": ["official", "newsletter"],
@@ -49,16 +50,16 @@ THEMES = {
                      "docs", "documentation", "best practices", "cookbook", "guide"],
         "think": "Which tool in your daily workflow is overdue for an AI upgrade?",
         "try": "Try this new feature on one real task before lunch."},
-    1: {"name": "Prompt Tuesday", "emoji": "💬", "types": ["community"],
+    1: {"name": "Prompt Tuesday", "emoji": "💬", "types": ["community", "newsletter"],
         "keywords": ["prompt", "prompts", "how to", "tips", "guide", "tutorial", "workflow"],
         "think": "Which prompt do you type every week that could become a reusable template?",
         "try": "Rewrite one prompt you use often as: role + goal + format + one example."},
-    2: {"name": "Pipeline Wednesday", "emoji": "🗄️", "types": ["dataeng"], "only": True,
+    2: {"name": "Pipeline Wednesday", "emoji": "🗄️", "types": ["dataeng"],
         "keywords": ["sql", "dbt", "spark", "pipeline", "pipelines", "etl", "elt", "data quality", "lakehouse",
                      "warehouse", "orchestration", "streaming", "best practices", "how to", "guide"],
         "think": "If your main pipeline failed tonight, how long until someone noticed?",
         "try": "Check that one key job alerts on failure and gives the same result when rerun."},
-    3: {"name": "Viz Thursday", "emoji": "📊", "types": ["dataviz"], "only": True,
+    3: {"name": "Viz Thursday", "emoji": "📊", "types": ["dataviz"],
         "keywords": ["chart", "charts", "dashboard", "dashboards", "visualization", "visualisation", "power bi",
                      "dax", "report", "storytelling", "design", "how to", "tips"],
         "think": "What's the one number your audience should remember from your last chart?",
@@ -68,7 +69,7 @@ THEMES = {
         "think": "If this becomes normal within a year, what changes for our team?",
         "try": "Discuss it with one colleague for 5 minutes: threat, opportunity, or both?"},
 }
-DATA_TYPES = {"dataeng", "dataviz", "datasci"}  # data sources only compete on days whose theme lists their type
+DATA_TYPES = {"dataeng", "dataviz", "datasci"}
 WEEKEND_THEME = {"name": "AI Tip", "emoji": "⚡", "types": [], "keywords": [],
                  "think": THEMES[4]["think"], "try": THEMES[4]["try"]}  # only used for manual weekend runs
 
@@ -84,6 +85,19 @@ PENALTIES = {
     "stock": -3, "sponsored": -8, "earnings": -4, "ipo": -4, "help": -6, "eli5": -4,
     "failures": -6, "outage": -6, "bug": -4, "complaint": -6, "refund": -6, "frustrated": -5,
 }
+# Usefulness: the main tip must be practical (a how-to, a release, a new feature, a best practice) and never
+# an event promo, money or legal news, politics, a short quote post or a paid review. Low-trust sources (open
+# forums and unreviewed preprints) are never used, not even under "Also new".
+USEFUL = re.compile(
+    r"\b(how to|how we|how i|guide|tips?|tutorial|best practices?|hands-on|step[- ]by[- ]step|cheat ?sheet|"
+    r"templates?|checklist|lessons|playbook|roadmap|introducing|announcing|launch(es|ed)?|now available|"
+    r"generally available|preview|new features?|feature summary|what's new|release notes|rolls? out|released|"
+    r"build(ing)?|automat(e|es|ed|ing|ion)|workflows?|prompts?|faster|optimi[sz](e|ing|ation)|reduce|cut)\b", re.I)
+LOW_VALUE = re.compile(
+    r"\b(^quoting|save up to|early bird|early booking|tickets?|register now|webinar|funding|raises|valuation|ipo|"
+    r"investors?|revenue|earnings|stocks?|layoffs?|lawsuit|sues|arrested|trump|election|president|war|"
+    r"sponsored|celebrate|partners? with|partnership|honest review|discount)\b", re.I)
+MIN_QUALITY = 12  # quality (score without the +15 theme-source boost) below which an item is too weak or old to send
 GENERIC = ("How could this change the way you work in the next month?",
            "Spend 5 minutes on the source and note one idea you can use this week.")
 # Brainstorm bank: the first topic whose words appear in the tip supplies the "Think" question and "Try" action.
@@ -156,6 +170,96 @@ DATA_TOPICS = [
      "Which manual data step do you repeat every week?",
      "Script one repeated cleaning step in SQL or pandas and save it in the team repo."),
 ]
+# Evergreen tips: official guides, used only when no feed has a useful item for the day (for example a network
+# outage). Each is sent once before any repeats; after that the least recently sent one comes back.
+# (title, link, source, one-line update, think, try)
+EVERGREEN = {
+    "Tool Monday": [
+        ("What's new in Microsoft 365 Copilot", "https://learn.microsoft.com/en-us/microsoft-365/copilot/release-notes",
+         "Microsoft Learn", "Microsoft lists every new Copilot feature for Word, Excel, Outlook, Teams and PowerPoint here.",
+         "Which Copilot feature released this month could save you time this week?",
+         "Open the release notes, pick one feature for an app you use daily and try it on a real task."),
+        ("ChatGPT release notes", "https://help.openai.com/en/articles/6825453-chatgpt-release-notes",
+         "OpenAI Help Center", "OpenAI's running list of new ChatGPT features, models and settings.",
+         "Is there a ChatGPT feature your team pays for but nobody uses yet?",
+         "Skim the last two weeks of notes and try one new feature on today's work."),
+        ("Best practices for using GitHub Copilot", "https://docs.github.com/en/copilot/get-started/best-practices",
+         "GitHub Docs", "GitHub's guide to what Copilot is good at, what it is not, and how to check its suggestions.",
+         "Which repetitive bit of code or SQL do you still type by hand?",
+         "Ask Copilot to write that snippet from a comment describing the goal, then review it line by line."),
+    ],
+    "Prompt Tuesday": [
+        ("Prompt engineering guide", "https://developers.openai.com/api/docs/guides/prompt-engineering",
+         "OpenAI Docs", "OpenAI's official guide to clear instructions, examples and output formats in prompts.",
+         "Which prompt do you type every week that could become a reusable template?",
+         "Rewrite one prompt you use often as: role + goal + format + one example."),
+        ("Prompt engineering overview", "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview",
+         "Anthropic Docs", "Anthropic's step-by-step techniques for getting better answers from Claude.",
+         "Where do you get vague answers because the AI does not know enough context?",
+         "Add a short context block (who you are, what the output is for) to one prompt and compare the answers."),
+        ("Get started writing prompts in Microsoft Copilot",
+         "https://support.microsoft.com/en-us/microsoft-365-copilot/get-started-writing-prompts-in-microsoft-365-copilot",
+         "Microsoft Support", "Microsoft's guide to goal, context, source and expectations in a Copilot prompt.",
+         "If you had to brief an AI on your job in 3 sentences, what would you say first?",
+         "Write one Copilot prompt with all four parts: goal, context, source and expectations."),
+        ("Google Workspace with Gemini prompt guide", "https://workspace.google.com/learning/content/gemini-prompt-guide",
+         "Google Workspace", "Google's prompt examples for Gmail, Docs, Sheets and Meet, grouped by job role.",
+         "Which email or document do you write from scratch that an AI could draft for you?",
+         "Find your role in the guide and adapt one example prompt to a task you have today."),
+    ],
+    "Pipeline Wednesday": [
+        ("Add data tests to your DAG", "https://docs.getdbt.com/docs/build/data-tests",
+         "dbt Docs", "How to add not-null, unique, accepted-values and relationship tests to dbt models.",
+         "Which table would hurt most if bad data reached it unnoticed?",
+         "Add one not-null or unique test on a key column of that table."),
+        ("How we structure our dbt projects", "https://docs.getdbt.com/best-practices/how-we-structure/1-guide-overview",
+         "dbt Docs", "dbt Labs' recommended layout of staging, intermediate and mart models.",
+         "Could a new joiner find where a metric is calculated in your project in under 5 minutes?",
+         "Check one model's name and folder against the guide and rename it if it does not fit."),
+        ("Medallion lakehouse architecture in Fabric",
+         "https://learn.microsoft.com/en-us/fabric/onelake/onelake-medallion-lakehouse-architecture",
+         "Microsoft Learn", "How to organise raw, cleaned and business-ready data as bronze, silver and gold layers.",
+         "Do people query your raw data directly because the clean version is missing something?",
+         "Map one pipeline you own to bronze, silver and gold and note the layer that is missing."),
+        ("Spark SQL performance tuning", "https://spark.apache.org/docs/latest/sql-performance-tuning.html",
+         "Apache Spark Docs", "The official tips on caching, partitions, join hints and adaptive query execution.",
+         "Which query or job is the slowest or most expensive one you own?",
+         "Run EXPLAIN on it and note one step where you could filter or partition earlier."),
+    ],
+    "Viz Thursday": [
+        ("Star schema and why it matters for Power BI", "https://learn.microsoft.com/en-us/power-bi/guidance/star-schema",
+         "Microsoft Learn", "Why fact and dimension tables make Power BI models faster and easier to use.",
+         "Is any of your reports built on one wide flat table?",
+         "Split one dimension, such as product or customer, out of a flat table in a model you own."),
+        ("Use variables to improve your DAX formulas", "https://learn.microsoft.com/en-us/dax/best-practices/dax-variables",
+         "Microsoft Learn", "How VAR makes DAX measures faster, shorter and easier to debug.",
+         "Which DAX measure do you avoid touching because it is hard to read?",
+         "Rewrite one repeated expression in that measure as a VAR and check the result matches."),
+        ("Tips for designing a great Power BI dashboard",
+         "https://learn.microsoft.com/en-us/power-bi/create-reports/service-dashboards-design-tips",
+         "Microsoft Learn", "Microsoft's guidance on audience, layout, the most important number and visual choice.",
+         "What decision is your main dashboard supposed to drive?",
+         "Put the most important KPI top-left on one dashboard and remove one low-value tile."),
+        ("FT Visual Vocabulary", "https://github.com/Financial-Times/chart-doctor/tree/main/visual-vocabulary",
+         "Financial Times", "The Financial Times' one-page guide to choosing a chart by the message you want to show.",
+         "What's the one number your audience should remember from your last chart?",
+         "Check your last chart against the guide and switch the chart type if another fits the message better."),
+    ],
+    "Frontier Friday": [
+        ("Building effective AI agents", "https://www.anthropic.com/engineering/building-effective-agents",
+         "Anthropic", "Anthropic's practical patterns for agents, and when a simple workflow is the better choice.",
+         "Which multi-step task in your week could an AI agent run end-to-end while you just review?",
+         "Pick one 5-step task you repeat weekly and sketch it as one of the patterns in the article."),
+        ("Common pitfalls and recommended practices", "https://scikit-learn.org/stable/common_pitfalls.html",
+         "scikit-learn Docs", "How data leakage and inconsistent preprocessing quietly inflate model results.",
+         "How would you know if your model is actually beating a simple baseline?",
+         "Check that your latest model fits its preprocessing on training data only, inside a pipeline."),
+        ("The AI Index report", "https://hai.stanford.edu/ai-index",
+         "Stanford HAI", "Stanford's yearly, data-backed view of AI progress, cost, adoption and policy.",
+         "If this becomes normal within a year, what changes for our team?",
+         "Read one chapter summary and share the chart that surprised you most with a colleague."),
+    ],
+}
 CTA = {"video": "▶ Watch", "research": "Read the paper"}
 AI_TERMS = re.compile(r"\b(ai|a\.i\.|llms?|gpt\S*|chatgpt|claude|gemini|copilot|openai|anthropic|deepmind|agents?|agentic|models?|machine learning|neural|genai|generative|prompts?|mcp|codex|chatbots?|assistants?)\b", re.I)
 BOILERPLATE = [
@@ -234,6 +338,7 @@ def to_item(entry, src: dict) -> dict:
         "source": src["name"],
         "type": src.get("type", "news"),
         "weight": float(src.get("weight", 1.0)),
+        "trust": src.get("trust", "medium"),  # high = official or established, medium = curated, low = open forums
         "max_age_hours": src.get("max_age_hours"),  # weekly blogs can allow older posts than the default
     }
 
@@ -274,7 +379,8 @@ def check_sources(sources: list[dict]) -> int:
 
 # ---------------------------------------------------------------- rank
 
-def score(item: dict, theme: dict, max_age_hours: float) -> float | None:
+def score(item: dict, max_age_hours: float) -> float | None:
+    """Base quality of an item on any day: source weight, freshness, practical words, penalties."""
     max_age_hours = float(item.get("max_age_hours") or max_age_hours)
     if item["published"]:
         age_hours = (NOW - item["published"]).total_seconds() / 3600
@@ -291,51 +397,79 @@ def score(item: dict, theme: dict, max_age_hours: float) -> float | None:
         points -= 5
     if item["type"] not in DATA_TYPES and not AI_TERMS.search(text):  # general tech posts from AI sources are not AI tips
         points -= 25
-    if item["type"] in theme["types"]:
-        points += 15
-    points += 4 * sum(1 for k in theme["keywords"] if has_word(text, k))
     return round(points, 2)
 
 
-def eligible(item: dict, theme: dict) -> bool:
-    if theme.get("only"):  # data days: only that day's source types
-        return item["type"] in theme["types"]
-    return item["type"] not in DATA_TYPES or item["type"] in theme["types"]
+def theme_words(item: dict, theme: dict) -> int:
+    text = f"{item['title']} {item['summary'][:400]}".lower()
+    return 4 * sum(1 for k in theme["keywords"] if has_word(text, k))
 
 
-def pick(items: list[dict], history: list[dict], theme: dict, max_age_hours: float):
-    main, extras = rank(items, history, theme, max_age_hours)
-    if not main and theme.get("only"):
-        log(f"Nothing fresh for {theme['name']} - falling back to all sources.")
-        main, extras = rank(items, history, {**theme, "only": False}, max_age_hours)
-    return main, extras
+def useful(item: dict, theme: dict) -> bool:
+    text = f"{item['title']} {item['summary'][:400]}".lower()
+    if LOW_VALUE.search(text):
+        return False
+    return bool(USEFUL.search(text)) or any(has_word(text, k) for k in theme["keywords"])
 
 
-def rank(items: list[dict], history: list[dict], theme: dict, max_age_hours: float):
+def can_lead(item: dict) -> bool:
+    """Only strong, non-question items may be the main tip or an "Also new" link."""
+    return item["quality"] >= MIN_QUALITY and not item["title"].rstrip().endswith("?")
+
+
+def candidates(items: list[dict], history: list[dict], theme: dict, max_age_hours: float) -> list[dict]:
+    """Fresh, trusted, never sent before and useful: scored and sorted best first."""
     sent_links = {h["link"] for h in history}
     sent_titles = {norm_title(h["title"]) for h in history}
     seen, ranked = set(), []
     for item in items:
         key = norm_title(item["title"])
-        if item["link"] in sent_links or key in sent_titles or key in seen or not eligible(item, theme):
+        if (item["link"] in sent_links or key in sent_titles or key in seen or item["trust"] == "low"
+                or not useful(item, theme)):
             continue
-        points = score(item, theme, max_age_hours)
+        points = score(item, max_age_hours)
         if points is None:
             continue
         seen.add(key)
-        item["score"] = points
+        item["quality"] = round(points + theme_words(item, theme), 2)  # the day's topic words count as quality
+        item["score"] = round(item["quality"] + (15 if item["type"] in theme["types"] else 0), 2)
         ranked.append(item)
     ranked.sort(key=lambda i: i["score"], reverse=True)
-    if not ranked:
-        return None, []
-    main, extras, used_sources = ranked[0], [], {ranked[0]["source"]}
-    for item in ranked[1:]:
-        if item["source"] not in used_sources:
+    return ranked
+
+
+def evergreen(theme: dict, history: list[dict]) -> dict:
+    """Last resort: an official guide for the day's theme, unsent ones first, then the least recently sent."""
+    bank = EVERGREEN.get(theme["name"]) or [tip for tips in EVERGREEN.values() for tip in tips]
+    last_sent = {h["link"]: h["date"] for h in history}
+    title, link, source, summary, think, action = min(bank, key=lambda tip: last_sent.get(tip[1], ""))
+    return {"title": title, "link": link, "summary": summary, "image": "", "published": None, "source": source,
+            "type": (theme["types"] or ["official"])[0], "weight": 1.0, "trust": "high", "quality": 0.0, "score": 0.0,
+            "think": think, "try": action}
+
+
+def pick(items: list[dict], history: list[dict], theme: dict, max_age_hours: float):
+    """Theme first, then the same family (data or AI), then any trusted source, then an evergreen tip: never empty."""
+    pool = candidates(items, history, theme, max_age_hours)
+    on_theme = [i for i in pool if i["type"] in theme["types"]]
+    data_day = bool(theme["types"]) and set(theme["types"]) <= DATA_TYPES
+    related = [i for i in pool if (i["type"] in DATA_TYPES) == data_day]
+    main, level = None, ""
+    for level, group in (("on theme", on_theme), ("fallback: related " + ("data" if data_day else "AI") + " tip", related),
+                         ("fallback: best tip from any source", pool)):
+        main = next((i for i in group if can_lead(i)), None)
+        if main:
+            break
+    if not main:
+        main, level = evergreen(theme, history), "fallback: evergreen tip"
+    extras, used_sources = [], {main["source"]}
+    for item in on_theme + pool:  # "Also new" links: the day's theme first
+        if item["source"] not in used_sources and item["link"] != main["link"] and can_lead(item):
             extras.append(item)
             used_sources.add(item["source"])
         if len(extras) == 3:
             break
-    return main, extras
+    return main, extras, level
 
 
 OG_PATTERNS = [
@@ -399,7 +533,7 @@ def brainstorm(item: dict, theme: dict) -> tuple[str, str]:
 
 
 def tip_copy(item: dict, theme: dict) -> dict:
-    think, action = brainstorm(item, theme)
+    think, action = (item["think"], item["try"]) if item.get("think") else brainstorm(item, theme)
     personal_post = "reddit.com" in item["link"]  # Reddit summaries are personal stories, not news
     return {
         "headline": shorten(item["title"], 14),
@@ -538,17 +672,14 @@ def main() -> int:
     items = collect(config["sources"])
     log(f"Collected {len(items)} items")
     history = load_json(HISTORY_FILE, [])
-    main_item, extras = pick(items, history, theme, float(config.get("max_age_hours", 72)))
-    if not main_item:
-        log("Nothing new today - no email built.")
-        return 0
+    main_item, extras, level = pick(items, history, theme, float(config.get("max_age_hours", 72)))
     if not main_item["image"]:
         main_item["image"] = page_image(main_item["link"])
 
     copy = tip_copy(main_item, theme)
     submit_url = os.getenv("TIP_SUBMIT_URL") or config.get("submit_url", "")
     subject, body = render_email(main_item, copy, extras, theme, today, submit_url)
-    log(f"Picked [{main_item['score']}] {main_item['source']}: {main_item['title']}")
+    log(f"Picked ({level}) [{main_item['score']}] {main_item['source']}: {main_item['title']}")
     for extra in extras:
         log(f"  + [{extra['score']}] {extra['source']}: {extra['title']}")
 
