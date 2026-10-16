@@ -94,5 +94,29 @@
     "link": "https://arxiv.org/abs/2610.14574",
     "title": "CB-Agent: Concept-Based In-Context Learning for Sequential Action Selection",
     "source": "arXiv cs.AI"
+  },
+  {
+    "date": "2026-10-16",
+    "link": "https://techcrunch.com/2026/10/15/meta-launches-an-open-weight-model-that-runs-on-macs/",
+    "title": "Meta launches an open-weight AI model that runs on Macs",
+    "source": "TechCrunch AI"
+  },
+  {
+    "date": "2026-10-16",
+    "link": "https://www.analyticsvidhya.com/blog/2026/10/typesafe-ai-jev-tutorial/",
+    "title": "How to Use Jev AI: A Hands-On Guide to TypeSafe’s System One Model",
+    "source": "Analytics Vidhya"
+  },
+  {
+    "date": "2026-10-16",
+    "link": "https://www.theverge.com/ai-artificial-intelligence/1012510/openai-chatgpt-google-chrome-tabs",
+    "title": "ChatGPT can peek at your Chrome tabs now",
+    "source": "The Verge AI"
+  },
+  {
+    "date": "2026-10-16",
+    "link": "https://www.kdnuggets.com/building-ai-applications-with-open-source-agentic-api-server-ogx",
+    "title": "Building AI Applications with OGX, the Open-Source Agentic API Server",
+    "source": "KDnuggets"
   }
 ]
