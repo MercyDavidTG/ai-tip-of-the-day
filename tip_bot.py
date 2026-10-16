@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""AI Tip of the Day: collects public AI updates, picks the best one and renders an Outlook-ready email.
+"""AI Tip of the Day: collects public AI and data updates, picks the best one and renders an Outlook-ready email.
 
 Usage
   python tip_bot.py                  build docs/latest.html + docs/feed.xml (cloud mode, read by Power Automate)
@@ -40,28 +40,35 @@ HISTORY_LIMIT = 1000
 TEAM_PICK_SLOT = "<!--TEAM_PICK-->"  # Power Automate may replace this with an approved team submission
 
 # One theme per weekday (tips go out Monday-Friday only). Sources of the matching type get a big boost.
+# Wednesday and Thursday are data days: "only" limits the pick to that day's source types
+# (falling back to the full pool if none of them has anything fresh).
 # "think" and "try" are the fallback brainstorm question and 5-minute action when no topic below matches.
 THEMES = {
     0: {"name": "Tool Monday", "emoji": "🛠️", "types": ["official", "newsletter"],
-        "keywords": ["launch", "introducing", "now available", "new feature", "rolls out", "released"],
+        "keywords": ["launch", "introducing", "now available", "new feature", "rolls out", "released",
+                     "docs", "documentation", "best practices", "cookbook", "guide"],
         "think": "Which tool in your daily workflow is overdue for an AI upgrade?",
         "try": "Try this new feature on one real task before lunch."},
     1: {"name": "Prompt Tuesday", "emoji": "💬", "types": ["community"],
         "keywords": ["prompt", "prompts", "how to", "tips", "guide", "tutorial", "workflow"],
         "think": "Which prompt do you type every week that could become a reusable template?",
         "try": "Rewrite one prompt you use often as: role + goal + format + one example."},
-    2: {"name": "Docs Wednesday", "emoji": "📘", "types": ["official"],
-        "keywords": ["docs", "documentation", "api", "best practices", "cookbook", "guide"],
-        "think": "What does the official guidance change about how you use this tool today?",
-        "try": "Skim the post's best-practice section and adopt one rule this week."},
-    3: {"name": "Watch Thursday", "emoji": "🎬", "types": ["video"], "keywords": [],
-        "think": "What's one idea from this video you could pitch to your team?",
-        "try": "Watch it at 1.5x in a coffee break and share one takeaway in your team chat."},
-    4: {"name": "Frontier Friday", "emoji": "🚀", "types": ["news"],
-        "keywords": ["breakthrough", "research", "benchmark", "model", "study"],
+    2: {"name": "Pipeline Wednesday", "emoji": "🗄️", "types": ["dataeng"], "only": True,
+        "keywords": ["sql", "dbt", "spark", "pipeline", "pipelines", "etl", "elt", "data quality", "lakehouse",
+                     "warehouse", "orchestration", "streaming", "best practices", "how to", "guide"],
+        "think": "If your main pipeline failed tonight, how long until someone noticed?",
+        "try": "Check that one key job alerts on failure and gives the same result when rerun."},
+    3: {"name": "Viz Thursday", "emoji": "📊", "types": ["dataviz"], "only": True,
+        "keywords": ["chart", "charts", "dashboard", "dashboards", "visualization", "visualisation", "power bi",
+                     "dax", "report", "storytelling", "design", "how to", "tips"],
+        "think": "What's the one number your audience should remember from your last chart?",
+        "try": "Retitle one chart so the title states the finding, and grey out everything but the key series."},
+    4: {"name": "Frontier Friday", "emoji": "🚀", "types": ["news", "datasci"],
+        "keywords": ["breakthrough", "research", "benchmark", "model", "study", "machine learning"],
         "think": "If this becomes normal within a year, what changes for our team?",
         "try": "Discuss it with one colleague for 5 minutes: threat, opportunity, or both?"},
 }
+DATA_TYPES = {"dataeng", "dataviz", "datasci"}  # data sources only compete on days whose theme lists their type
 WEEKEND_THEME = {"name": "AI Tip", "emoji": "⚡", "types": [], "keywords": [],
                  "think": THEMES[4]["think"], "try": THEMES[4]["try"]}  # only used for manual weekend runs
 
@@ -114,6 +121,40 @@ TOPICS = [
     (["research", "paper", "benchmark", "reasoning", "model", "models"],
      "As AI reasoning improves every month, which of your decisions should it challenge first?",
      "Ask an AI to argue against a decision you made this week and note one new point."),
+]
+# Brainstorm bank for data sources (data engineering, visualisation, data science), used the same way.
+DATA_TOPICS = [
+    (["dbt", "test", "tests", "quality", "observability", "validation", "contract", "contracts"],
+     "Which table would hurt most if bad data reached it unnoticed?",
+     "Add one not-null or unique test on a key column of that table."),
+    (["spark", "performance", "optimize", "optimise", "partition", "partitioning", "cost", "costs", "query", "queries"],
+     "Which query or job is the slowest or most expensive one you own?",
+     "Run EXPLAIN on it and note one step where you could filter or partition earlier."),
+    (["pipeline", "pipelines", "etl", "elt", "orchestration", "airflow", "ingestion", "streaming", "kafka", "cdc"],
+     "If your main pipeline failed tonight, how long until someone noticed?",
+     "Check that one key job alerts on failure and gives the same result when rerun."),
+    (["lakehouse", "warehouse", "delta", "iceberg", "fabric", "snowflake", "databricks", "catalog", "governance"],
+     "Which dataset do people copy into Excel because they can't find the trusted version?",
+     "Write a one-line description, grain and owner for one table you use often."),
+    (["power bi", "dax", "semantic model", "report", "reports", "tableau", "looker"],
+     "Which report do people open every day but never act on?",
+     "Turn one calculated column into a DAX measure, or remove one unused visual."),
+    (["dashboard", "dashboards", "kpi", "kpis", "metric", "metrics"],
+     "What decision is your main dashboard supposed to drive?",
+     "Put the most important KPI top-left on one dashboard and remove one low-value tile."),
+    (["chart", "charts", "visualization", "visualisation", "dataviz", "graph", "graphs", "map", "maps",
+      "color", "colour", "design"],
+     "What's the one number your audience should remember from your last chart?",
+     "Retitle one chart so the title states the finding, and grey out everything but the key series."),
+    (["story", "storytelling", "presentation", "presenting", "slides", "communicate"],
+     "Could a non-analyst explain your last analysis in one sentence?",
+     "Write the one-sentence takeaway before you build your next chart."),
+    (["model", "models", "machine learning", "ml", "forecast", "forecasting", "llm", "ai", "agent", "agents"],
+     "How would you know if your model is actually beating a simple baseline?",
+     "Score a last-value or mean baseline next to your model on the same data."),
+    (["python", "pandas", "polars", "notebook", "notebooks", "sql"],
+     "Which manual data step do you repeat every week?",
+     "Script one repeated cleaning step in SQL or pandas and save it in the team repo."),
 ]
 CTA = {"video": "▶ Watch", "research": "Read the paper"}
 AI_TERMS = re.compile(r"\b(ai|a\.i\.|llms?|gpt\S*|chatgpt|claude|gemini|copilot|openai|anthropic|deepmind|agents?|agentic|models?|machine learning|neural|genai|generative|prompts?|mcp|codex|chatbots?|assistants?)\b", re.I)
@@ -193,6 +234,7 @@ def to_item(entry, src: dict) -> dict:
         "source": src["name"],
         "type": src.get("type", "news"),
         "weight": float(src.get("weight", 1.0)),
+        "max_age_hours": src.get("max_age_hours"),  # weekly blogs can allow older posts than the default
     }
 
 
@@ -233,6 +275,7 @@ def check_sources(sources: list[dict]) -> int:
 # ---------------------------------------------------------------- rank
 
 def score(item: dict, theme: dict, max_age_hours: float) -> float | None:
+    max_age_hours = float(item.get("max_age_hours") or max_age_hours)
     if item["published"]:
         age_hours = (NOW - item["published"]).total_seconds() / 3600
     else:
@@ -246,7 +289,7 @@ def score(item: dict, theme: dict, max_age_hours: float) -> float | None:
     points += sum(v for k, v in PENALTIES.items() if has_word(text, k))
     if item["title"].rstrip().endswith("?"):  # questions and opinion pieces rarely make good tips
         points -= 5
-    if not AI_TERMS.search(text):  # general tech posts (e.g. a Python release) are not AI tips
+    if item["type"] not in DATA_TYPES and not AI_TERMS.search(text):  # general tech posts from AI sources are not AI tips
         points -= 25
     if item["type"] in theme["types"]:
         points += 15
@@ -254,13 +297,27 @@ def score(item: dict, theme: dict, max_age_hours: float) -> float | None:
     return round(points, 2)
 
 
+def eligible(item: dict, theme: dict) -> bool:
+    if theme.get("only"):  # data days: only that day's source types
+        return item["type"] in theme["types"]
+    return item["type"] not in DATA_TYPES or item["type"] in theme["types"]
+
+
 def pick(items: list[dict], history: list[dict], theme: dict, max_age_hours: float):
+    main, extras = rank(items, history, theme, max_age_hours)
+    if not main and theme.get("only"):
+        log(f"Nothing fresh for {theme['name']} - falling back to all sources.")
+        main, extras = rank(items, history, {**theme, "only": False}, max_age_hours)
+    return main, extras
+
+
+def rank(items: list[dict], history: list[dict], theme: dict, max_age_hours: float):
     sent_links = {h["link"] for h in history}
     sent_titles = {norm_title(h["title"]) for h in history}
     seen, ranked = set(), []
     for item in items:
         key = norm_title(item["title"])
-        if item["link"] in sent_links or key in sent_titles or key in seen:
+        if item["link"] in sent_links or key in sent_titles or key in seen or not eligible(item, theme):
             continue
         points = score(item, theme, max_age_hours)
         if points is None:
@@ -331,12 +388,13 @@ def first_sentence(summary: str, title: str) -> str:
 def brainstorm(item: dict, theme: dict) -> tuple[str, str]:
     if item["type"] == "video":  # videos get the "watch and share" prompts
         return theme["think"], theme["try"]
+    topics = DATA_TOPICS if item["type"] in DATA_TYPES else TOPICS
     # the headline decides first; the summary is only a fallback
     for text in (item["title"].lower(), item["summary"][:600].lower()):
-        for words, think, action in TOPICS:
+        for words, think, action in topics:
             if any(has_word(text, w) for w in words):
                 return think, action
-    # the day's own prompts only fit when the item matches the day (e.g. a video on Watch Thursday)
+    # the day's own prompts only fit when the item matches the day (e.g. a dbt post on Pipeline Wednesday)
     return (theme["think"], theme["try"]) if item["type"] in theme["types"] else GENERIC
 
 
@@ -357,7 +415,7 @@ def render_email(main: dict, copy: dict, extras: list[dict], theme: dict, today:
         return html.escape(value or "", quote=True)
 
     headline = copy["headline"]
-    subject = f"{theme['emoji']} AI Tip · {theme['name']} · {shorten(headline, 12)}"
+    subject = f"{theme['emoji']} Tip · {theme['name']} · {shorten(headline, 12)}"
     thumb = ""
     if main["image"]:
         thumb = (
@@ -389,7 +447,7 @@ def render_email(main: dict, copy: dict, extras: list[dict], theme: dict, today:
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#f4f5fb"><tr><td align="center" style="padding:20px 12px;">
 <table role="presentation" width="560" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" style="width:560px;max-width:560px;background:#ffffff;font-family:'Segoe UI',Arial,sans-serif;color:#1f2937;border:1px solid #e5e7eb;">
 <tr><td bgcolor="#1e1b4b" style="padding:12px 24px;font-size:13px;color:#e0e7ff;">
-<b style="color:#a5b4fc;letter-spacing:1.5px;">⚡ AI TIP OF THE DAY</b> &nbsp;·&nbsp; {theme['emoji']} {e(theme['name'])} &nbsp;·&nbsp; {today:%a %d %b}
+<b style="color:#a5b4fc;letter-spacing:1.5px;">⚡ AI &amp; DATA TIP OF THE DAY</b> &nbsp;·&nbsp; {theme['emoji']} {e(theme['name'])} &nbsp;·&nbsp; {today:%a %d %b}
 </td></tr>
 <tr><td style="padding:18px 24px 4px;">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
@@ -409,7 +467,7 @@ def render_email(main: dict, copy: dict, extras: list[dict], theme: dict, today:
 </td></tr>
 {TEAM_PICK_SLOT}
 {more}
-<tr><td style="padding:14px 24px 16px;font-size:11px;color:#9ca3af;">Curated automatically from trusted public AI sources · Mon-Fri · no tracking{submit_line}</td></tr>
+<tr><td style="padding:14px 24px 16px;font-size:11px;color:#9ca3af;">Curated automatically from trusted public AI and data sources · Mon-Fri · no tracking{submit_line}</td></tr>
 </table></td></tr></table></body></html>"""
     return subject, body
 
@@ -423,7 +481,7 @@ def write_outputs(subject: str, body: str, main: dict, today: dt.datetime) -> No
     cdata = body.replace("]]>", "]]]]><![CDATA[>")
     rss = f"""<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0"><channel>
-<title>AI Tip of the Day</title><link>{html.escape(site)}</link><description>One short AI tip every weekday</description>
+<title>AI Tip of the Day</title><link>{html.escape(site)}</link><description>One short AI or data tip every weekday</description>
 <item>
 <title>{html.escape(subject)}</title>
 <link>{html.escape(main['link'])}</link>
