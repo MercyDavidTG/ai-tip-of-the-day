@@ -118,5 +118,29 @@
     "link": "https://www.kdnuggets.com/building-ai-applications-with-open-source-agentic-api-server-ogx",
     "title": "Building AI Applications with OGX, the Open-Source Agentic API Server",
     "source": "KDnuggets"
+  },
+  {
+    "date": "2026-10-19",
+    "link": "https://developers.googleblog.com/evaluating-ai-agents-moving-past-the-vibe-check/",
+    "title": "Evaluating AI agents: moving past the vibe check",
+    "source": "Google Developers Blog"
+  },
+  {
+    "date": "2026-10-19",
+    "link": "https://aws.amazon.com/blogs/machine-learning/introducing-reflection-beam-an-open-weight-model-for-agentic-coding-on-aws/",
+    "title": "Introducing Reflection Beam: an open-weight model for agentic coding on AWS",
+    "source": "AWS Machine Learning Blog"
+  },
+  {
+    "date": "2026-10-19",
+    "link": "https://blogs.nvidia.com/blog/local-ai-rtx-spark-windows-laptops-celebration/",
+    "title": "RTX Spark Ignites Global Celebration as New Windows PCs Arrive",
+    "source": "NVIDIA Blog"
+  },
+  {
+    "date": "2026-10-19",
+    "link": "https://openai.com/index/itau-generative-ai",
+    "title": "How Itaú is building generative AI for its entire customer base",
+    "source": "OpenAI News"
   }
 ]
