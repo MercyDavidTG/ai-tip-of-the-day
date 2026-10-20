@@ -166,5 +166,29 @@
     "link": "https://www.kdnuggets.com/claude-haiku-5-5-whats-new-and-how-to-use-it-for-fast-cheap-ai-workflows",
     "title": "Claude Haiku 5.5: What’s New and How to Use It for Fast, Cheap AI Workflows",
     "source": "KDnuggets"
+  },
+  {
+    "date": "2026-10-20",
+    "link": "https://simonwillison.net/2026/Oct/17/web-edit/",
+    "title": "web-edit 0.1a2",
+    "source": "Simon Willison"
+  },
+  {
+    "date": "2026-10-20",
+    "link": "https://www.youtube.com/shorts/aIrrq3CLSKM",
+    "title": "3 New Claude Prompts You Need To Try",
+    "source": "Matt Wolfe (YouTube)"
+  },
+  {
+    "date": "2026-10-20",
+    "link": "https://www.databricks.com/blog/how-get-most-out-running-dbt-databricks",
+    "title": "How to get the most out of running dbt on Databricks",
+    "source": "Databricks Blog"
+  },
+  {
+    "date": "2026-10-20",
+    "link": "https://cloud.google.com/blog/products/data-analytics/python-udf-logging-for-pipeline-observability-in-bigquery/",
+    "title": "How to Use Python UDF Logging for Pipeline Observability",
+    "source": "Google Cloud Data Analytics"
   }
 ]
