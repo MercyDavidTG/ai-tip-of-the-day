@@ -609,13 +609,23 @@ def render_email(main: dict, copy: dict, extras: list[dict], theme: dict, today:
     return subject, body
 
 
+def tip_day(now: dt.datetime) -> dt.datetime:
+    """The weekday this run builds for. Before noon it is today's tip (morning and PC backup runs);
+    from noon on it is the next weekday's, so the evening runs have tomorrow's tip ready long before
+    the 11:00 send, even when GitHub starts them hours late. Weekends roll forward to Monday."""
+    day = now if now.hour < 12 else now + dt.timedelta(days=1)
+    while day.weekday() >= 5:
+        day += dt.timedelta(days=1)
+    return day
+
+
 def write_outputs(subject: str, body: str, main: dict, today: dt.datetime) -> None:
     (OUT_DIR / "archive").mkdir(parents=True, exist_ok=True)
     (OUT_DIR / ".nojekyll").write_text("", encoding="utf-8")  # serve files as-is on GitHub Pages
     (OUT_DIR / "latest.html").write_text(body, encoding="utf-8")
     (OUT_DIR / "archive" / f"{today:%Y-%m-%d}.html").write_text(body, encoding="utf-8")
     site = os.getenv("PAGES_URL", main["link"])
-    cdata = body.replace("]]>", "]]]]><![CDATA[>")
+    cdata = f"<!-- tip-{today:%Y-%m-%d} -->\n" + body.replace("]]>", "]]]]><![CDATA[>")
     rss = f"""<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0"><channel>
 <title>Insights of the Day</title><link>{html.escape(site)}</link><description>One short insight every weekday</description>
@@ -665,7 +675,9 @@ def main() -> int:
     if args.check:
         return check_sources(config["sources"])
 
-    today = NOW.astimezone(ZoneInfo(os.getenv("TIP_TIMEZONE") or config.get("timezone", "UTC")))
+    now = NOW.astimezone(ZoneInfo(os.getenv("TIP_TIMEZONE") or config.get("timezone", "UTC")))
+    today = now if args.day is not None else tip_day(now)
+    log(f"Building the tip for {today:%a %d %b %Y}")
     if os.getenv("GITHUB_EVENT_NAME") == "schedule" and (OUT_DIR / "archive" / f"{today:%Y-%m-%d}.html").exists():
         log("Today's tip is already built by an earlier scheduled run - nothing to do.")
         return 0

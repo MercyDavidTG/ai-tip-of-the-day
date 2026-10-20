@@ -2,7 +2,8 @@
 
 Collects public AI and data updates from free sources every weekday morning, picks the most
 useful one and publishes an Outlook-ready email as `docs/feed.xml`. A Power Automate flow sends
-it to the team at 11:00 IST with the subject INSIGHTS OF THE DAY, every day in the same mail thread.
+it to the team at 11:00 IST (the flow sends only the tip dated today, and checks again every
+15 minutes until 13:00 if it is not there yet) with the subject INSIGHTS OF THE DAY, every day in the same mail thread.
 The email has no emojis and no AI branding: just the day's theme, the date, the tip and the source.
 
 Weekly themes: Tool Monday (AI), Prompt Tuesday (AI), Pipeline Wednesday (data engineering),
@@ -23,7 +24,8 @@ legal news, politics, a quote post or a paid review.
 
 - `tip_bot.py` - collect, de-duplicate, score, write and render the tip
 - `sources.json` - sources, trust levels, types, weights, freshness windows, time zone
-- `.github/workflows/daily-tip.yml` - weekday schedule (06:47 to 10:17 IST, skips once the tip is built)
+- `.github/workflows/daily-tip.yml` - builds each tip the evening before (Sunday-Thursday, 18:47 to 22:17 IST)
+  with a second chance the same morning (06:47 to 10:17 IST); skips once the tip is built
 - `data/sent.json` - history of tips already sent (prevents repeats)
 
 ## Branches and security
