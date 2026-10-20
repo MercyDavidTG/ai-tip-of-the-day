@@ -142,5 +142,29 @@
     "link": "https://openai.com/index/itau-generative-ai",
     "title": "How Itaú is building generative AI for its entire customer base",
     "source": "OpenAI News"
+  },
+  {
+    "date": "2026-10-20",
+    "link": "https://simonwillison.net/2026/Oct/18/llm-echo/",
+    "title": "llm-echo 0.5",
+    "source": "Simon Willison"
+  },
+  {
+    "date": "2026-10-20",
+    "link": "https://aws.amazon.com/blogs/big-data/trace-security-threats-in-multi-agent-pipelines-with-amazon-opensearch-service/",
+    "title": "Trace security threats in multi-agent pipelines with Amazon OpenSearch Service",
+    "source": "AWS Big Data Blog"
+  },
+  {
+    "date": "2026-10-20",
+    "link": "https://github.blog/ai-and-ml/github-copilot/how-to-continue-a-github-copilot-app-session-in-vs-code/",
+    "title": "How to continue a GitHub Copilot app session in VS Code",
+    "source": "GitHub Blog - AI & ML"
+  },
+  {
+    "date": "2026-10-20",
+    "link": "https://www.kdnuggets.com/claude-haiku-5-5-whats-new-and-how-to-use-it-for-fast-cheap-ai-workflows",
+    "title": "Claude Haiku 5.5: What’s New and How to Use It for Fast, Cheap AI Workflows",
+    "source": "KDnuggets"
   }
 ]
