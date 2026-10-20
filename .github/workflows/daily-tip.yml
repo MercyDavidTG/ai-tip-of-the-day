@@ -1,4 +1,4 @@
-name: Build AI Tip of the Day
+name: Build Insights of the Day
 
 on:
   schedule:
@@ -8,8 +8,8 @@ on:
     - cron: "17,47 1-4 * * 1-5"
   workflow_dispatch:          # lets you run it by hand from the Actions tab
 
-permissions:
-  contents: write             # needed to commit docs/ and data/sent.json back to the repo
+# Nothing by default; the job below asks only for what it needs.
+permissions: {}
 
 concurrency:
   group: daily-tip
@@ -19,8 +19,21 @@ jobs:
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    permissions:
+      contents: write         # only to push the built tip (docs/, data/sent.json) to the site branch
     steps:
+      # main is protected (changes go in through pull requests), so the built tips live on the
+      # "site" branch, which GitHub Pages serves. Each run starts from site and merges in main's code.
       - uses: actions/checkout@v4
+        with:
+          ref: site
+          fetch-depth: 0
+
+      - name: Bring in the latest code from main
+        run: |
+          git config user.name "MercyDavidTG"
+          git config user.email "285697807+MercyDavidTG@users.noreply.github.com"
+          git merge --no-edit origin/main
 
       - uses: actions/setup-python@v5
         with:
@@ -35,11 +48,9 @@ jobs:
           TIP_SUBMIT_URL: ${{ vars.TIP_SUBMIT_URL }}
           PAGES_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/
 
-      - name: Publish (commit) today's tip
+      - name: Publish (commit) today's tip to the site branch
         run: |
-          git config user.name "MercyDavidTG"
-          git config user.email "285697807+MercyDavidTG@users.noreply.github.com"
           git add docs data
-          git commit -m "AI tip for $(date -u +%F)" || echo "Nothing new to commit"
-          git pull --rebase
-          git push
+          git commit -m "Insight for $(date -u +%F)" || echo "Nothing new to commit"
+          git pull --no-rebase --no-edit origin site
+          git push origin HEAD:site

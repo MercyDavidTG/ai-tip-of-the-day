@@ -45,32 +45,32 @@ TEAM_PICK_SLOT = "<!--TEAM_PICK-->"  # Power Automate may replace this with an a
 # (EVERGREEN below), so every weekday gets a tip.
 # "think" and "try" are the fallback brainstorm question and 5-minute action when no topic below matches.
 THEMES = {
-    0: {"name": "Tool Monday", "emoji": "🛠️", "types": ["official", "newsletter"],
+    0: {"name": "Tool Monday", "types": ["official", "newsletter"],
         "keywords": ["launch", "introducing", "now available", "new feature", "rolls out", "released",
                      "docs", "documentation", "best practices", "cookbook", "guide"],
         "think": "Which tool in your daily workflow is overdue for an AI upgrade?",
         "try": "Try this new feature on one real task before lunch."},
-    1: {"name": "Prompt Tuesday", "emoji": "💬", "types": ["community", "newsletter"],
+    1: {"name": "Prompt Tuesday", "types": ["community", "newsletter"],
         "keywords": ["prompt", "prompts", "how to", "tips", "guide", "tutorial", "workflow"],
         "think": "Which prompt do you type every week that could become a reusable template?",
         "try": "Rewrite one prompt you use often as: role + goal + format + one example."},
-    2: {"name": "Pipeline Wednesday", "emoji": "🗄️", "types": ["dataeng"],
+    2: {"name": "Pipeline Wednesday", "types": ["dataeng"],
         "keywords": ["sql", "dbt", "spark", "pipeline", "pipelines", "etl", "elt", "data quality", "lakehouse",
                      "warehouse", "orchestration", "streaming", "best practices", "how to", "guide"],
         "think": "If your main pipeline failed tonight, how long until someone noticed?",
         "try": "Check that one key job alerts on failure and gives the same result when rerun."},
-    3: {"name": "Viz Thursday", "emoji": "📊", "types": ["dataviz"],
+    3: {"name": "Viz Thursday", "types": ["dataviz"],
         "keywords": ["chart", "charts", "dashboard", "dashboards", "visualization", "visualisation", "power bi",
                      "dax", "report", "storytelling", "design", "how to", "tips"],
         "think": "What's the one number your audience should remember from your last chart?",
         "try": "Retitle one chart so the title states the finding, and grey out everything but the key series."},
-    4: {"name": "Frontier Friday", "emoji": "🚀", "types": ["news", "datasci"],
+    4: {"name": "Frontier Friday", "types": ["news", "datasci"],
         "keywords": ["breakthrough", "research", "benchmark", "model", "study", "machine learning"],
         "think": "If this becomes normal within a year, what changes for our team?",
         "try": "Discuss it with one colleague for 5 minutes: threat, opportunity, or both?"},
 }
 DATA_TYPES = {"dataeng", "dataviz", "datasci"}
-WEEKEND_THEME = {"name": "AI Tip", "emoji": "⚡", "types": [], "keywords": [],
+WEEKEND_THEME = {"name": "AI Tip", "types": [], "keywords": [],
                  "think": THEMES[4]["think"], "try": THEMES[4]["try"]}  # only used for manual weekend runs
 
 # Practical, business-friendly topics score higher; funding/legal gossip scores lower.
@@ -260,7 +260,7 @@ EVERGREEN = {
          "Read one chapter summary and share the chart that surprised you most with a colleague."),
     ],
 }
-CTA = {"video": "▶ Watch", "research": "Read the paper"}
+CTA = {"video": "Watch", "research": "Read the paper"}
 AI_TERMS = re.compile(r"\b(ai|a\.i\.|llms?|gpt\S*|chatgpt|claude|gemini|copilot|openai|anthropic|deepmind|agents?|agentic|models?|machine learning|neural|genai|generative|prompts?|mcp|codex|chatbots?|assistants?)\b", re.I)
 BOILERPLATE = [
     r"The post .*? appeared first on .*?\.", r"arXiv:\S+\s+Announce Type:\s*\S+\s*Abstract:\s*",
@@ -543,13 +543,16 @@ def tip_copy(item: dict, theme: dict) -> dict:
     }
 
 
+EMOJI = re.compile("[\U0001F000-\U0001FAFF\u2190-\u21FF\u2300-\u23FF\u25A0-\u25FF\u2600-\u27BF\u2B00-\u2BFF\uFE0F\u200D]")
+
+
 def render_email(main: dict, copy: dict, extras: list[dict], theme: dict, today: dt.datetime,
                  submit_url: str) -> tuple[str, str]:
-    def e(value: str) -> str:
-        return html.escape(value or "", quote=True)
+    def e(value: str) -> str:  # no emojis anywhere in the email, even when a source title has one
+        return html.escape(" ".join(EMOJI.sub("", value or "").split()), quote=True)
 
-    headline = copy["headline"]
-    subject = f"{theme['emoji']} Tip · {theme['name']} · {shorten(headline, 12)}"
+    headline = " ".join(EMOJI.sub("", copy["headline"]).split())
+    subject = f"{theme['name']} · {shorten(headline, 12)}"
     thumb = ""
     if main["image"]:
         thumb = (
@@ -581,7 +584,7 @@ def render_email(main: dict, copy: dict, extras: list[dict], theme: dict, today:
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#f4f5fb"><tr><td align="center" style="padding:20px 12px;">
 <table role="presentation" width="560" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" style="width:560px;max-width:560px;background:#ffffff;font-family:'Segoe UI',Arial,sans-serif;color:#1f2937;border:1px solid #e5e7eb;">
 <tr><td bgcolor="#1e1b4b" style="padding:12px 24px;font-size:13px;color:#e0e7ff;">
-<b style="color:#a5b4fc;letter-spacing:1.5px;">⚡ AI &amp; DATA TIP OF THE DAY</b> &nbsp;·&nbsp; {theme['emoji']} {e(theme['name'])} &nbsp;·&nbsp; {today:%a %d %b}
+<b style="color:#e0e7ff;">{e(theme['name'])}</b> &nbsp;·&nbsp; {today:%a %d %b}
 </td></tr>
 <tr><td style="padding:18px 24px 4px;">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
@@ -592,16 +595,16 @@ def render_email(main: dict, copy: dict, extras: list[dict], theme: dict, today:
 </td></tr>
 <tr><td style="padding:12px 24px 0;">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
-<tr><td bgcolor="#fef3c7" style="padding:9px 12px;font-size:14px;line-height:1.45;color:#78350f;border-left:4px solid #f59e0b;"><b>🧠 Think:</b> {e(copy['think'])}</td></tr>
+<tr><td bgcolor="#fef3c7" style="padding:9px 12px;font-size:14px;line-height:1.45;color:#78350f;border-left:4px solid #f59e0b;"><b>Think:</b> {e(copy['think'])}</td></tr>
 <tr><td height="6" style="font-size:0;line-height:0;">&nbsp;</td></tr>
-<tr><td bgcolor="#ecfdf5" style="padding:9px 12px;font-size:14px;line-height:1.45;color:#065f46;border-left:4px solid #10b981;"><b>✅ Try (5 min):</b> {e(copy['try_this'])}</td></tr>
+<tr><td bgcolor="#ecfdf5" style="padding:9px 12px;font-size:14px;line-height:1.45;color:#065f46;border-left:4px solid #10b981;"><b>Try (5 min):</b> {e(copy['try_this'])}</td></tr>
 </table></td></tr>
 <tr><td style="padding:12px 24px 0;font-size:13px;color:#6b7280;">
 <a href="{e(main['link'])}" style="color:#4f46e5;font-weight:bold;text-decoration:none;">{CTA.get(main['type'], 'Read the source')} &rarr;</a> &nbsp;·&nbsp; {e(main['source'])}
 </td></tr>
 {TEAM_PICK_SLOT}
 {more}
-<tr><td style="padding:14px 24px 16px;font-size:11px;color:#9ca3af;">Curated automatically from trusted public AI and data sources · Mon-Fri · no tracking{submit_line}</td></tr>
+<tr><td style="padding:14px 24px 16px;font-size:11px;color:#9ca3af;">Curated from trusted public sources · Mon-Fri · no tracking{submit_line}</td></tr>
 </table></td></tr></table></body></html>"""
     return subject, body
 
@@ -615,7 +618,7 @@ def write_outputs(subject: str, body: str, main: dict, today: dt.datetime) -> No
     cdata = body.replace("]]>", "]]]]><![CDATA[>")
     rss = f"""<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0"><channel>
-<title>AI Tip of the Day</title><link>{html.escape(site)}</link><description>One short AI or data tip every weekday</description>
+<title>Insights of the Day</title><link>{html.escape(site)}</link><description>One short insight every weekday</description>
 <item>
 <title>{html.escape(subject)}</title>
 <link>{html.escape(main['link'])}</link>
@@ -667,7 +670,7 @@ def main() -> int:
         log("Today's tip is already built by an earlier scheduled run - nothing to do.")
         return 0
     theme = THEMES.get(today.weekday() if args.day is None else args.day, WEEKEND_THEME)
-    log(f"Theme: {theme['emoji']} {theme['name']}")
+    log(f"Theme: {theme['name']}")
 
     items = collect(config["sources"])
     log(f"Collected {len(items)} items")

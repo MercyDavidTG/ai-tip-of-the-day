@@ -1,8 +1,9 @@
-# AI Tip of the Day
+# Insights of the Day
 
 Collects public AI and data updates from free sources every weekday morning, picks the most
 useful one and publishes an Outlook-ready email as `docs/feed.xml`. A Power Automate flow sends
-it to the team at 11:00 IST.
+it to the team at 11:00 IST with the subject INSIGHTS OF THE DAY, every day in the same mail thread.
+The email has no emojis and no AI branding: just the day's theme, the date, the tip and the source.
 
 Weekly themes: Tool Monday (AI), Prompt Tuesday (AI), Pipeline Wednesday (data engineering),
 Viz Thursday (data visualisation), Frontier Friday (AI news and data science).
@@ -24,5 +25,13 @@ legal news, politics, a quote post or a paid review.
 - `sources.json` - sources, trust levels, types, weights, freshness windows, time zone
 - `.github/workflows/daily-tip.yml` - weekday schedule (06:47 to 10:17 IST, skips once the tip is built)
 - `data/sent.json` - history of tips already sent (prevents repeats)
+
+## Branches and security
+
+- `main` holds the code and is protected: changes go in through a pull request with a review.
+- `site` holds the built tips (`docs/`, `data/sent.json`) and is what GitHub Pages serves. The daily
+  workflow checks out `site`, merges in `main`, builds the tip and pushes to `site` only.
+- The workflow has no permissions by default; the build job gets `contents: write` and nothing else.
+- Repository access is limited to the owner; add collaborators only if they are trusted.
 
 No email addresses or secrets are stored in this repository.
