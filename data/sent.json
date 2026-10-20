@@ -190,5 +190,29 @@
     "link": "https://cloud.google.com/blog/products/data-analytics/python-udf-logging-for-pipeline-observability-in-bigquery/",
     "title": "How to Use Python UDF Logging for Pipeline Observability",
     "source": "Google Cloud Data Analytics"
+  },
+  {
+    "date": "2026-10-21",
+    "link": "https://www.getdbt.com/blog/dbt-state-now-available-free-forever",
+    "title": "dbt State now available free forever",
+    "source": "dbt Labs Blog"
+  },
+  {
+    "date": "2026-10-21",
+    "link": "https://community.fabric.microsoft.com/t5/Fabric-Updates-Blog/Advanced-NL2SQL-and-advanced-DAX-generation-in-Fabric-data/ba-p/5374654",
+    "title": "Advanced NL2SQL and advanced DAX generation in Fabric data agents (Generally Available)",
+    "source": "Microsoft Fabric Blog"
+  },
+  {
+    "date": "2026-10-21",
+    "link": "https://www.snowflake.com/content/snowflake-site/global/en/blog/ai-agent-fixes-data-pipeline-failures",
+    "title": "How Snowflake Built an Agent to Fix Broken Data Pipelines",
+    "source": "Snowflake Blog"
+  },
+  {
+    "date": "2026-10-21",
+    "link": "https://www.databricks.com/blog/what-makes-catalog-open-unity-catalog-advances-open-lakehouse",
+    "title": "What makes a catalog open? Unity Catalog Advances the Open Lakehouse",
+    "source": "Databricks Blog"
   }
 ]
