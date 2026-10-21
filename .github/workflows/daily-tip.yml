@@ -10,11 +10,11 @@ on:
     # Second chance the same morning (06:47 to 10:17 IST, Monday-Friday) if every evening run failed.
     - cron: "17,47 1-4 * * 1-5"
   workflow_dispatch:          # lets you run it by hand from the Actions tab
-  # Main trigger: Power Automate (whose timer is punctual) opens an issue titled "Build insight ..."
-  # every evening and morning; that starts this workflow within seconds. Only issues opened by the
-  # repository owner count (the repo is public), and the run closes the issue when it is done.
-  issues:
-    types: [opened]
+  # Main trigger: the Power Automate flow "Insights of the Day - Build starter" (whose timer is
+  # punctual) sends a "build-insight" repository dispatch every evening and weekday morning, which
+  # starts this workflow within seconds. Only accounts with write access can send one.
+  repository_dispatch:
+    types: [build-insight]
 
 # Nothing by default; the job below asks only for what it needs.
 permissions: {}
@@ -25,15 +25,10 @@ concurrency:
 
 jobs:
   build:
-    if: >-
-      github.event_name != 'issues' ||
-      (github.event.issue.user.login == github.repository_owner &&
-       startsWith(github.event.issue.title, 'Build insight'))
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
       contents: write         # only to push the built tip (docs/, data/sent.json) to the site branch
-      issues: write           # only to close the "Build insight" trigger issue
     steps:
       # main is protected (changes go in through pull requests), so the built tips live on the
       # "site" branch, which GitHub Pages serves. Each run starts from site and merges in main's code.
@@ -67,9 +62,3 @@ jobs:
           git commit -m "Insight built $(date -u "+%F %H:%M") UTC" || echo "Nothing new to commit"
           git pull --no-rebase --no-edit origin site
           git push origin HEAD:site
-
-      - name: Close the trigger issue
-        if: always() && github.event_name == 'issues'
-        run: gh issue close "${{ github.event.issue.number }}" --repo "${{ github.repository }}" --comment "Done: ${{ job.status }}"
-        env:
-          GH_TOKEN: ${{ github.token }}

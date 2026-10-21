@@ -678,7 +678,7 @@ def main() -> int:
     now = NOW.astimezone(ZoneInfo(os.getenv("TIP_TIMEZONE") or config.get("timezone", "UTC")))
     today = now if args.day is not None else tip_day(now)
     log(f"Building the tip for {today:%a %d %b %Y}")
-    if os.getenv("GITHUB_EVENT_NAME") in ("schedule", "issues") and (OUT_DIR / "archive" / f"{today:%Y-%m-%d}.html").exists():
+    if os.getenv("GITHUB_EVENT_NAME") in ("schedule", "repository_dispatch") and (OUT_DIR / "archive" / f"{today:%Y-%m-%d}.html").exists():
         log("Today's tip is already built by an earlier scheduled run - nothing to do.")
         return 0
     theme = THEMES.get(today.weekday() if args.day is None else args.day, WEEKEND_THEME)
