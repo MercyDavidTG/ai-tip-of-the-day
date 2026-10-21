@@ -11,9 +11,9 @@ on:
     # Second chance the same morning (06:47 to 10:17 IST, Monday-Friday) if every evening run failed.
     - cron: "17,47 1-4 * * 1-5"
   workflow_dispatch:          # lets you run it by hand from the Actions tab
-  # Main trigger: the Power Automate flow "Insights of the Day - Build starter" (whose timer is
-  # punctual) sends a "build-insight" repository dispatch every evening and weekday morning, which
-  # starts this workflow within seconds. Only accounts with write access can send one.
+  # Optional: a "build-insight" repository dispatch (for example from Power Automate's GitHub
+  # connector, not set up yet) starts this workflow within seconds. Only accounts with write
+  # access can send one.
   repository_dispatch:
     types: [build-insight]
 

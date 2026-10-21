@@ -24,10 +24,9 @@ legal news, politics, a quote post or a paid review.
 
 - `tip_bot.py` - collect, de-duplicate, score, write and render the tip
 - `sources.json` - sources, trust levels, types, weights, freshness windows, time zone
-- `.github/workflows/daily-tip.yml` - started by Power Automate every evening and morning (a
-  "build-insight" repository dispatch starts it within seconds; GitHub's own timer is often hours late);
-  GitHub's timer stays as a backup. Builds each tip the evening before, trying every hour from 18:47 to 05:47 IST
-  with a second chance the same morning (06:47 to 10:17 IST); skips once the tip is built
+- `.github/workflows/daily-tip.yml` - builds each tip the evening before, trying every hour from
+  18:47 to 05:47 IST, with a second chance the same morning (06:47 to 10:17 IST); skips once the tip
+  is built. A "build-insight" repository dispatch can also start it (optional, not set up yet)
 - `data/sent.json` - history of tips already sent (prevents repeats)
 
 ## Branches and security
