@@ -2,11 +2,12 @@ name: Build Insights of the Day
 
 on:
   schedule:
-    # The email goes out at 11:00 IST from Power Automate. GitHub often starts scheduled runs late
-    # (by an hour or more) or drops them, so the tip is built the EVENING BEFORE: eight chances
-    # Sunday-Thursday at :17 and :47 from 18:47 to 22:17 IST, each building the next weekday's tip.
-    # The first one builds it, the others see it is done and stop.
-    - cron: "17,47 13-16 * * 0-4"
+    # The email goes out at 11:00 IST from Power Automate. GitHub often starts scheduled runs hours
+    # late or drops them, so the tip is built the EVENING BEFORE, with a try every hour through the
+    # night: 18:47 to 04:47 IST (Sunday-Thursday evenings) and 05:47 IST (Monday-Friday). Each builds
+    # the coming weekday's tip; the first one builds it, the others see it is done and stop.
+    - cron: "17 13-23 * * 0-4"
+    - cron: "17 0 * * 1-5"
     # Second chance the same morning (06:47 to 10:17 IST, Monday-Friday) if every evening run failed.
     - cron: "17,47 1-4 * * 1-5"
   workflow_dispatch:          # lets you run it by hand from the Actions tab
