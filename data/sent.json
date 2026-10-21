@@ -214,5 +214,29 @@
     "link": "https://www.databricks.com/blog/what-makes-catalog-open-unity-catalog-advances-open-lakehouse",
     "title": "What makes a catalog open? Unity Catalog Advances the Open Lakehouse",
     "source": "Databricks Blog"
+  },
+  {
+    "date": "2026-10-22",
+    "link": "https://flowingdata.com/2026/10/21/higher-net-worth/",
+    "title": "Rising to top net worth, by age",
+    "source": "FlowingData"
+  },
+  {
+    "date": "2026-10-22",
+    "link": "https://community.fabric.microsoft.com/t5/Power-BI-Updates-Blog/Fabric-Data-Warehouse-integration-with-Fabric-User-Data/ba-p/5375137",
+    "title": "Fabric Data Warehouse integration with Fabric User Data Functions (Preview)",
+    "source": "Power BI Blog"
+  },
+  {
+    "date": "2026-10-22",
+    "link": "https://community.fabric.microsoft.com/t5/Fabric-Updates-Blog/Connect-coding-agents-to-Fabric-notebooks-with-FNTK-Preview/ba-p/5375986",
+    "title": "Connect coding agents to Fabric notebooks with FNTK (Preview)",
+    "source": "Microsoft Fabric Blog"
+  },
+  {
+    "date": "2026-10-22",
+    "link": "https://towardsdatascience.com/decision-models-in-action-build-a-hybrid-llm-workflow/",
+    "title": "Decision Models in Action: Build a Hybrid LLM Workflow",
+    "source": "Towards Data Science"
   }
 ]
