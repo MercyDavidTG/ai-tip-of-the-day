@@ -241,26 +241,20 @@
   },
   {
     "date": "2026-10-23",
-    "link": "https://www.technologyreview.com/2026/10/22/1146948/ais-hidden-storage-bill-what-inference-leaves-behind/",
-    "title": "AI’s hidden storage bill: What inference leaves behind",
-    "source": "MIT Technology Review AI"
+    "link": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-argon/",
+    "title": "Gemini 4 Argon: Built to solve your hardest problems",
+    "source": "Google AI Blog"
   },
   {
     "date": "2026-10-23",
-    "link": "https://techcrunch.com/2026/10/21/recursive-launches-flint-a-laptop-coding-model-it-says-was-largely-built-by-ai/",
-    "title": "Recursive launches Flint, a laptop coding model it says was largely built by AI",
-    "source": "TechCrunch AI"
+    "link": "https://www.youtube.com/watch?v=Jh6mgf9M06M",
+    "title": "Gemini 4 Argon: What’s new and what’s next",
+    "source": "Google for Developers (YouTube)"
   },
   {
     "date": "2026-10-23",
-    "link": "https://www.theverge.com/ai-artificial-intelligence/1015843/anthropic-claude-duet-ai-agent",
-    "title": "Anthropic takes on Muse with Claude Duet, its new AI agent",
-    "source": "The Verge AI"
-  },
-  {
-    "date": "2026-10-23",
-    "link": "https://towardsdatascience.com/how-to-turn-long-running-python-simulations-into-a-self-service-platform/",
-    "title": "How to Turn Long-Running Python Simulations Into a Self-Service Platform",
-    "source": "Towards Data Science"
+    "link": "https://www.snowflake.com/content/snowflake-site/global/en/blog/gemini-4-argon-snowflake-cortex-ai",
+    "title": "Gemini 4 Argon in Public Preview on Snowflake Cortex AI",
+    "source": "Snowflake Blog"
   }
 ]
