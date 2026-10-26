@@ -259,26 +259,14 @@
   },
   {
     "date": "2026-10-26",
-    "link": "https://developers.googleblog.com/step-by-step-guide-build-a-voice-agent-that-never-goes-silent-using-adk/",
-    "title": "Step by Step guide: Build a Voice Agent That Never Goes Silent using ADK",
-    "source": "Google Developers Blog"
+    "link": "https://learn.microsoft.com/en-us/power-bi/connect-data/refresh-data",
+    "title": "Power BI: refresh only the data, or just one table",
+    "source": "Microsoft Learn"
   },
   {
     "date": "2026-10-26",
-    "link": "https://aws.amazon.com/blogs/machine-learning/multi-turn-reinforcement-learning-on-amazon-sagemaker-ai-a-hands-on-guide/",
-    "title": "Multi-Turn Reinforcement Learning on Amazon SageMaker AI: A hands-on guide",
-    "source": "AWS Machine Learning Blog"
-  },
-  {
-    "date": "2026-10-26",
-    "link": "https://openai.com/index/scaling-storage-one-billion-users-part-two",
-    "title": "Rapidly scaling online storage to serve over 1 billion ChatGPT users (Part II)",
-    "source": "OpenAI News"
-  },
-  {
-    "date": "2026-10-26",
-    "link": "https://towardsdatascience.com/how-to-add-guardrails-to-a-local-llm-agent/",
-    "title": "How to Add Guardrails to a Local LLM Agent",
-    "source": "Towards Data Science"
+    "link": "https://community.fabric.microsoft.com/blog/fbc_pbiupdatesblog/power-bi-august-2026-feature-summary/5348434",
+    "title": "Power BI August 2026 Feature Summary",
+    "source": "Microsoft Fabric Community"
   }
 ]
