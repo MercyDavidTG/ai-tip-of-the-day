@@ -259,14 +259,14 @@
   },
   {
     "date": "2026-10-26",
-    "link": "https://learn.microsoft.com/en-us/power-bi/connect-data/refresh-data",
-    "title": "Power BI: refresh only the data, or just one table",
-    "source": "Microsoft Learn"
+    "link": "https://aws.amazon.com/blogs/machine-learning/build-long-horizon-agents-with-grok-4-7-on-amazon-bedrock/",
+    "title": "Build long-horizon agents with Grok 4.7 on Amazon Bedrock",
+    "source": "AWS Machine Learning Blog"
   },
   {
     "date": "2026-10-26",
-    "link": "https://community.fabric.microsoft.com/blog/fbc_pbiupdatesblog/power-bi-august-2026-feature-summary/5348434",
-    "title": "Power BI August 2026 Feature Summary",
-    "source": "Microsoft Fabric Community"
+    "link": "https://aws.amazon.com/blogs/machine-learning/grok-4-7-is-now-available-on-amazon-bedrock/",
+    "title": "Grok 4.7 is now available on Amazon Bedrock",
+    "source": "AWS Machine Learning Blog"
   }
 ]
