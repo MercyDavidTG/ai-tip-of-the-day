@@ -268,5 +268,29 @@
     "link": "https://aws.amazon.com/blogs/machine-learning/grok-4-7-is-now-available-on-amazon-bedrock/",
     "title": "Grok 4.7 is now available on Amazon Bedrock",
     "source": "AWS Machine Learning Blog"
+  },
+  {
+    "date": "2026-10-27",
+    "link": "https://simonwillison.net/2026/Oct/24/battledrones/",
+    "title": "battledrones v14: Compass Rose, a four player map",
+    "source": "Simon Willison"
+  },
+  {
+    "date": "2026-10-27",
+    "link": "https://www.getdbt.com/blog/docusign-claude-code-dbt-v2-mcp-agent-skills",
+    "title": "How DocuSign cut analytics engineering time in half by pairing Claude Code with dbt v2, dbt MCP, and agent skills",
+    "source": "dbt Labs Blog"
+  },
+  {
+    "date": "2026-10-27",
+    "link": "https://www.kdnuggets.com/building-your-first-ai-agent-in-python-with-the-openai-agents-sdk",
+    "title": "Building Your First AI Agent in Python with the OpenAI Agents SDK",
+    "source": "KDnuggets"
+  },
+  {
+    "date": "2026-10-27",
+    "link": "https://community.fabric.microsoft.com/t5/Power-BI-Updates-Blog/Microsoft-Snowflake-s-Commitment-to-Apache-Ossie/ba-p/5369534",
+    "title": "Microsoft & Snowflake’s Commitment to Apache Ossie",
+    "source": "Power BI Blog"
   }
 ]
