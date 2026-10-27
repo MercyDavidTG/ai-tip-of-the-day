@@ -292,5 +292,29 @@
     "link": "https://community.fabric.microsoft.com/t5/Power-BI-Updates-Blog/Microsoft-Snowflake-s-Commitment-to-Apache-Ossie/ba-p/5369534",
     "title": "Microsoft & Snowflake’s Commitment to Apache Ossie",
     "source": "Power BI Blog"
+  },
+  {
+    "date": "2026-10-28",
+    "link": "https://cloud.google.com/blog/products/data-analytics/bridge-gemini-enterprise-and-snowflake-with-google-adk/",
+    "title": "Securely connecting Gemini Enterprise to Snowflake data",
+    "source": "Google Cloud Data Analytics"
+  },
+  {
+    "date": "2026-10-28",
+    "link": "https://www.getdbt.com/blog/dbt-lake-compute-data-lake-workloads",
+    "title": "How dbt Labs and Fivetran are moving dbt workloads onto the data lake, model by model",
+    "source": "dbt Labs Blog"
+  },
+  {
+    "date": "2026-10-28",
+    "link": "https://www.databricks.com/blog/how-teach-databricks-free-edition",
+    "title": "How to teach with Databricks Free Edition",
+    "source": "Databricks Blog"
+  },
+  {
+    "date": "2026-10-28",
+    "link": "https://community.fabric.microsoft.com/t5/Fabric-Updates-Blog/Announcing-workspace-monitoring-integration-for-Fabric-Data/ba-p/5376599",
+    "title": "Announcing workspace monitoring integration for Fabric Data Warehouse (Preview)",
+    "source": "Microsoft Fabric Blog"
   }
 ]
