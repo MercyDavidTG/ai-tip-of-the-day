@@ -316,5 +316,29 @@
     "link": "https://community.fabric.microsoft.com/t5/Fabric-Updates-Blog/Announcing-workspace-monitoring-integration-for-Fabric-Data/ba-p/5376599",
     "title": "Announcing workspace monitoring integration for Fabric Data Warehouse (Preview)",
     "source": "Microsoft Fabric Blog"
+  },
+  {
+    "date": "2026-10-29",
+    "link": "https://flowingdata.com/2026/10/22/process-411-default-avoid/",
+    "title": "✚ Avoiding charts by default",
+    "source": "FlowingData"
+  },
+  {
+    "date": "2026-10-29",
+    "link": "https://www.getdbt.com/blog/bigquery-generative-ai-dbt-sql-functions",
+    "title": "How to put generative AI directly into a dbt pipeline with plain SQL",
+    "source": "dbt Labs Blog"
+  },
+  {
+    "date": "2026-10-29",
+    "link": "https://towardsdatascience.com/in-the-age-of-borrowed-thinking-how-to-become-more-valuable-as-ai-gets-smarter/",
+    "title": "In the Age of Borrowed Thinking, How To Become More Valuable as AI Gets Smarter",
+    "source": "Towards Data Science"
+  },
+  {
+    "date": "2026-10-29",
+    "link": "https://community.fabric.microsoft.com/t5/Fabric-Updates-Blog/Data-Visualization-in-the-Agentic-Era/ba-p/5376290",
+    "title": "Data Visualization in the Agentic Era",
+    "source": "Microsoft Fabric Blog"
   }
 ]
