@@ -340,5 +340,29 @@
     "link": "https://community.fabric.microsoft.com/t5/Fabric-Updates-Blog/Data-Visualization-in-the-Agentic-Era/ba-p/5376290",
     "title": "Data Visualization in the Agentic Era",
     "source": "Microsoft Fabric Blog"
+  },
+  {
+    "date": "2026-10-30",
+    "link": "https://www.theverge.com/tech/1021339/google-gemini-4-carbon-cybersecurity-frontier",
+    "title": "Google launches Gemini 4 Carbon with a ‘significant leap’ in cybersecurity",
+    "source": "The Verge AI"
+  },
+  {
+    "date": "2026-10-30",
+    "link": "https://www.technologyreview.com/2026/10/28/1147709/creating-ai-value-with-enterprise-context/",
+    "title": "Creating AI value with enterprise context",
+    "source": "MIT Technology Review AI"
+  },
+  {
+    "date": "2026-10-30",
+    "link": "https://towardsdatascience.com/how-to-make-ai-work-for-end-to-end-business-processes/",
+    "title": "How to Make AI Work for End-to-End Business Processes",
+    "source": "Towards Data Science"
+  },
+  {
+    "date": "2026-10-30",
+    "link": "https://techcrunch.com/2026/10/28/voice-ai-in-vogue-nvidia-releases-new-open-transcription-model/",
+    "title": "Voice AI in vogue: Nvidia releases new open transcription model",
+    "source": "TechCrunch AI"
   }
 ]
