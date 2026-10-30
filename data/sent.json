@@ -364,5 +364,29 @@
     "link": "https://techcrunch.com/2026/10/28/voice-ai-in-vogue-nvidia-releases-new-open-transcription-model/",
     "title": "Voice AI in vogue: Nvidia releases new open transcription model",
     "source": "TechCrunch AI"
+  },
+  {
+    "date": "2026-11-02",
+    "link": "https://openai.com/index/updated-model-spec",
+    "title": "An updated Model Spec for more capable and beneficial AI",
+    "source": "OpenAI News"
+  },
+  {
+    "date": "2026-11-02",
+    "link": "https://developers.googleblog.com/step-by-step-guide-build-a-voice-agent-that-never-goes-silent-using-adk/",
+    "title": "Step by Step guide: Build a Voice Agent That Never Goes Silent using ADK",
+    "source": "Google Developers Blog"
+  },
+  {
+    "date": "2026-11-02",
+    "link": "https://www.therundown.ai/articles/google-gemini-4-carbon-tops-the-charts-for-now",
+    "title": "Google’s Gemini 4 Carbon tops the charts (for now)",
+    "source": "The Rundown AI"
+  },
+  {
+    "date": "2026-11-02",
+    "link": "https://huggingface.co/blog/anydecisionmodel",
+    "title": "Introducing AnySpeechRecognizer and AnyDecisionModel: Open Models for Speech and Decisions on Apple Platforms",
+    "source": "Hugging Face Blog"
   }
 ]
