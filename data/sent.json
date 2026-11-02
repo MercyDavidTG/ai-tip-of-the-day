@@ -388,5 +388,29 @@
     "link": "https://huggingface.co/blog/anydecisionmodel",
     "title": "Introducing AnySpeechRecognizer and AnyDecisionModel: Open Models for Speech and Decisions on Apple Platforms",
     "source": "Hugging Face Blog"
+  },
+  {
+    "date": "2026-11-03",
+    "link": "https://simonwillison.net/2026/Oct/30/nesformer/",
+    "title": "dbreunig/nesformer",
+    "source": "Simon Willison"
+  },
+  {
+    "date": "2026-11-03",
+    "link": "https://developers.googleblog.com/hill-climbing-agent-quality-with-agents-cli-evaluation/",
+    "title": "Hill-Climbing Agent Quality with Agents CLI Evaluation",
+    "source": "Google Developers Blog"
+  },
+  {
+    "date": "2026-11-03",
+    "link": "https://towardsdatascience.com/the-enterprise-context-layer-a-practitioners-guide-to-6-advanced-architectural-patterns/",
+    "title": "The Enterprise Context Layer: A Practitioner's Guide to 6 Advanced Architectural Patterns",
+    "source": "Towards Data Science"
+  },
+  {
+    "date": "2026-11-03",
+    "link": "https://www.kdnuggets.com/vibe-coding-a-classic-game-building-breakout-step-by-step-with-an-ai-assistant",
+    "title": "Vibe Coding a Classic Game: Building Breakout Step by Step with an AI Assistant",
+    "source": "KDnuggets"
   }
 ]
