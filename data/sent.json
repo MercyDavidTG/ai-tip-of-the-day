@@ -436,5 +436,29 @@
     "link": "https://www.databricks.com/blog/lakebase-postgres-now-generally-available-google-cloud",
     "title": "Lakebase Postgres is now generally available on Google Cloud",
     "source": "Databricks Blog"
+  },
+  {
+    "date": "2026-11-05",
+    "link": "https://nightingaledvs.com/baking-brilliance/",
+    "title": "Baking Brilliance: My DVS Mentee Experience",
+    "source": "Nightingale (Data Visualization Society)"
+  },
+  {
+    "date": "2026-11-05",
+    "link": "https://flowingdata.com/2026/10/30/policing-protests-in-india/",
+    "title": "Policing protests in India",
+    "source": "FlowingData"
+  },
+  {
+    "date": "2026-11-05",
+    "link": "https://towardsdatascience.com/three-techniques-to-understand-your-codebase-when-coding-agents-write-the-code/",
+    "title": "Three Techniques to Understand Your Codebase When Coding Agents Write the Code",
+    "source": "Towards Data Science"
+  },
+  {
+    "date": "2026-11-05",
+    "link": "https://aws.amazon.com/blogs/machine-learning/build-a-semantic-layer-for-agentic-ai-with-edb-postgres-ai-and-amazon-bedrock-agentcore/",
+    "title": "Build a semantic layer for agentic AI with EDB Postgres AI and Amazon Bedrock AgentCore",
+    "source": "AWS Machine Learning Blog"
   }
 ]
