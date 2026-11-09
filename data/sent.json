@@ -508,5 +508,29 @@
     "link": "https://developers.googleblog.com/preview-edit-and-collaborate-on-markdown-md-files-natively-in-google-docs-and-drive/",
     "title": "Preview, edit, and collaborate on markdown (.md) files natively in Google Docs and Drive",
     "source": "Google Developers Blog"
+  },
+  {
+    "date": "2026-11-10",
+    "link": "https://blogs.nvidia.com/blog/korea-secure-agentic-ai/",
+    "title": "Korea’s AI Ecosystem Advances and Secures Agentic AI With NVIDIA",
+    "source": "NVIDIA Blog"
+  },
+  {
+    "date": "2026-11-10",
+    "link": "https://towardsdatascience.com/how-to-build-multi-agent-systems-with-the-openai-agents-sdk/",
+    "title": "How to Build Multi-Agent Systems with the OpenAI Agents SDK",
+    "source": "Towards Data Science"
+  },
+  {
+    "date": "2026-11-10",
+    "link": "https://developers.googleblog.com/powering-the-agent-development-lifecycle-with-any-framework-from-adk-to-langchain-and-beyond/",
+    "title": "Powering the Agent Development Lifecycle with any framework, from ADK to LangChain and beyond",
+    "source": "Google Developers Blog"
+  },
+  {
+    "date": "2026-11-10",
+    "link": "https://www.theverge.com/ai-artificial-intelligence/1029595/full-text-jensen-huang-affair-memo-nvidia",
+    "title": "Here’s the full text of Jensen Huang’s memo to Nvidia",
+    "source": "The Verge AI"
   }
 ]
