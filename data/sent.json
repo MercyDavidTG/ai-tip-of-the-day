@@ -532,5 +532,29 @@
     "link": "https://www.theverge.com/ai-artificial-intelligence/1029595/full-text-jensen-huang-affair-memo-nvidia",
     "title": "Here’s the full text of Jensen Huang’s memo to Nvidia",
     "source": "The Verge AI"
+  },
+  {
+    "date": "2026-11-11",
+    "link": "https://aws.amazon.com/blogs/big-data/amazon-athena-introduces-system-tables-for-query-execution-observability/",
+    "title": "Amazon Athena introduces system tables for query execution observability",
+    "source": "AWS Big Data Blog"
+  },
+  {
+    "date": "2026-11-11",
+    "link": "https://www.databricks.com/blog/turn-buying-signals-pipeline-sendoso-gifts-genie-one",
+    "title": "Turn buying signals into pipeline with Sendoso gifts in Genie One",
+    "source": "Databricks Blog"
+  },
+  {
+    "date": "2026-11-11",
+    "link": "https://community.fabric.microsoft.com/t5/Fabric-Updates-Blog/Securing-and-governing-your-medallion-layers-in-Fabric-Data/ba-p/5377539",
+    "title": "Securing and governing your medallion layers in Fabric Data Warehouse",
+    "source": "Microsoft Fabric Blog"
+  },
+  {
+    "date": "2026-11-11",
+    "link": "https://www.getdbt.com/blog/how-to-assess-your-ai-readiness",
+    "title": "How to assess your organization’s AI readiness",
+    "source": "dbt Labs Blog"
   }
 ]
