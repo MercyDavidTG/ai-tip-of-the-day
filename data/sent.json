@@ -556,5 +556,29 @@
     "link": "https://www.getdbt.com/blog/how-to-assess-your-ai-readiness",
     "title": "How to assess your organization’s AI readiness",
     "source": "dbt Labs Blog"
+  },
+  {
+    "date": "2026-11-12",
+    "link": "https://www.storytellingwithdata.com/blog/ocgbcwudp8x8j9m99a20f1glmdbeoy",
+    "title": "when visual cues miss the mark",
+    "source": "Storytelling with Data"
+  },
+  {
+    "date": "2026-11-12",
+    "link": "https://community.fabric.microsoft.com/t5/Power-BI-Updates-Blog/Announcing-the-retirement-of-R-and-Python-visuals-in-Power-BI/ba-p/5400748",
+    "title": "Announcing the retirement of R and Python visuals in Power BI",
+    "source": "Power BI Blog"
+  },
+  {
+    "date": "2026-11-12",
+    "link": "https://flowingdata.com/2026/11/06/swings-in-texas-over-the-years/",
+    "title": "Swings in Texas over the years",
+    "source": "FlowingData"
+  },
+  {
+    "date": "2026-11-12",
+    "link": "https://nightingaledvs.com/same-chart-many-titles/",
+    "title": "Same Chart, Many Titles: A Classroom Exercise in Framing Data",
+    "source": "Nightingale (Data Visualization Society)"
   }
 ]
