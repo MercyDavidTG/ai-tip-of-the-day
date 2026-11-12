@@ -580,5 +580,29 @@
     "link": "https://nightingaledvs.com/same-chart-many-titles/",
     "title": "Same Chart, Many Titles: A Classroom Exercise in Framing Data",
     "source": "Nightingale (Data Visualization Society)"
+  },
+  {
+    "date": "2026-11-13",
+    "link": "https://towardsdatascience.com/how-to-use-apples-fm-cli-to-run-on-device-llms-from-python/",
+    "title": "How to Use Apple's fm CLI to Run On-Device LLMs From Python",
+    "source": "Towards Data Science"
+  },
+  {
+    "date": "2026-11-13",
+    "link": "https://www.theverge.com/ai-artificial-intelligence/1031524/google-deepmind-alphagenome-2-genetic-ai-model",
+    "title": "Google’s AlphaGenome 2 zooms in on the cellular roots of disease",
+    "source": "The Verge AI"
+  },
+  {
+    "date": "2026-11-13",
+    "link": "https://techcrunch.com/2026/11/10/psi-is-trying-to-make-a-business-out-of-ai-driven-scientific-discovery/",
+    "title": "PSI is trying to make a business out of AI-driven scientific discovery",
+    "source": "TechCrunch AI"
+  },
+  {
+    "date": "2026-11-13",
+    "link": "https://www.analyticsvidhya.com/blog/2026/11/ai-agent-team-memory-tencentdb/",
+    "title": "Can an AI Agent Inherit Its Team’s Hard-Won Lessons? A Hands-On Look at TencentDB Agent Memory",
+    "source": "Analytics Vidhya"
   }
 ]
