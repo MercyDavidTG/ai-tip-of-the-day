@@ -604,5 +604,29 @@
     "link": "https://www.analyticsvidhya.com/blog/2026/11/ai-agent-team-memory-tencentdb/",
     "title": "Can an AI Agent Inherit Its Team’s Hard-Won Lessons? A Hands-On Look at TencentDB Agent Memory",
     "source": "Analytics Vidhya"
+  },
+  {
+    "date": "2026-11-16",
+    "link": "https://github.blog/ai-and-ml/github-copilot/build-once-run-on-any-agent-a-practical-guide-to-agent-skills/",
+    "title": "Build once, run on any agent: A practical guide to agent skills",
+    "source": "GitHub Blog - AI & ML"
+  },
+  {
+    "date": "2026-11-16",
+    "link": "https://deepmind.google/blog/introducing-gemini-4-hydrogen/",
+    "title": "Introducing Gemini 4 Hydrogen",
+    "source": "Google DeepMind"
+  },
+  {
+    "date": "2026-11-16",
+    "link": "https://openai.com/business/customer-stories/amplitude",
+    "title": "How Amplitude ships product improvements in 1 - 2 days with OpenAI",
+    "source": "OpenAI News"
+  },
+  {
+    "date": "2026-11-16",
+    "link": "https://www.therundown.ai/articles/ai-s-biggest-ceo-may-be-on-his-way-out",
+    "title": "AI’s biggest CEO may be on his way out",
+    "source": "The Rundown AI"
   }
 ]
