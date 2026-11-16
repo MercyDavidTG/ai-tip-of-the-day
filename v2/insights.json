@@ -100,6 +100,18 @@
       "try": "Claude, Settings, Usage, Limit resets, Reset for free. Use the Fable reset before tomorrow afternoon and keep the full reset (all models, announced 10 Nov) for a heavy week before 11 Dec.",
       "also": "AWS made SGLang-Neuron available for Trainium in a Deep Learning Container.",
       "sources": [["Claude Help Center", "https://support.claude.com/en/articles/17506494-claude-fable-5-2-launch-offers"], ["Full reset report", "https://aitoolranked.com/news/claude-free-full-usage-reset-dec-10"]]
+    },
+    {
+      "date": "2026-11-17", "lane": "frontier", "trust": "mixed", "read_min": 3,
+      "headline": "Claude Fable 5.2: when the most powerful Claude is worth it, and how to use it today",
+      "buzz": "Anthropic released Fable 5.2 on 9 Nov. It is the strongest Claude anyone can use (Mythos 5.2 is the same model, kept for vetted security and life-science teams). Compared with Fable 5.1 it is 20% cheaper, up to 30% faster, and blocks far fewer normal requests. It reads up to 1M tokens and can write up to 128K in one answer.",
+      "stats": [["69.9%", "FrontierSWE v2 coding (Opus 5.5: 62.3%)"], ["73.4%", "reading charts, no tools (Opus 5.5: 64.4%)"], ["41.3%", "Remote Labor Index, about 2x Opus 5.5"], ["$8 / $40", "per M tokens in / out, 2x Opus 5.5"]],
+      "why": "Bigger is not always better. Fable 5.2 at high effort matched Opus 5.5 at max effort on agentic coding for about half the cost per task ($6.72 vs $12.82), but it costs twice as much per token and writes long answers. The smart pattern: Opus 5.5 for everyday work, Fable 5.2 for the hard jobs where other models stall, like refactoring a whole pipeline, reviewing a model end to end, or making sense of a stack of charts and reports.",
+      "try": "Pick one real task that stalled on your usual model, for example turning a messy notebook into a tested module. Run it on Fable 5.2 at medium effort, then the same prompt on Opus 5.5, and compare the result, the time and the tokens. In Claude Code use `/model fable` (version 2.1.321 or later). In the API the model id is `claude-fable-5-2`.",
+      "act": "If you are on a Pro plan or a standard Team seat, Fable is included in your plan only until today 1:29 PM IST (16 Nov 11:59 PM PT), for up to half of your weekly limit. Your one free Fable limit reset also expires then: Claude, Settings, Usage, Limit resets, Reset for free. After that, Fable is billed to usage credits.",
+      "watch": ["Prompts and agents tuned on Fable 5.1 may behave differently. Test before you switch a pipeline.", "Thinking is now always preserved, so API code that edits message history before resending can get 400 errors.", "The benchmark numbers are Anthropic's own and not yet independently checked. Measure on your own work."],
+      "also": "Fable 5.2 is also on Amazon Bedrock, Google Cloud and Microsoft Azure. Fast mode runs up to 2.5x faster at double the price, good for interactive work but not for batch jobs.",
+      "sources": [["Claude Help Center: Fable 5.2 launch offers", "https://support.claude.com/en/articles/17506494-claude-fable-5-2-launch-offers"], ["DataCamp: Fable 5.2 and Mythos 5.2", "https://www.datacamp.com/blog/claude-fable-5-2-and-mythos-5-2"], ["ComputingForGeeks: benchmarks and real tests", "https://computingforgeeks.com/claude-fable-5-2-released-features-benchmarks/"]]
     }
   ]
 }

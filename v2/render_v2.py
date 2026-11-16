@@ -86,8 +86,16 @@ def render(it: dict, prev_link: str = "") -> tuple[str, str]:
         f'<div style="font-size:17px;font-weight:bold;color:#101828;line-height:1.2;">{html.escape(v)}</div>'
         f'<div style="font-size:12px;color:#5B6578;line-height:1.35;">{html.escape(k)}</div></td></tr></table></td>'
         for v, k in it["stats"])
+    act = (f'<tr><td style="padding:12px 28px 0;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>'
+           f'<td bgcolor="#FBE7E7" style="background:#FBE7E7;padding:12px 16px;font-size:14.5px;line-height:1.55;color:#4A1414;">'
+           f'<div style="font-size:11px;letter-spacing:1px;font-weight:bold;color:#A42727;font-family:Consolas,\'Courier New\',monospace;">ACT TODAY</div>'
+           f'{rich(it["act"])}</td></tr></table></td></tr>') if it.get("act") else ""
+    watch = (f'<tr><td style="padding:12px 28px 0;font-size:14px;line-height:1.55;color:#27324A;">'
+             f'<div style="font-size:11px;letter-spacing:1px;font-weight:bold;color:#8A5F00;font-family:Consolas,\'Courier New\',monospace;">WATCH OUT</div>'
+             + "".join(f'<div style="padding-top:3px;">- {rich(w)}</div>' for w in it["watch"])
+             + '</td></tr>') if it.get("watch") else ""
     also = (f'<tr><td style="padding:10px 28px 0;font-size:13.5px;line-height:1.55;color:#5B6578;">'
-            f'<b style="color:#101828;">Also today:</b> {rich(it["also"])}</td></tr>') if it.get("also") else ""
+            f'<b style="color:#101828;">Also new:</b> {rich(it["also"])}</td></tr>') if it.get("also") else ""
     sources = " &nbsp;·&nbsp; ".join(
         f'<a href="{html.escape(u)}" style="color:#2E4BE0;text-decoration:none;font-weight:bold;">{html.escape(n)}</a>'
         for n, u in it["sources"])
@@ -119,6 +127,8 @@ def render(it: dict, prev_link: str = "") -> tuple[str, str]:
 <td bgcolor="#F0F4FF" style="background:#F0F4FF;padding:12px 16px;font-size:14.5px;line-height:1.55;color:#27324A;">
 <div style="font-size:11px;letter-spacing:1px;font-weight:bold;color:#2E4BE0;font-family:Consolas,'Courier New',monospace;">TRY IT IN 5 MINUTES</div>{rich(it['try'])}</td>
 </tr></table></td></tr>
+{act}
+{watch}
 {also}
 <tr><td style="padding:14px 28px 0;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
 <td style="border-top:1px solid #DCE2EC;padding-top:10px;font-size:13.5px;line-height:1.6;color:#5B6578;">Read: {sources}</td></tr></table></td></tr>
