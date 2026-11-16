@@ -331,36 +331,34 @@
       "date": "2026-11-17",
       "lane": "frontier",
       "trust": "mixed",
-      "read_min": 4,
+      "read_min": 2,
       "headline": "Claude Fable 5.2 by the numbers: where it wins, what it costs, and how to use it today",
-      "buzz": "Anthropic released Fable 5.2 on 9 Nov. It is the strongest Claude anyone can use (Mythos 5.2 is the same model, kept for vetted security and life-science teams). Compared with Fable 5.1 it is 20% cheaper, up to 30% faster, and blocks far fewer normal requests. It reads up to 1M tokens and can write up to 128K in one answer.",
+      "buzz": "Released 9 Nov, Fable 5.2 is the strongest Claude anyone can use (Mythos 5.2 is the same model, kept for vetted security and life-science teams). Versus Fable 5.1: 20% cheaper, up to 30% faster, far fewer blocked requests.",
       "stats": [
         [
           "15 of 16",
-          "results below where it beats Opus 5.5"
+          "wins vs Opus 5.5"
         ],
         [
           "$8 / $40",
-          "per M tokens in / out, 2x Opus 5.5"
+          "per M tokens, 2x Opus"
         ],
         [
           "1M / 128K",
-          "tokens in / out per request"
+          "tokens in / out"
         ],
         [
           "30%",
-          "faster than Fable 5.1 (up to)"
+          "faster than 5.1"
         ]
       ],
-      "why": "Bigger is not always better. Fable 5.2 at high effort matched Opus 5.5 at max effort on agentic coding for about half the cost per task ($6.72 vs $12.82), but it costs twice as much per token and writes long answers. The smart pattern: Opus 5.5 for everyday work, Fable 5.2 for the hard jobs where other models stall, like refactoring a whole pipeline, reviewing a model end to end, or making sense of a stack of charts and reports.",
-      "try": "Pick one real task that stalled on your usual model, for example turning a messy notebook into a tested module. Run it on Fable 5.2 at medium effort, then the same prompt on Opus 5.5, and compare the result, the time and the tokens. In Claude Code use `/model fable` (version 2.1.321 or later). In the API the model id is `claude-fable-5-2`.",
-      "act": "If you are on a Pro plan or a standard Team seat, Fable is included in your plan only until today 1:29 PM IST (16 Nov 11:59 PM PT), for up to half of your weekly limit. Your one free Fable limit reset also expires then: Claude, Settings, Usage, Limit resets, Reset for free. After that, Fable is billed to usage credits.",
+      "why": "Use Opus 5.5 for everyday work and Fable 5.2 for the hard jobs where other models stall: a whole pipeline refactor, an end-to-end model review, a stack of charts. At high effort it matched Opus 5.5 max on agentic coding at half the cost per task ($6.72 vs $12.82), even though its tokens cost 2x.",
+      "try": "Run one stuck task (say, a messy notebook into a tested module) on Fable 5.2 at medium effort and on Opus 5.5, then compare result, time and tokens. Claude Code: `/model fable` (2.1.321+). API: `claude-fable-5-2`.",
+      "act": "On Pro or a standard Team seat? Fable is included only until 1:29 PM IST today, and your free Fable reset expires then (Settings, Usage, Limit resets, Reset for free). After that it uses usage credits.",
       "watch": [
-        "Prompts and agents tuned on Fable 5.1 may behave differently. Test before you switch a pipeline.",
-        "Thinking is now always preserved, so API code that edits message history before resending can get 400 errors.",
-        "The benchmark numbers are Anthropic's own and not yet independently checked. Measure on your own work."
+        "Prompts tuned on 5.1 may behave differently, API code that edits message history can now get 400 errors, and the benchmarks are Anthropic's own. Test on your own work before switching."
       ],
-      "also": "Fable 5.2 is also on Amazon Bedrock, Google Cloud and Microsoft Azure. Fast mode runs up to 2.5x faster at double the price, good for interactive work but not for batch jobs.",
+      "also": "Fable 5.2 is on Bedrock, Google Cloud and Azure. Fast mode is up to 2.5x faster at double the price.",
       "sources": [
         [
           "Claude Help Center: Fable 5.2 launch offers",
@@ -505,7 +503,7 @@
             ]
           ]
         ],
-        "note": "Green = best in the row. Numbers are Anthropic's own launch results (safeguards on), not yet independently checked. Opus 5.5 still wins GDPval-AA, and Gemini 4 Carbon beats Fable on AutomationBench (53.9%). Artificial Analysis gives Fable 5.2 an Intelligence Index of 65 at max effort."
+        "note": "Green = best in the row. Anthropic's own launch numbers. Gemini 4 Carbon beats it on AutomationBench (53.9%). Artificial Analysis Intelligence Index: 65 at max effort."
       }
     }
   ]
