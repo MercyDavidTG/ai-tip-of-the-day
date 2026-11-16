@@ -628,5 +628,29 @@
     "link": "https://www.therundown.ai/articles/ai-s-biggest-ceo-may-be-on-his-way-out",
     "title": "AI’s biggest CEO may be on his way out",
     "source": "The Rundown AI"
+  },
+  {
+    "date": "2026-11-17",
+    "link": "https://simonwillison.net/2026/Nov/15/datasette-maplibre/",
+    "title": "datasette-maplibre 0.1a0",
+    "source": "Simon Willison"
+  },
+  {
+    "date": "2026-11-17",
+    "link": "https://www.therundown.ai/articles/nvidia-enters-life-without-jensen-huang",
+    "title": "Nvidia enters life without Jensen Huang",
+    "source": "The Rundown AI"
+  },
+  {
+    "date": "2026-11-17",
+    "link": "https://www.databricks.com/blog/teach-genie-one-your-workflows-ultimate-guide-skills-genie-one",
+    "title": "Teach Genie One your workflows: The ultimate guide for skills in Genie One",
+    "source": "Databricks Blog"
+  },
+  {
+    "date": "2026-11-17",
+    "link": "https://towardsdatascience.com/a-practitioners-guide-to-6-agentic-graphrag-patterns/",
+    "title": "A Practitioner's Guide to 6 Agentic GraphRAG Patterns",
+    "source": "Towards Data Science"
   }
 ]
