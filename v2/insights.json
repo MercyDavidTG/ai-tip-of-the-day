@@ -2,116 +2,511 @@
   "note": "Insights of the Day v2. One entry per send day, newest last. Plain hyphens only, no emojis. Backticks mark code.",
   "insights": [
     {
-      "date": "2026-11-06", "lane": "aws", "trust": "official", "read_min": 2,
+      "date": "2026-11-06",
+      "lane": "aws",
+      "trust": "official",
+      "read_min": 2,
       "headline": "One GPU, seven models: SageMaker can now slice a GPU for inference",
       "buzz": "AWS added NVIDIA Multi-Instance GPU (MIG) to SageMaker real-time endpoints. One A100 or H100 is split into up to seven isolated slices, each with its own memory, and SageMaker handles placement and scaling.",
-      "stats": [["up to 7", "models per A100 / H100"], ["P4d, P5, G7, G7e", "supported instances"]],
+      "stats": [
+        [
+          "up to 7",
+          "models per A100 / H100"
+        ],
+        [
+          "P4d, P5, G7, G7e",
+          "supported instances"
+        ]
+      ],
       "why": "Small models (classifiers, embedders, rerankers) no longer need a full GPU each. Same hardware, fewer endpoints, lower bill.",
       "try": "In `CreateEndpointConfig` add `AcceleratorPartitionLayouts` (for example `mig-1g.5gb`), then set `AcceleratorPartitionType` on each inference component. Works only on inference-component endpoints, not serverless.",
       "also": "",
-      "sources": [["AWS Machine Learning Blog", "https://aws.amazon.com/blogs/machine-learning/sagemaker-inference-now-supports-multi-instance-gpu-to-maximize-gpu-utilization-for-model-endpoints/"]]
+      "sources": [
+        [
+          "AWS Machine Learning Blog",
+          "https://aws.amazon.com/blogs/machine-learning/sagemaker-inference-now-supports-multi-instance-gpu-to-maximize-gpu-utilization-for-model-endpoints/"
+        ]
+      ]
     },
     {
-      "date": "2026-11-07", "lane": "docker", "trust": "official", "read_min": 2,
+      "date": "2026-11-07",
+      "lane": "docker",
+      "trust": "official",
+      "read_min": 2,
       "headline": "Weekend fix: Docker Engine 29.9.3 closes five security holes",
       "buzz": "Released 3 Nov, with a Canadian Cyber Centre advisory on 4 Nov for Docker Desktop and Buildx. The fixes cover Swarm overlay networks losing encryption after a firewalld reload, a SwarmKit certificate escalation, and a BuildKit cache-poisoning crash.",
-      "stats": [["4 CVEs", "plus BuildKit 0.34.2 fixes"], ["10 min", "to check and update"]],
+      "stats": [
+        [
+          "4 CVEs",
+          "plus BuildKit 0.34.2 fixes"
+        ],
+        [
+          "10 min",
+          "to check and update"
+        ]
+      ],
       "why": "Every model we containerise builds through BuildKit. A patched engine is the cheapest security win of the week.",
       "try": "Run `docker version --format \"{{.Server.Version}}\"`. If it is below 29.9.3, update Docker Desktop (Settings, Software updates) or the engine package on servers.",
       "also": "Docker Hardened Images are free and Apache 2.0. Swap one base image in a side project and compare the CVE count.",
-      "sources": [["Docker Engine release notes", "https://docs.docker.com/engine/release-notes/"], ["Cyber Centre advisory AV26-1123", "https://www.cyber.gc.ca/en/alerts-advisories/docker-security-advisory-av26-1123"], ["Hardened Images catalog", "https://hub.docker.com/hardened-images/catalog"]]
+      "sources": [
+        [
+          "Docker Engine release notes",
+          "https://docs.docker.com/engine/release-notes/"
+        ],
+        [
+          "Cyber Centre advisory AV26-1123",
+          "https://www.cyber.gc.ca/en/alerts-advisories/docker-security-advisory-av26-1123"
+        ],
+        [
+          "Hardened Images catalog",
+          "https://hub.docker.com/hardened-images/catalog"
+        ]
+      ]
     },
     {
-      "date": "2026-11-09", "lane": "frontier", "trust": "official", "read_min": 3,
+      "date": "2026-11-09",
+      "lane": "frontier",
+      "trust": "official",
+      "read_min": 3,
       "headline": "Claude Fable 5.2 is out, it is cheaper, and Pro users get it free this week",
       "buzz": "Anthropic released Fable 5.2 alongside Mythos 5.2 (the same model, kept for vetted cybersecurity and life-science groups). Coverage reports lower token prices and faster output than Fable 5.1. It went live on Amazon Bedrock the same day.",
-      "stats": [["20% cheaper", "$8 in / $40 out per M tokens (reported)"], ["up to 30%", "faster than Fable 5.1"], ["50%", "of Pro weekly limit usable on Fable until 16 Nov"]],
+      "stats": [
+        [
+          "20% cheaper",
+          "$8 in / $40 out per M tokens (reported)"
+        ],
+        [
+          "up to 30%",
+          "faster than Fable 5.1"
+        ],
+        [
+          "50%",
+          "of Pro weekly limit usable on Fable until 16 Nov"
+        ]
+      ],
       "why": "This is the model to point at your hardest job: a messy pipeline refactor, a long analysis, a model review. On Pro it costs nothing extra until 16 Nov.",
       "try": "In Claude pick Fable 5.2 from the model picker and give it one task you have been putting off. In code the model id is `claude-fable-5-2`.",
       "also": "Meta launched Muse Ember, a small cheap model for the repetitive steps inside agents. Google announced TPU 8tx and TPU 8i Max.",
-      "sources": [["Claude Help Center: launch offers", "https://support.claude.com/en/articles/17506494-claude-fable-5-2-launch-offers"], ["9to5Mac", "https://9to5mac.com/2026/11/09/anthropic-upgrades-claude-with-new-fable-5-2-model-details-here/"]]
+      "sources": [
+        [
+          "Claude Help Center: launch offers",
+          "https://support.claude.com/en/articles/17506494-claude-fable-5-2-launch-offers"
+        ],
+        [
+          "9to5Mac",
+          "https://9to5mac.com/2026/11/09/anthropic-upgrades-claude-with-new-fable-5-2-model-details-here/"
+        ]
+      ]
     },
     {
-      "date": "2026-11-10", "lane": "data", "trust": "official", "read_min": 2,
+      "date": "2026-11-10",
+      "lane": "data",
+      "trust": "official",
+      "read_min": 2,
       "headline": "k-means got 10x faster: Meta's e-means ships in Faiss 1.16",
       "buzz": "Meta FAIR open-sourced e-means, which replaces Lloyd's full passes with mini-batch updates. It reaches the same loss as 25 rounds of classic k-means in about 1.2 to 3 rounds, with no new knobs to tune. Faiss 1.16.0 packages it with GPU kernels.",
-      "stats": [["10 to 45x", "faster on GPU (authors)"], ["8 to 15x", "faster on CPU (authors)"], ["0", "extra hyperparameters"]],
+      "stats": [
+        [
+          "10 to 45x",
+          "faster on GPU (authors)"
+        ],
+        [
+          "8 to 15x",
+          "faster on CPU (authors)"
+        ],
+        [
+          "0",
+          "extra hyperparameters"
+        ]
+      ],
       "why": "We cluster all the time: customer and outlet segments, embeddings, vector index training. Hours of clustering could become minutes.",
       "try": "Upgrade Faiss to 1.16 in a scratch environment, run e-means (in `faiss/contrib/e_means`) next to your current k-means on one real dataset, and compare time and inertia.",
       "also": "Google opened Gemini 4 Carbon to paying developers. Anthropic launched Claude Data, plus Sheets, Whiteboards and Meetings in beta.",
-      "sources": [["e-means project page", "https://e-means.github.io/"], ["Let's Data Science", "https://letsdatascience.com/news/meta-fair-open-sources-e-means-a-faster-k-means-replacing-ll-707a9c1d"]]
+      "sources": [
+        [
+          "e-means project page",
+          "https://e-means.github.io/"
+        ],
+        [
+          "Let's Data Science",
+          "https://letsdatascience.com/news/meta-fair-open-sources-e-means-a-faster-k-means-replacing-ll-707a9c1d"
+        ]
+      ]
     },
     {
-      "date": "2026-11-11", "lane": "science", "trust": "official", "read_min": 3,
+      "date": "2026-11-11",
+      "lane": "science",
+      "trust": "official",
+      "read_min": 3,
       "headline": "AlphaGenome 2 predicts what a DNA change does in each cell type",
       "buzz": "Google DeepMind's new model was trained on more than 100 million single-cell profiles across 68 tissues. On the TenK10K benchmark its recall of causal disease variants rose from about 16% to 30%. It is free for non-commercial research through the AlphaGenome API.",
-      "stats": [["100M+", "cell profiles"], ["68", "tissues"], ["16% to 30%", "causal variant recall"]],
+      "stats": [
+        [
+          "100M+",
+          "cell profiles"
+        ],
+        [
+          "68",
+          "tissues"
+        ],
+        [
+          "16% to 30%",
+          "causal variant recall"
+        ]
+      ],
       "why": "Steal the design idea: one model conditioned on context (cell type) instead of one model per context. Same pattern as one demand model conditioned on store, region or channel.",
       "try": "Read the DeepMind post and look at how the context is fed to the model. Note one place in our forecasting or pricing work where we keep separate models that could share one.",
       "also": "Google's A2UI 1.0 became a stable protocol for agents to describe app screens. Runway released Praxis-1, a 27B open-weights robotics model under Apache 2.0.",
-      "sources": [["Google DeepMind blog", "https://deepmind.google/blog/alphagenome-2-deciphering-how-cells-read-dna-to-better-understand-disease/"], ["MarkTechPost", "https://www.marktechpost.com/2026/11/11/google-deepmind-alphagenome-2-cell-type-variant-effects/"]]
+      "sources": [
+        [
+          "Google DeepMind blog",
+          "https://deepmind.google/blog/alphagenome-2-deciphering-how-cells-read-dna-to-better-understand-disease/"
+        ],
+        [
+          "MarkTechPost",
+          "https://www.marktechpost.com/2026/11/11/google-deepmind-alphagenome-2-cell-type-variant-effects/"
+        ]
+      ]
     },
     {
-      "date": "2026-11-12", "lane": "frontier", "trust": "reported", "read_min": 3,
+      "date": "2026-11-12",
+      "lane": "frontier",
+      "trust": "reported",
+      "read_min": 3,
       "headline": "Gemini 4 Hydrogen lands: Carbon plans, Hydrogen does the work",
       "buzz": "Two days after Gemini 4 Carbon opened up, Google launched Hydrogen, its fast everyday model that replaces the Flash name. In Antigravity, the new Orchestrator mode lets Carbon plan while Hydrogen executes and checks the steps, so you keep Carbon quality on fewer tokens.",
-      "stats": [["$1.50 / $7.50", "per M tokens in / out"], ["1M", "token context"], ["18% to 57%", "Terminal-Bench 4.1 vs 3.8 Flash"]],
+      "stats": [
+        [
+          "$1.50 / $7.50",
+          "per M tokens in / out"
+        ],
+        [
+          "1M",
+          "token context"
+        ],
+        [
+          "18% to 57%",
+          "Terminal-Bench 4.1 vs 3.8 Flash"
+        ]
+      ],
       "why": "Big model plans, small model executes is now a product feature. It is the cheapest way to run agent pipelines, and the same split works with any vendor.",
       "try": "In AI Studio, run one of your usual prompts on Hydrogen and on your current model. Compare the answer, the speed and the token cost side by side.",
       "also": "NVIDIA, AMD, Intel, Google and Meta formed the SGLang Consortium for open inference software.",
-      "sources": [["9to5Google", "https://9to5google.com/2026/11/12/gemini-4-hydrogen-launch/"], ["Which Gemini 4 to use (DEV)", "https://dev.to/gde/hydrogen-carbon-or-argon-a-cost-first-guide-to-gemini-4-for-every-team-205b"]]
+      "sources": [
+        [
+          "9to5Google",
+          "https://9to5google.com/2026/11/12/gemini-4-hydrogen-launch/"
+        ],
+        [
+          "Which Gemini 4 to use (DEV)",
+          "https://dev.to/gde/hydrogen-carbon-or-argon-a-cost-first-guide-to-gemini-4-for-every-team-205b"
+        ]
+      ]
     },
     {
-      "date": "2026-11-13", "lane": "data", "trust": "official", "read_min": 2,
+      "date": "2026-11-13",
+      "lane": "data",
+      "trust": "official",
+      "read_min": 2,
       "headline": "DeepSeek's API now does web search, OCR, speech and file reading",
       "buzz": "DeepSeek opened the tools from its own app to developers. On `deepseek-flash` you switch on web search or URL reading with a tool flag, and OCR, speech-to-text and text-to-speech are now separate APIs.",
-      "stats": [["5", "new built-in tools"], ["3 APIs", "OCR, ASR, TTS"]],
+      "stats": [
+        [
+          "5",
+          "new built-in tools"
+        ],
+        [
+          "3 APIs",
+          "OCR, ASR, TTS"
+        ]
+      ],
       "why": "A cheap OCR plus LLM route for invoices, delivery notes and scanned forms, without stitching three services together.",
       "try": "Add the `deepseek_read_url` tool to a Chat Completions call and ask it to summarise a public report link. Then try the OCR API on one scanned document (no company data).",
       "also": "AWS published a guide to tracking AI coding tool costs per team on Bedrock.",
-      "sources": [["DeepSeek API change log", "https://api-docs.deepseek.com/updates"]]
+      "sources": [
+        [
+          "DeepSeek API change log",
+          "https://api-docs.deepseek.com/updates"
+        ]
+      ]
     },
     {
-      "date": "2026-11-14", "lane": "open", "trust": "reported", "read_min": 2,
+      "date": "2026-11-14",
+      "lane": "open",
+      "trust": "reported",
+      "read_min": 2,
       "headline": "A 594B model you can download: Inkling 2 Small goes Apache 2.0",
       "buzz": "Thinking Machines Lab (Mira Murati's company) released the weights a week after the closed launch, following outside safety testing. It is a mixture-of-experts model that uses only 17B parameters per token, accepts images, and runs on SGLang, vLLM and Unsloth.",
-      "stats": [["594B / 17B", "total / active parameters"], ["Apache 2.0", "commercial use allowed"]],
+      "stats": [
+        [
+          "594B / 17B",
+          "total / active parameters"
+        ],
+        [
+          "Apache 2.0",
+          "commercial use allowed"
+        ]
+      ],
       "why": "Open models are now close to the frontier. That matters when data must stay on our own servers.",
       "try": "Open the model card and check the memory needed for the NVFP4 checkpoint. Also new this week: llama.cpp reached 1.0 with a stable API, the easy way to run smaller open models on a laptop.",
       "also": "",
-      "sources": [["Mind and Machine Weekly", "https://mindandmachineweekly.substack.com/p/mind-and-machine-weekly-15-november"], ["AI News, 14 Nov", "https://riorundown.substack.com/p/ai-news-nov-14-2026-local-ai-ecosystem"]]
+      "sources": [
+        [
+          "Mind and Machine Weekly",
+          "https://mindandmachineweekly.substack.com/p/mind-and-machine-weekly-15-november"
+        ],
+        [
+          "AI News, 14 Nov",
+          "https://riorundown.substack.com/p/ai-news-nov-14-2026-local-ai-ecosystem"
+        ]
+      ]
     },
     {
-      "date": "2026-11-15", "lane": "creative", "trust": "official", "read_min": 2,
+      "date": "2026-11-15",
+      "lane": "creative",
+      "trust": "official",
+      "read_min": 2,
       "headline": "Seedance 2.5 Flash: preview your AI video before you pay for the full render",
       "buzz": "Higgsfield added Seedance 2.5 Flash, a lighter version of ByteDance's Seedance 2.5 for quick 480p or 720p drafts with synced audio. The full model now renders in 4K. Higgsfield's Genjutsu video-to-video editor runs on Seedance 2.5 too.",
-      "stats": [["480p / 720p", "fast draft"], ["4K", "final render"], ["30 s", "max clip, Seedance 2.5"]],
+      "stats": [
+        [
+          "480p / 720p",
+          "fast draft"
+        ],
+        [
+          "4K",
+          "final render"
+        ],
+        [
+          "30 s",
+          "max clip, Seedance 2.5"
+        ]
+      ],
       "why": "Product and marketing teams will ask us about AI video. Draft cheap, then render once is the habit to recommend.",
       "try": "Make one 5-second product shot in Flash, change the prompt twice, then render only the best one. Flash is not available in the US.",
       "also": "",
-      "sources": [["Higgsfield change log", "https://higgsfield.ai/creator-hub/changelog"], ["Seedance 2.5 vs 2.0 test", "https://higgsfield.ai/blog/seedance-2-5"]]
+      "sources": [
+        [
+          "Higgsfield change log",
+          "https://higgsfield.ai/creator-hub/changelog"
+        ],
+        [
+          "Seedance 2.5 vs 2.0 test",
+          "https://higgsfield.ai/blog/seedance-2-5"
+        ]
+      ]
     },
     {
-      "date": "2026-11-16", "lane": "plans", "trust": "mixed", "read_min": 1,
+      "date": "2026-11-16",
+      "lane": "plans",
+      "trust": "mixed",
+      "read_min": 1,
       "headline": "Act today: your free Fable week ends tomorrow at 1:29 PM IST",
       "buzz": "Pro users can use Fable 5.2 at no extra cost until 16 Nov 11:59 PM PT, which is Tue 17 Nov 1:29 PM IST. Your one free Fable limit reset expires at the same moment. After that, Fable on Pro is billed to usage credits.",
-      "stats": [["17 Nov, 1:29 PM", "IST: Fable offer and Fable reset end"], ["11 Dec, 3:30 AM", "IST: use-by for the free full reset (reported)"]],
+      "stats": [
+        [
+          "17 Nov, 1:29 PM",
+          "IST: Fable offer and Fable reset end"
+        ],
+        [
+          "11 Dec, 3:30 AM",
+          "IST: use-by for the free full reset (reported)"
+        ]
+      ],
       "why": "Two free resets are sitting unused in most accounts. The Fable one disappears tomorrow.",
       "try": "Claude, Settings, Usage, Limit resets, Reset for free. Use the Fable reset before tomorrow afternoon and keep the full reset (all models, announced 10 Nov) for a heavy week before 11 Dec.",
       "also": "AWS made SGLang-Neuron available for Trainium in a Deep Learning Container.",
-      "sources": [["Claude Help Center", "https://support.claude.com/en/articles/17506494-claude-fable-5-2-launch-offers"], ["Full reset report", "https://aitoolranked.com/news/claude-free-full-usage-reset-dec-10"]]
+      "sources": [
+        [
+          "Claude Help Center",
+          "https://support.claude.com/en/articles/17506494-claude-fable-5-2-launch-offers"
+        ],
+        [
+          "Full reset report",
+          "https://aitoolranked.com/news/claude-free-full-usage-reset-dec-10"
+        ]
+      ]
     },
     {
-      "date": "2026-11-17", "lane": "frontier", "trust": "mixed", "read_min": 3,
-      "headline": "Claude Fable 5.2: when the most powerful Claude is worth it, and how to use it today",
+      "date": "2026-11-17",
+      "lane": "frontier",
+      "trust": "mixed",
+      "read_min": 4,
+      "headline": "Claude Fable 5.2 by the numbers: where it wins, what it costs, and how to use it today",
       "buzz": "Anthropic released Fable 5.2 on 9 Nov. It is the strongest Claude anyone can use (Mythos 5.2 is the same model, kept for vetted security and life-science teams). Compared with Fable 5.1 it is 20% cheaper, up to 30% faster, and blocks far fewer normal requests. It reads up to 1M tokens and can write up to 128K in one answer.",
-      "stats": [["69.9%", "FrontierSWE v2 coding (Opus 5.5: 62.3%)"], ["73.4%", "reading charts, no tools (Opus 5.5: 64.4%)"], ["41.3%", "Remote Labor Index, about 2x Opus 5.5"], ["$8 / $40", "per M tokens in / out, 2x Opus 5.5"]],
+      "stats": [
+        [
+          "15 of 16",
+          "results below where it beats Opus 5.5"
+        ],
+        [
+          "$8 / $40",
+          "per M tokens in / out, 2x Opus 5.5"
+        ],
+        [
+          "1M / 128K",
+          "tokens in / out per request"
+        ],
+        [
+          "30%",
+          "faster than Fable 5.1 (up to)"
+        ]
+      ],
       "why": "Bigger is not always better. Fable 5.2 at high effort matched Opus 5.5 at max effort on agentic coding for about half the cost per task ($6.72 vs $12.82), but it costs twice as much per token and writes long answers. The smart pattern: Opus 5.5 for everyday work, Fable 5.2 for the hard jobs where other models stall, like refactoring a whole pipeline, reviewing a model end to end, or making sense of a stack of charts and reports.",
       "try": "Pick one real task that stalled on your usual model, for example turning a messy notebook into a tested module. Run it on Fable 5.2 at medium effort, then the same prompt on Opus 5.5, and compare the result, the time and the tokens. In Claude Code use `/model fable` (version 2.1.321 or later). In the API the model id is `claude-fable-5-2`.",
       "act": "If you are on a Pro plan or a standard Team seat, Fable is included in your plan only until today 1:29 PM IST (16 Nov 11:59 PM PT), for up to half of your weekly limit. Your one free Fable limit reset also expires then: Claude, Settings, Usage, Limit resets, Reset for free. After that, Fable is billed to usage credits.",
-      "watch": ["Prompts and agents tuned on Fable 5.1 may behave differently. Test before you switch a pipeline.", "Thinking is now always preserved, so API code that edits message history before resending can get 400 errors.", "The benchmark numbers are Anthropic's own and not yet independently checked. Measure on your own work."],
+      "watch": [
+        "Prompts and agents tuned on Fable 5.1 may behave differently. Test before you switch a pipeline.",
+        "Thinking is now always preserved, so API code that edits message history before resending can get 400 errors.",
+        "The benchmark numbers are Anthropic's own and not yet independently checked. Measure on your own work."
+      ],
       "also": "Fable 5.2 is also on Amazon Bedrock, Google Cloud and Microsoft Azure. Fast mode runs up to 2.5x faster at double the price, good for interactive work but not for batch jobs.",
-      "sources": [["Claude Help Center: Fable 5.2 launch offers", "https://support.claude.com/en/articles/17506494-claude-fable-5-2-launch-offers"], ["DataCamp: Fable 5.2 and Mythos 5.2", "https://www.datacamp.com/blog/claude-fable-5-2-and-mythos-5-2"], ["ComputingForGeeks: benchmarks and real tests", "https://computingforgeeks.com/claude-fable-5-2-released-features-benchmarks/"]]
+      "sources": [
+        [
+          "Claude Help Center: Fable 5.2 launch offers",
+          "https://support.claude.com/en/articles/17506494-claude-fable-5-2-launch-offers"
+        ],
+        [
+          "DataCamp: Fable 5.2 and Mythos 5.2",
+          "https://www.datacamp.com/blog/claude-fable-5-2-and-mythos-5-2"
+        ],
+        [
+          "ComputingForGeeks: benchmarks and real tests",
+          "https://computingforgeeks.com/claude-fable-5-2-released-features-benchmarks/"
+        ]
+      ],
+      "bench": {
+        "title": "The benchmarks",
+        "cols": [
+          "Fable 5.2",
+          "Fable 5.1",
+          "Opus 5.5"
+        ],
+        "groups": [
+          [
+            "Coding",
+            [
+              [
+                "FrontierCode 2.0 (agentic coding)",
+                "49.1%",
+                "32.4%",
+                "45.5%"
+              ],
+              [
+                "FrontierSWE v2",
+                "69.9%",
+                "56.3%",
+                "62.3%"
+              ],
+              [
+                "SWE-bench Pro",
+                "93.0%",
+                "81.2%",
+                "89.9%"
+              ],
+              [
+                "SWE-bench Multimodal",
+                "74.1%",
+                "54.7%",
+                "61.4%"
+              ],
+              [
+                "Terminal-Bench 4.0",
+                "67.6%",
+                "55.8%",
+                "66.4%"
+              ]
+            ]
+          ],
+          [
+            "Agents and computer use",
+            [
+              [
+                "OSWorld 2.1",
+                "89.3%",
+                "83.5%",
+                "87.2%"
+              ],
+              [
+                "WANDR",
+                "82.1%",
+                "68.7%",
+                "72.3%"
+              ],
+              [
+                "AutomationBench",
+                "51.4%",
+                "31.4%",
+                "42.5%"
+              ],
+              [
+                "RoboDojo Sim (robotics)",
+                "64.9%",
+                "27.6%",
+                "39.4%"
+              ]
+            ]
+          ],
+          [
+            "Knowledge work",
+            [
+              [
+                "Remote Labor Index",
+                "41.3%",
+                "17.9%",
+                "21.3%"
+              ],
+              [
+                "AA-Briefcase v1.1",
+                "66.1%",
+                "61.5%",
+                "61.2%"
+              ],
+              [
+                "GDPval-AA v2.1 (Elo)",
+                "1831",
+                "1763",
+                "1866"
+              ]
+            ]
+          ],
+          [
+            "Science and reasoning",
+            [
+              [
+                "Humanity's Last Exam (with tools)",
+                "74.2%",
+                "65.6%",
+                "67.7%"
+              ],
+              [
+                "Terminal-Bench-Science 0.1",
+                "74.6%",
+                "52.6%",
+                "58.7%"
+              ]
+            ]
+          ],
+          [
+            "Charts and design",
+            [
+              [
+                "Chartography (reading charts, no tools)",
+                "73.4%",
+                "44.8%",
+                "64.4%"
+              ],
+              [
+                "BenchCAD 2.1",
+                "83.5",
+                "-",
+                "65.3"
+              ]
+            ]
+          ]
+        ],
+        "note": "Green = best in the row. Numbers are Anthropic's own launch results (safeguards on), not yet independently checked. Opus 5.5 still wins GDPval-AA, and Gemini 4 Carbon beats Fable on AutomationBench (53.9%). Artificial Analysis gives Fable 5.2 an Intelligence Index of 65 at max effort."
+      }
     }
   ]
 }
