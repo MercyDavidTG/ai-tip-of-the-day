@@ -75,6 +75,12 @@ def rich(text: str) -> str:
     return re.sub(r"`([^`]+)`", r'<code style="font-family:Consolas,\'Courier New\',monospace;font-size:13px;background:#E9EEF7;color:#1F2A44;padding:1px 5px;">\1</code>', out)
 
 
+def num(v: str) -> float | None:
+    """First number in a cell: "57.0%", "$14,549", "54 (xhigh)". "-" or "" means not reported."""
+    m = re.search(r"\d[\d,]*\.?\d*", v)
+    return float(m.group().replace(",", "")) if m and v.strip() not in ("-", "") else None
+
+
 def render_bench(b: dict) -> str:
     """Benchmark table: {"title", "cols": [3+ model names], "groups": [[group, [[name, v1, v2, ...], ...]], ...], "note"}.
     The best number in each row is highlighted (all numbers are higher-is-better)."""
@@ -87,11 +93,12 @@ def render_bench(b: dict) -> str:
         rows += (f'<tr><td colspan="{len(b["cols"]) + 1}" bgcolor="#F3F5F9" style="background:#F3F5F9;padding:3px 8px;font-size:10px;'
                  f'letter-spacing:1px;font-weight:bold;color:#5B6578;{mono}">{html.escape(group.upper())}</td></tr>')
         for name, *vals in items:
-            nums = [float(v.rstrip("%")) if v not in ("-", "") else None for v in vals]
-            best = max(n for n in nums if n is not None)
+            nums = [num(v) for v in vals]
+            known = [n for n in nums if n is not None]
+            best = max(known) if len(known) > 1 else None  # a lone number is not a win
             cells = ""
             for i, (v, n) in enumerate(zip(vals, nums)):
-                win = n == best
+                win = best is not None and n == best
                 style = ("font-weight:bold;color:#17693B;background:#E3F4EA;" if win else "color:#5B6578;") + ("" if i else "font-size:13px;")
                 cells += f'<td align="right" style="padding:4px 8px;font-size:12.5px;border-bottom:1px solid #EEF1F6;{style}">{html.escape(v)}</td>'
             rows += (f'<tr><td style="padding:4px 8px;font-size:12.5px;color:#27324A;border-bottom:1px solid #EEF1F6;">{html.escape(name)}</td>{cells}</tr>')

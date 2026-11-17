@@ -649,26 +649,26 @@
   },
   {
     "date": "2026-11-18",
-    "link": "https://aws.amazon.com/blogs/big-data/analyze-anthropic-usage-spend-and-access-with-aws-glue-amazon-s3-tables-and-aws-quick/",
-    "title": "Analyze Anthropic usage, spend, and access with AWS Glue, Amazon S3 Tables, and AWS Quick",
-    "source": "AWS Big Data Blog"
+    "link": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-hydrogen/",
+    "title": "Gemini 4 Hydrogen lands: Carbon plans, Hydrogen does the work",
+    "source": "Google: Introducing Gemini 4 Hydrogen"
   },
   {
     "date": "2026-11-18",
-    "link": "https://www.databricks.com/blog/teach-genie-one-your-workflows-ultimate-guide-skills-genie-one",
-    "title": "Teach Genie One your workflows: The ultimate guide for skills in Genie One",
-    "source": "Databricks Blog"
+    "link": "https://the-decoder.com/googles-gemini-4-hydrogen-outscores-the-bigger-argon-just-four-weeks-after-its-launch/",
+    "title": "The Decoder: benchmarks vs Carbon and Argon",
+    "source": "The Decoder: benchmarks vs Carbon and Argon"
   },
   {
     "date": "2026-11-18",
-    "link": "https://www.getdbt.com/blog/healthcare-ai-starts-with-trusted-data",
-    "title": "Healthcare AI starts with data you can trust",
-    "source": "dbt Labs Blog"
+    "link": "https://9to5google.com/2026/11/12/gemini-4-hydrogen-launch/",
+    "title": "9to5Google",
+    "source": "9to5Google"
   },
   {
     "date": "2026-11-18",
-    "link": "https://www.snowflake.com/content/snowflake-site/global/en/blog/open-data-sharing-iceberg-rest-catalog",
-    "title": "Open Data Sharing: Share Live Data Beyond Snowflake",
-    "source": "Snowflake Blog"
+    "link": "https://dev.to/gde/hydrogen-carbon-or-argon-a-cost-first-guide-to-gemini-4-for-every-team-205b",
+    "title": "Which Gemini 4 to use (DEV)",
+    "source": "Which Gemini 4 to use (DEV)"
   }
 ]

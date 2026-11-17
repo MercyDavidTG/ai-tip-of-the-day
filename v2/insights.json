@@ -171,7 +171,7 @@
     {
       "date": "2026-11-12",
       "lane": "frontier",
-      "trust": "reported",
+      "trust": "mixed",
       "read_min": 3,
       "headline": "Gemini 4 Hydrogen lands: Carbon plans, Hydrogen does the work",
       "buzz": "Two days after Gemini 4 Carbon opened up, Google launched Hydrogen, its fast everyday model that replaces the Flash name. In Antigravity, the new Orchestrator mode lets Carbon plan while Hydrogen executes and checks the steps, so you keep Carbon quality on fewer tokens.",
@@ -194,6 +194,14 @@
       "also": "NVIDIA, AMD, Intel, Google and Meta formed the SGLang Consortium for open inference software.",
       "sources": [
         [
+          "Google: Introducing Gemini 4 Hydrogen",
+          "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-hydrogen/"
+        ],
+        [
+          "The Decoder: benchmarks vs Carbon and Argon",
+          "https://the-decoder.com/googles-gemini-4-hydrogen-outscores-the-bigger-argon-just-four-weeks-after-its-launch/"
+        ],
+        [
           "9to5Google",
           "https://9to5google.com/2026/11/12/gemini-4-hydrogen-launch/"
         ],
@@ -201,6 +209,107 @@
           "Which Gemini 4 to use (DEV)",
           "https://dev.to/gde/hydrogen-carbon-or-argon-a-cost-first-guide-to-gemini-4-for-every-team-205b"
         ]
+      ],
+      "bench": {
+        "title": "The benchmarks",
+        "cols": [
+          "Hydrogen",
+          "Carbon",
+          "Argon"
+        ],
+        "groups": [
+          [
+            "Agents and coding",
+            [
+              [
+                "Agents' Last Exam v1.1",
+                "71.6%",
+                "77.4%",
+                "69.0%"
+              ],
+              [
+                "OSWorld 2.1 (offline subset)",
+                "77.6%",
+                "81.5%",
+                "74.7%"
+              ],
+              [
+                "SWE-sweep",
+                "13.5%",
+                "9.6%",
+                "4.3%"
+              ],
+              [
+                "Vending-Bench 2 (end balance)",
+                "$14,549",
+                "$16,484",
+                "$13,718"
+              ],
+              [
+                "Terminal-Bench-Science 0.1",
+                "51.4%",
+                "-",
+                "-"
+              ]
+            ]
+          ],
+          [
+            "Reasoning and charts",
+            [
+              [
+                "AA Intelligence Index v5.0",
+                "54",
+                "59",
+                "50"
+              ],
+              [
+                "Chartography (reading charts)",
+                "66.6%",
+                "72.5%",
+                "71.6%"
+              ],
+              [
+                "HLE-Diamond",
+                "58.8%",
+                "-",
+                "-"
+              ]
+            ]
+          ],
+          [
+            "Work tasks",
+            [
+              [
+                "AutomationBench",
+                "76.1%",
+                "-",
+                "-"
+              ],
+              [
+                "Vals Legal Research (tied 1st)",
+                "55.8%",
+                "-",
+                "-"
+              ],
+              [
+                "Multimodal Knowledge Agent",
+                "53.4%",
+                "-",
+                "-"
+              ],
+              [
+                "Vals Tax Agent (1st)",
+                "52.3%",
+                "-",
+                "-"
+              ]
+            ]
+          ]
+        ],
+        "note": "Green = best in the row. Google's own launch numbers, - = not reported. Hydrogen's AA Index is 54 at xhigh thinking, 51 at the default high. Independent check (Artificial Analysis), Terminal-Bench 4.0: Hydrogen 54%, GPT-6.1 Sol 56%, Claude Sonnet 5.5 64%."
+      },
+      "watch": [
+        "Most numbers are Google's own, and the top scores need xhigh thinking, which costs about 70% more per task. On terminal work Claude Sonnet 5.5 still leads in independent tests. Try it on your own prompts before switching."
       ]
     },
     {
