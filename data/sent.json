@@ -646,5 +646,29 @@
     "link": "https://computingforgeeks.com/claude-fable-5-2-released-features-benchmarks/",
     "title": "ComputingForGeeks: benchmarks and real tests",
     "source": "ComputingForGeeks: benchmarks and real tests"
+  },
+  {
+    "date": "2026-11-18",
+    "link": "https://aws.amazon.com/blogs/big-data/analyze-anthropic-usage-spend-and-access-with-aws-glue-amazon-s3-tables-and-aws-quick/",
+    "title": "Analyze Anthropic usage, spend, and access with AWS Glue, Amazon S3 Tables, and AWS Quick",
+    "source": "AWS Big Data Blog"
+  },
+  {
+    "date": "2026-11-18",
+    "link": "https://www.databricks.com/blog/teach-genie-one-your-workflows-ultimate-guide-skills-genie-one",
+    "title": "Teach Genie One your workflows: The ultimate guide for skills in Genie One",
+    "source": "Databricks Blog"
+  },
+  {
+    "date": "2026-11-18",
+    "link": "https://www.getdbt.com/blog/healthcare-ai-starts-with-trusted-data",
+    "title": "Healthcare AI starts with data you can trust",
+    "source": "dbt Labs Blog"
+  },
+  {
+    "date": "2026-11-18",
+    "link": "https://www.snowflake.com/content/snowflake-site/global/en/blog/open-data-sharing-iceberg-rest-catalog",
+    "title": "Open Data Sharing: Share Live Data Beyond Snowflake",
+    "source": "Snowflake Blog"
   }
 ]
