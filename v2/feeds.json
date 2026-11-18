@@ -1,0 +1,167 @@
+{
+  "note": "Feeds the free (GitHub Models) curator reads. kind: official = the company itself, press = established news site, community = curated blog or forum (never the only source). lane is a hint, the model decides.",
+  "feeds": [
+    {
+      "name": "OpenAI News",
+      "kind": "official",
+      "lane": "frontier",
+      "url": "https://openai.com/news/rss.xml"
+    },
+    {
+      "name": "Google AI Blog",
+      "kind": "official",
+      "lane": "frontier",
+      "url": "https://blog.google/technology/ai/rss/"
+    },
+    {
+      "name": "Google DeepMind",
+      "kind": "official",
+      "lane": "science",
+      "url": "https://deepmind.google/blog/rss.xml"
+    },
+    {
+      "name": "Google Developers Blog",
+      "kind": "official",
+      "lane": "agents",
+      "url": "https://developers.googleblog.com/feeds/posts/default"
+    },
+    {
+      "name": "GitHub Blog AI and ML",
+      "kind": "official",
+      "lane": "agents",
+      "url": "https://github.blog/ai-and-ml/feed/"
+    },
+    {
+      "name": "GitHub Changelog",
+      "kind": "official",
+      "lane": "plans",
+      "url": "https://github.blog/changelog/feed/"
+    },
+    {
+      "name": "Hugging Face Blog",
+      "kind": "official",
+      "lane": "open",
+      "url": "https://huggingface.co/blog/feed.xml"
+    },
+    {
+      "name": "AWS What's New",
+      "kind": "official",
+      "lane": "aws",
+      "url": "https://aws.amazon.com/about-aws/whats-new/recent/feed/"
+    },
+    {
+      "name": "AWS Machine Learning Blog",
+      "kind": "official",
+      "lane": "aws",
+      "url": "https://aws.amazon.com/blogs/machine-learning/feed/"
+    },
+    {
+      "name": "AWS Big Data Blog",
+      "kind": "official",
+      "lane": "data",
+      "url": "https://aws.amazon.com/blogs/big-data/feed/"
+    },
+    {
+      "name": "Docker Blog",
+      "kind": "official",
+      "lane": "docker",
+      "url": "https://www.docker.com/blog/feed/"
+    },
+    {
+      "name": "Docker Engine releases",
+      "kind": "official",
+      "lane": "docker",
+      "url": "https://github.com/moby/moby/releases.atom"
+    },
+    {
+      "name": "NVIDIA Blog",
+      "kind": "official",
+      "lane": "frontier",
+      "url": "https://blogs.nvidia.com/feed/"
+    },
+    {
+      "name": "Microsoft 365 Blog",
+      "kind": "official",
+      "lane": "plans",
+      "url": "https://www.microsoft.com/en-us/microsoft-365/blog/feed/"
+    },
+    {
+      "name": "Databricks Blog",
+      "kind": "official",
+      "lane": "data",
+      "url": "https://www.databricks.com/feed"
+    },
+    {
+      "name": "Snowflake Blog",
+      "kind": "official",
+      "lane": "data",
+      "url": "https://www.snowflake.com/feed/"
+    },
+    {
+      "name": "Microsoft Fabric Blog",
+      "kind": "official",
+      "lane": "data",
+      "url": "https://blog.fabric.microsoft.com/en-us/blog/feed/"
+    },
+    {
+      "name": "TechCrunch AI",
+      "kind": "press",
+      "lane": "frontier",
+      "url": "https://techcrunch.com/category/artificial-intelligence/feed/"
+    },
+    {
+      "name": "The Verge AI",
+      "kind": "press",
+      "lane": "frontier",
+      "url": "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml"
+    },
+    {
+      "name": "MIT Technology Review AI",
+      "kind": "press",
+      "lane": "science",
+      "url": "https://www.technologyreview.com/topic/artificial-intelligence/feed"
+    },
+    {
+      "name": "The Decoder",
+      "kind": "press",
+      "lane": "frontier",
+      "url": "https://the-decoder.com/feed/"
+    },
+    {
+      "name": "Ars Technica AI",
+      "kind": "press",
+      "lane": "frontier",
+      "url": "https://arstechnica.com/ai/feed/"
+    },
+    {
+      "name": "9to5Google",
+      "kind": "press",
+      "lane": "plans",
+      "url": "https://9to5google.com/feed/"
+    },
+    {
+      "name": "Simon Willison",
+      "kind": "community",
+      "lane": "agents",
+      "url": "https://simonwillison.net/atom/everything/"
+    },
+    {
+      "name": "Hacker News front page (300+ points)",
+      "kind": "community",
+      "lane": "frontier",
+      "url": "https://hnrss.org/frontpage?points=300"
+    },
+    {
+      "name": "TLDR AI",
+      "kind": "community",
+      "lane": "frontier",
+      "url": "https://tldr.tech/api/rss/ai"
+    },
+    {
+      "name": "KDnuggets",
+      "kind": "community",
+      "lane": "data",
+      "url": "https://www.kdnuggets.com/feed"
+    }
+  ]
+}
