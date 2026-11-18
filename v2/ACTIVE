@@ -1,0 +1,2 @@
+Insights of the Day v2 is live. While this file exists, tip_bot.py (v0) does not build the daily email;
+v2/curate_v2.py does (laptop task "Insights of the Day v2 - daily curation"). Delete this file to go back to v0.

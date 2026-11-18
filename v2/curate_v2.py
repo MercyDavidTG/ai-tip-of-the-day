@@ -1,0 +1,221 @@
+"""Insights of the Day v2 - pick a fresh insight every weekday with the Claude CLI and publish it.
+
+    python v2/curate_v2.py              curate the next send day's insight and publish it
+    python v2/curate_v2.py --dry-run    curate only, write v2/preview.html, change nothing else
+    python v2/curate_v2.py --date 2026-11-19   curate for a given send day
+
+Send day: before 12:00 IST it is today, from 12:00 on it is the next weekday (weekends roll to Monday).
+Publishing writes:
+  - v2/insights.json (the new insight, dated with the send day)
+  - docs/v2/ (the v2 archive and feed, through render_v2.py)
+  - docs/feed.xml, docs/latest.html, docs/archive/<day>.html and data/sent.json, which the v0 Sender
+    flow in Power Automate reads at 10:00 IST and mails to the team.
+The script does not commit or push; run_v2.ps1 on the laptop does that.
+Rules kept from v0: plain hyphens only, no emojis, plain wording.
+"""
+from __future__ import annotations
+
+import argparse
+import datetime as dt
+import html
+import json
+import os
+import re
+import shutil
+import subprocess
+import sys
+import urllib.error
+import urllib.request
+from email.utils import format_datetime
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import render_v2  # noqa: E402
+
+ROOT = render_v2.ROOT
+DATA = render_v2.DATA
+PROMPT = ROOT / "v2" / "curate_prompt.md"
+V0_DOCS = ROOT / "docs"
+SENT = ROOT / "data" / "sent.json"
+IST = dt.timezone(dt.timedelta(hours=5, minutes=30), "IST")  # fixed offset, no tzdata needed
+V2_MARK = "Curated from trusted public sources"  # footer line only the v2 email has
+FENCE = re.compile(r"```json\s*(\{.*\})\s*```", re.S)
+
+
+def log(msg: str) -> None:
+    print(f"{dt.datetime.now(IST):%Y-%m-%d %H:%M:%S} {msg}", flush=True)
+
+
+def send_day(now: dt.datetime) -> dt.date:
+    day = now.date() if now.hour < 12 else now.date() + dt.timedelta(days=1)
+    while day.weekday() >= 5:
+        day += dt.timedelta(days=1)
+    return day
+
+
+def prev_weekday(day: dt.date) -> dt.date:
+    day -= dt.timedelta(days=1)
+    while day.weekday() >= 5:
+        day -= dt.timedelta(days=1)
+    return day
+
+
+def build_prompt(day: dt.date, items: list[dict]) -> str:
+    since = prev_weekday(day)
+    recent = "\n".join(f"  - {it['date']} [{it['lane']}] {it['headline']}" for it in items[-20:])
+    example = next((it for it in reversed(items) if not it.get("bench")), items[-1])
+    example = {k: v for k, v in example.items() if k != "date"}
+    return (PROMPT.read_text(encoding="utf-8")
+            .replace("{DAY}", f"{day:%A %d %b %Y}")
+            .replace("{SINCE}", f"{since:%A %d %b %Y}, 00:00")
+            .replace("{RECENT}", recent)
+            .replace("{EXAMPLE}", json.dumps(example, indent=1, ensure_ascii=False)))
+
+
+def claude_exe() -> str:
+    exe = os.getenv("CLAUDE_EXE") or shutil.which("claude") or shutil.which("claude.cmd")
+    if not exe:
+        sys.exit("Claude CLI not found. Install Claude Code or set CLAUDE_EXE.")
+    return exe
+
+
+def ask_claude(prompt: str) -> str:
+    cmd = [claude_exe(), "-p", "--allowedTools", "WebSearch,WebFetch", "--output-format", "text"]
+    if os.getenv("CLAUDE_MODEL"):
+        cmd += ["--model", os.environ["CLAUDE_MODEL"]]
+    work = ROOT.parent / "v2work"  # neutral folder, so no project settings are picked up
+    work.mkdir(exist_ok=True)
+    res = subprocess.run(cmd, input=prompt, capture_output=True, text=True, encoding="utf-8",
+                         errors="replace", cwd=work, timeout=1800)
+    if res.returncode != 0:
+        raise RuntimeError(f"claude exited {res.returncode}: {res.stderr.strip()[-500:]}")
+    return res.stdout
+
+
+def parse(answer: str) -> dict | str:
+    """The insight dict, or a 'SKIP: reason' string."""
+    m = FENCE.search(answer)
+    if not m:
+        skip = re.search(r"^SKIP:.*$", answer, re.M)
+        if skip:
+            return skip.group().strip()
+        raise ValueError(f"no JSON block in the answer: {answer.strip()[-400:]}")
+    it = json.loads(m.group(1))
+    text = json.dumps(it, ensure_ascii=False).replace("—", " - ").replace("–", "-")
+    it = json.loads(text)  # long dashes become plain hyphens
+    it.pop("date", None)
+    return it
+
+
+def url_ok(url: str) -> bool:
+    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"})
+    try:
+        with urllib.request.urlopen(req, timeout=20) as r:
+            return r.status < 400
+    except urllib.error.HTTPError as e:
+        return e.code in (401, 403, 405, 429)  # page exists, the site just blocks scripts
+    except Exception:
+        return False
+
+
+def problems_with(it: dict, day: dt.date, items: list[dict]) -> list[str]:
+    probs = render_v2.check(items + [{"date": day.isoformat(), **it}])
+    if len(it.get("headline", "")) > 110:
+        probs.append("headline is longer than 110 characters")
+    if not 2 <= len(it.get("stats", [])) <= 4:
+        probs.append("stats must have 2 to 4 pairs")
+    for name, url in it.get("sources", []):
+        if url.startswith("https://") and not url_ok(url):
+            probs.append(f"source does not open: {name} {url}")
+    return probs
+
+
+def write_v0(it: dict, day: dt.date) -> None:
+    """Put the v2 email where the v0 Sender flow looks for it (docs/feed.xml with marker tip-<day>)."""
+    subject, body = render_v2.render(it)
+    (V0_DOCS / "archive").mkdir(parents=True, exist_ok=True)
+    (V0_DOCS / "latest.html").write_text(body, encoding="utf-8")
+    (V0_DOCS / "archive" / f"{day}.html").write_text(body, encoding="utf-8")
+    cdata = f"<!-- tip-{day} -->\n" + body.replace("]]>", "]]]]><![CDATA[>")
+    rss = f"""<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"><channel>
+<title>Insights of the Day</title><link>https://MercyDavidTG.github.io/ai-tip-of-the-day/</link><description>One short insight every weekday</description>
+<item>
+<title>{html.escape(subject)}</title>
+<link>{html.escape(it['sources'][0][1])}</link>
+<guid isPermaLink="false">tip-{day}</guid>
+<pubDate>{format_datetime(dt.datetime.now(dt.timezone.utc))}</pubDate>
+<description><![CDATA[{cdata}]]></description>
+</item>
+</channel></rss>
+"""
+    (V0_DOCS / "feed.xml").write_text(rss, encoding="utf-8")
+    sent = json.loads(SENT.read_text(encoding="utf-8")) if SENT.exists() else []
+    sent += [{"date": f"{day}", "link": u, "title": it["headline"] if i == 0 else n, "source": n}
+             for i, (n, u) in enumerate(it["sources"])]
+    SENT.write_text(json.dumps(sent[-500:], indent=2, ensure_ascii=False), encoding="utf-8")
+
+
+def main() -> int:
+    sys.stdout.reconfigure(encoding="utf-8")
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--date", type=dt.date.fromisoformat)
+    args = ap.parse_args()
+
+    day = args.date or send_day(dt.datetime.now(IST))
+    doc = json.loads(DATA.read_text(encoding="utf-8"))
+    items = doc["insights"]
+    archive = V0_DOCS / "archive" / f"{day}.html"
+    done = archive.exists() and V2_MARK in archive.read_text(encoding="utf-8")
+    if done and not args.dry_run:
+        log(f"Insight for {day} is already built - nothing to do.")
+        return 0
+    existing = next((it for it in items if it["date"] == day.isoformat()), None)
+    if existing and not args.dry_run:  # curated earlier (or by hand) but not yet put in the v0 feed
+        log(f"Insight for {day} is in insights.json - publishing it.")
+        subprocess.run([sys.executable, "-X", "utf8", str(ROOT / "v2" / "render_v2.py")], check=True)
+        write_v0(existing, day)
+        return 0
+    items = [it for it in items if it["date"] < day.isoformat()]
+
+    log(f"Curating the insight for {day:%a %d %b %Y}")
+    prompt = build_prompt(day, items)
+    it, probs = None, []
+    for attempt in (1, 2):
+        answer = ask_claude(prompt if attempt == 1 else
+                            prompt + "\n\n## Your previous answer had problems\n" + "\n".join(f"- {p}" for p in probs)
+                            + "\n\nPrevious answer:\n```json\n" + json.dumps(it, indent=1, ensure_ascii=False)
+                            + "\n```\nFix every problem (find a working source URL if one does not open) and return the full JSON again.")
+        got = parse(answer)
+        if isinstance(got, str):
+            log(f"Claude skipped the day: {got}")
+            return 0
+        it = got
+        probs = problems_with(it, day, items)
+        if not probs:
+            break
+        log(f"Attempt {attempt} problems: " + "; ".join(probs))
+    if probs:
+        log("Giving up for now, nothing published.")
+        return 1
+
+    new = {"date": day.isoformat(), **it}
+    log(f"Picked [{new['lane']}/{new['trust']}] {new['headline']}")
+    if args.dry_run:
+        _, body = render_v2.render(new)
+        (ROOT / "v2" / "preview.html").write_text(body, encoding="utf-8")
+        (ROOT / "v2" / "preview.json").write_text(json.dumps(new, indent=1, ensure_ascii=False), encoding="utf-8")
+        log(f"Dry run: wrote {ROOT / 'v2' / 'preview.html'}")
+        return 0
+
+    doc["insights"] = items + [new] + [x for x in doc["insights"] if x["date"] > day.isoformat()]
+    DATA.write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    subprocess.run([sys.executable, "-X", "utf8", str(ROOT / "v2" / "render_v2.py")], check=True)
+    write_v0(new, day)
+    log(f"Published the insight for {day}.")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

@@ -678,6 +678,9 @@ def main() -> int:
     now = NOW.astimezone(ZoneInfo(os.getenv("TIP_TIMEZONE") or config.get("timezone", "UTC")))
     today = now if args.day is not None else tip_day(now)
     log(f"Building the tip for {today:%a %d %b %Y}")
+    if (ROOT / "v2" / "ACTIVE").exists() and not args.dry_run:
+        log("Insights v2 is active (v2/ACTIVE): v2/curate_v2.py builds the email, so the v0 build is skipped.")
+        return 0
     if os.getenv("GITHUB_EVENT_NAME") in ("schedule", "repository_dispatch") and (OUT_DIR / "archive" / f"{today:%Y-%m-%d}.html").exists():
         log("Today's tip is already built by an earlier scheduled run - nothing to do.")
         return 0
