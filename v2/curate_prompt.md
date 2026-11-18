@@ -17,7 +17,7 @@ the email that goes out on {DAY} at 10:00 IST, and return it as JSON.
 - Talk of the town: something people in the field are actually discussing, not a minor blog post.
 - Actionable: the reader can try something in about 5 minutes, or must act (a deadline, a security fix).
 - Trustworthy: confirmed by an official source (vendor blog, docs, release notes, help center), or by
-  at least 2 independent reputable outlets. Open every source with WebFetch and check every number
+  at least 2 independent reputable outlets. Open every source page and check every number
   and claim you write against it. Never invent a number, a date, a command, a price or a URL.
 - Not a repeat. These insights were already sent recently, do not cover the same story again:
 {RECENT}
@@ -27,9 +27,9 @@ If nothing at all meets the bar, a strong how-to on a release from the last 7 da
 above is acceptable. Only if even that is impossible, answer with one line: SKIP: <reason>.
 
 ## How to work
-1. Use WebSearch to scan the lanes for news since {SINCE} (several searches, at least 5 lanes).
+1. Search the web across the lanes for news since {SINCE} (several searches, at least 5 lanes).
 2. Shortlist 3 candidates, pick the one most useful for this team.
-3. Open the sources with WebFetch and verify every fact you will write.
+3. Open the source pages and verify every fact you will write.
 4. Write the JSON.
 
 ## Writing rules

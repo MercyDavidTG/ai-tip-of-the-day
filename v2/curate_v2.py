@@ -1,4 +1,4 @@
-"""Insights of the Day v2 - pick a fresh insight every weekday with the Claude CLI and publish it.
+"""Insights of the Day v2 - pick a fresh insight every weekday with Claude and publish it.
 
     python v2/curate_v2.py              curate the next send day's insight and publish it
     python v2/curate_v2.py --dry-run    curate only, write v2/preview.html, change nothing else
@@ -10,7 +10,8 @@ Publishing writes:
   - docs/v2/ (the v2 archive and feed, through render_v2.py)
   - docs/feed.xml, docs/latest.html, docs/archive/<day>.html and data/sent.json, which the v0 Sender
     flow in Power Automate reads at 10:00 IST and mails to the team.
-The script does not commit or push; run_v2.ps1 on the laptop does that.
+It runs in GitHub Actions (daily-tip.yml, Claude API key in the ANTHROPIC_API_KEY secret), which commits and pushes.
+Without a key, on a PC, it falls back to the Claude Code CLI.
 Rules kept from v0: plain hyphens only, no emojis, plain wording.
 """
 from __future__ import annotations
@@ -37,6 +38,8 @@ DATA = render_v2.DATA
 PROMPT = ROOT / "v2" / "curate_prompt.md"
 V0_DOCS = ROOT / "docs"
 SENT = ROOT / "data" / "sent.json"
+TRIES = ROOT / "data" / "v2_tries.json"  # cloud runs every hour; cap paid tries per send day
+MAX_TRIES = 3
 IST = dt.timezone(dt.timedelta(hours=5, minutes=30), "IST")  # fixed offset, no tzdata needed
 V2_MARK = "Curated from trusted public sources"  # footer line only the v2 email has
 FENCE = re.compile(r"```json\s*(\{.*\})\s*```", re.S)
@@ -80,6 +83,44 @@ def claude_exe() -> str:
 
 
 def ask_claude(prompt: str) -> str:
+    """Cloud (GitHub Actions): Claude API with server-side web search and fetch, needs ANTHROPIC_API_KEY.
+    Laptop without a key: the Claude Code CLI (kept only as a manual fallback)."""
+    if os.getenv("ANTHROPIC_API_KEY"):
+        return ask_api(prompt)
+    if os.getenv("GITHUB_ACTIONS"):
+        raise RuntimeError("ANTHROPIC_API_KEY secret is not set in GitHub - cannot curate in the cloud")
+    return ask_cli(prompt)
+
+
+def ask_api(prompt: str) -> str:
+    import anthropic
+
+    client = anthropic.Anthropic()  # reads ANTHROPIC_API_KEY
+    tools = [{"type": "web_search_20260209", "name": "web_search", "max_uses": 12},
+             {"type": "web_fetch_20260209", "name": "web_fetch", "max_uses": 10}]
+    messages = [{"role": "user", "content": prompt}]
+    for _ in range(5):  # a long search turn can pause; send it back so the server carries on
+        with client.beta.messages.stream(
+            model=os.getenv("CLAUDE_MODEL", "claude-opus-5-5"),
+            max_tokens=32000,
+            output_config={"effort": "high"},
+            betas=["server-side-fallback-2026-07-01"],
+            fallbacks="default",
+            tools=tools,
+            messages=messages,
+        ) as stream:
+            resp = stream.get_final_message()
+        if resp.stop_reason != "pause_turn":
+            break
+        messages = [{"role": "user", "content": prompt}, {"role": "assistant", "content": resp.content}]
+    if resp.stop_reason == "refusal":
+        raise RuntimeError(f"Claude declined: {resp.stop_details}")
+    u = resp.usage
+    log(f"API usage: {u.input_tokens} in, {u.output_tokens} out")
+    return "".join(b.text for b in resp.content if b.type == "text")
+
+
+def ask_cli(prompt: str) -> str:
     cmd = [claude_exe(), "-p", "--allowedTools", "WebSearch,WebFetch", "--output-format", "text"]
     if os.getenv("CLAUDE_MODEL"):
         cmd += ["--model", os.environ["CLAUDE_MODEL"]]
@@ -178,6 +219,16 @@ def main() -> int:
         write_v0(existing, day)
         return 0
     items = [it for it in items if it["date"] < day.isoformat()]
+    if os.getenv("GITHUB_ACTIONS") and not os.getenv("ANTHROPIC_API_KEY"):
+        log("ANTHROPIC_API_KEY secret is not set in GitHub yet - cannot curate in the cloud.")
+        return 0
+
+    tries = json.loads(TRIES.read_text(encoding="utf-8")) if TRIES.exists() else {}
+    if tries.get(day.isoformat(), 0) >= MAX_TRIES and not args.dry_run:
+        log(f"Already tried {MAX_TRIES} times for {day} - skipping this day (no email).")
+        return 0
+    if not args.dry_run:  # count the try first, so a crash also counts (the workflow commits data/)
+        TRIES.write_text(json.dumps({day.isoformat(): tries.get(day.isoformat(), 0) + 1}), encoding="utf-8")
 
     log(f"Curating the insight for {day:%a %d %b %Y}")
     prompt = build_prompt(day, items)
