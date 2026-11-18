@@ -2,13 +2,14 @@ name: Build Insights of the Day
 
 on:
   schedule:
-    # The email goes out at 11:00 IST from Power Automate. GitHub often starts scheduled runs hours
-    # late or drops them, so the tip is built the EVENING BEFORE, with a try every hour through the
+    # The email goes out at 10:00 IST from Power Automate. GitHub often starts scheduled runs hours
+    # late or drops them, so the insight is built the EVENING BEFORE, with a try every hour through the
     # night: 18:47 to 04:47 IST (Sunday-Thursday evenings) and 05:47 IST (Monday-Friday). Each builds
-    # the coming weekday's tip; the first one builds it, the others see it is done and stop.
+    # the coming weekday's insight; the first one builds it, the others see it is done and stop.
+    # Everything runs in GitHub's cloud: no PC has to be on.
     - cron: "17 13-23 * * 0-4"
     - cron: "17 0 * * 1-5"
-    # Second chance the same morning (06:47 to 10:17 IST, Monday-Friday) if every evening run failed.
+    # Second chance the same morning (06:47 to 09:47 IST, Monday-Friday) if every evening run failed.
     - cron: "17,47 1-4 * * 1-5"
   workflow_dispatch:          # lets you run it by hand from the Actions tab
   # Optional: a "build-insight" repository dispatch (for example from Power Automate's GitHub
@@ -27,9 +28,10 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 30
     permissions:
       contents: write         # only to push the built tip (docs/, data/sent.json) to the site branch
+      models: read            # free GitHub Models AI for the v2 curation (no paid key needed)
     steps:
       # main is protected (changes go in through pull requests), so the built tips live on the
       # "site" branch, which GitHub Pages serves. Each run starts from site and merges in main's code.
@@ -51,15 +53,28 @@ jobs:
 
       - run: pip install -r requirements.txt
 
-      - name: Build today's tip
+      - name: Build today's tip (v0, skipped while v2/ACTIVE exists)
         run: python tip_bot.py
         env:
           TIP_SUBMIT_URL: ${{ vars.TIP_SUBMIT_URL }}
           PAGES_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/
 
+      # Insights of the Day v2: reads fresh items from trusted feeds (v2/feeds.json), a free GitHub
+      # Models AI picks one story and writes the card from the article text, the script checks it and
+      # renders it into docs/feed.xml for the Sender. Free: uses only this job's token (models: read).
+      # Optional: if a repository secret ANTHROPIC_API_KEY is ever added, Claude searches the web instead.
+      # At most 3 tries per send day (data/v2_tries.json).
+      - name: Curate today's insight (v2)
+        if: hashFiles('v2/ACTIVE') != ''
+        run: python v2/curate_v2.py
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+
       - name: Publish (commit) today's tip to the site branch
+        if: always()
         run: |
-          git add docs data
+          git add docs data v2
           git commit -m "Insight built $(date -u "+%F %H:%M") UTC" || echo "Nothing new to commit"
           git pull --no-rebase --no-edit origin site
           git push origin HEAD:site
