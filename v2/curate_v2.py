@@ -49,8 +49,14 @@ V2_MARK = "Curated from trusted public sources"  # footer line only the v2 email
 FENCE = re.compile(r"```json\s*(\{.*\})\s*```", re.S)
 
 
+RUN_LOG = ROOT / "data" / "v2_last_run.log"  # saved in the repo after a cloud run that tried to curate
+_lines: list[str] = []
+
+
 def log(msg: str) -> None:
-    print(f"{dt.datetime.now(IST):%Y-%m-%d %H:%M:%S} {msg}", flush=True)
+    line = f"{dt.datetime.now(IST):%Y-%m-%d %H:%M:%S} {msg}"
+    _lines.append(line)
+    print(line, flush=True)
 
 
 def send_day(now: dt.datetime) -> dt.date:
@@ -443,4 +449,13 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    import traceback
+
+    try:
+        code = main()
+    except Exception:
+        log("ERROR: " + traceback.format_exc())
+        code = 1
+    if os.getenv("GITHUB_ACTIONS") and (code or any("Curating" in x for x in _lines)):
+        RUN_LOG.write_text(os.linesep.join(_lines) + os.linesep, encoding="utf-8")
+    sys.exit(code)
