@@ -31,6 +31,7 @@ jobs:
     timeout-minutes: 30
     permissions:
       contents: write         # only to push the built tip (docs/, data/sent.json) to the site branch
+      models: read            # free GitHub Models AI for the v2 curation (no paid key needed)
     steps:
       # main is protected (changes go in through pull requests), so the built tips live on the
       # "site" branch, which GitHub Pages serves. Each run starts from site and merges in main's code.
@@ -58,13 +59,16 @@ jobs:
           TIP_SUBMIT_URL: ${{ vars.TIP_SUBMIT_URL }}
           PAGES_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/
 
-      # Insights of the Day v2: Claude searches the web, picks one fresh insight in the team's lanes,
-      # checks the facts and sources, and the script renders it into docs/feed.xml for the Sender.
-      # Needs the repository secret ANTHROPIC_API_KEY. At most 3 tries per send day (data/v2_tries.json).
+      # Insights of the Day v2: reads fresh items from trusted feeds (v2/feeds.json), a free GitHub
+      # Models AI picks one story and writes the card from the article text, the script checks it and
+      # renders it into docs/feed.xml for the Sender. Free: uses only this job's token (models: read).
+      # Optional: if a repository secret ANTHROPIC_API_KEY is ever added, Claude searches the web instead.
+      # At most 3 tries per send day (data/v2_tries.json).
       - name: Curate today's insight (v2)
         if: hashFiles('v2/ACTIVE') != ''
         run: python v2/curate_v2.py
         env:
+          GITHUB_TOKEN: ${{ github.token }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
 
       - name: Publish (commit) today's tip to the site branch
