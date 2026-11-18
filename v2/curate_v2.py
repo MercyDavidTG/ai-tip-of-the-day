@@ -49,6 +49,7 @@ V2_MARK = "Curated from trusted public sources"  # footer line only the v2 email
 FENCE = re.compile(r"```json\s*(\{.*\})\s*```", re.S)
 
 
+HOLD = ROOT / "v2" / "HOLD"  # while this file exists nothing is written to the team feed (docs/feed.xml)
 RUN_LOG = ROOT / "data" / "v2_last_run.log"  # saved in the repo after a cloud run that tried to curate
 _lines: list[str] = []
 
@@ -404,6 +405,9 @@ def main() -> int:
         log(f"Insight for {day} is already built - nothing to do.")
         return 0
     existing = next((it for it in items if it["date"] == day.isoformat()), None)
+    if existing and not args.dry_run and HOLD.exists():
+        log(f"Insight for {day} is curated. HOLD is on (v2/HOLD): the team feed is not touched.")
+        return 0
     if existing and not args.dry_run:  # curated earlier (or by hand) but not yet put in the v0 feed
         log(f"Insight for {day} is in insights.json - publishing it.")
         subprocess.run([sys.executable, "-X", "utf8", str(ROOT / "v2" / "render_v2.py")], check=True)
@@ -443,6 +447,9 @@ def main() -> int:
     doc["insights"] = items + [new] + [x for x in doc["insights"] if x["date"] > day.isoformat()]
     DATA.write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     subprocess.run([sys.executable, "-X", "utf8", str(ROOT / "v2" / "render_v2.py")], check=True)
+    if HOLD.exists():
+        log(f"HOLD is on (v2/HOLD): {day} is saved to the v2 test page only, the team feed is not touched.")
+        return 0
     write_v0(new, day)
     log(f"Published the insight for {day}.")
     return 0
