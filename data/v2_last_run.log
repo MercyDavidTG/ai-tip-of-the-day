@@ -1,8 +1,8 @@
-2026-11-19 12:58:00 Curating the insight for Fri 20 Nov 2026
-2026-11-19 12:58:09 50 fresh candidates from the feeds
-2026-11-19 12:58:09   asking the model (17298 characters, about 4324 tokens)
-2026-11-19 12:58:09   answered by openai/gpt-4.1
-2026-11-19 12:58:09 ERROR: Traceback (most recent call last):
+2026-11-19 14:20:43 Curating the insight for Fri 20 Nov 2026
+2026-11-19 14:21:00 50 fresh candidates from the feeds
+2026-11-19 14:21:00   asking the model (17298 characters, about 4324 tokens)
+2026-11-19 14:21:01   answered by openai/gpt-4.1
+2026-11-19 14:21:01 ERROR: Traceback (most recent call last):
   File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/requests/models.py", line 1116, in json
     return complexjson.loads(self.text, **kwargs)
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
