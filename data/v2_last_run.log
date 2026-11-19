@@ -1,0 +1,37 @@
+2026-11-19 12:58:00 Curating the insight for Fri 20 Nov 2026
+2026-11-19 12:58:09 50 fresh candidates from the feeds
+2026-11-19 12:58:09   asking the model (17298 characters, about 4324 tokens)
+2026-11-19 12:58:09   answered by openai/gpt-4.1
+2026-11-19 12:58:09 ERROR: Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/requests/models.py", line 1116, in json
+    return complexjson.loads(self.text, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/json/decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/json/decoder.py", line 356, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/runner/work/ai-tip-of-the-day/ai-tip-of-the-day/v2/curate_v2.py", line 462, in <module>
+    code = main()
+           ^^^^^^
+  File "/home/runner/work/ai-tip-of-the-day/ai-tip-of-the-day/v2/curate_v2.py", line 429, in main
+    got = curate_feeds(day, items)
+          ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/ai-tip-of-the-day/ai-tip-of-the-day/v2/curate_v2.py", line 322, in curate_feeds
+    got = parse_obj(ask_llm(base.replace("{CANDIDATES}", listing + note)))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/ai-tip-of-the-day/ai-tip-of-the-day/v2/curate_v2.py", line 235, in ask_llm
+    return r.json()["choices"][0]["message"]["content"]
+           ^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages/requests/models.py", line 1120, in json
+    raise RequestsJSONDecodeError(e.msg, e.doc, e.pos)
+requests.exceptions.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
