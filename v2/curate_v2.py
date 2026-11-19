@@ -11,8 +11,9 @@ Publishing writes:
   - docs/feed.xml, docs/latest.html, docs/archive/<day>.html and data/sent.json, which the v0 Sender
     flow in Power Automate reads at 10:00 IST and mails to the team.
 It runs in GitHub Actions (daily-tip.yml), which commits and pushes. Two ways to curate:
-  - free (default): read v2/feeds.json, a free GitHub Models AI picks the story and writes the card
-    from the article text (prompt_pick.md, prompt_write.md); needs only the workflow token (models: read)
+  - free (default): read v2/feeds.json, the free Google Gemini API picks the story and writes the card
+    from the article text (prompt_pick.md, prompt_write.md); needs the GEMINI_API_KEY repository secret
+    (free key from aistudio.google.com, no card). GitHub Models was retired on 30 Jul 2026.
   - paid (only if the ANTHROPIC_API_KEY secret exists): Claude searches the web itself (curate_prompt.md)
 Rules kept from v0: plain hyphens only, no emojis, plain wording.
 """
@@ -206,34 +207,60 @@ def curate_web(day: dt.date, items: list[dict]) -> dict | str | None:
 
 FEEDS = ROOT / "v2" / "feeds.json"
 UA = {"User-Agent": "Mozilla/5.0 (compatible; Insights-of-the-Day/2.0)"}
-GH_MODELS_URL = "https://models.github.ai/inference/chat/completions"
-# Tried in this order; a model that is unknown, too busy or over the free limit is skipped.
-GH_MODELS = os.getenv("GH_MODELS", "openai/gpt-4.1,openai/gpt-4o,openai/gpt-5-mini,openai/gpt-4.1-mini").split(",")
+GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/{}:generateContent"
+# Tried in this order; a model that is unknown, busy or over the free limit is skipped. All are free on the
+# Standard tier (free-tier prompts may be used by Google to improve its products; we only send public news).
+GEMINI_MODELS = os.getenv("GEMINI_MODELS",
+                          "gemini-3.8-flash,gemini-4-hydrogen,gemini-3.6-flash,gemini-3.5-flash-lite").split(",")
 PER_FEED, MAX_CANDIDATES = 6, 60
 
 
+def gemini_text(body: dict) -> str:
+    cand = (body.get("candidates") or [{}])[0]
+    return "".join(part.get("text", "") for part in (cand.get("content") or {}).get("parts", [])
+                   if not part.get("thought")).strip()
+
+
 def ask_llm(prompt: str) -> str:
-    """Free path model: GitHub Models (GITHUB_TOKEN with models: read). On a PC, CURATE_LLM=cli uses Claude Code."""
+    """Free path model: Google Gemini API (GEMINI_API_KEY). On a PC without the key, Claude Code is used."""
     log(f"  asking the model ({len(prompt)} characters, about {len(prompt) // 4} tokens)")
-    if os.getenv("CURATE_LLM") == "cli" or not os.getenv("GITHUB_TOKEN"):
+    key = os.getenv("GEMINI_API_KEY", "").strip()
+    if not key:
+        if os.getenv("GITHUB_ACTIONS"):
+            raise RuntimeError("the GEMINI_API_KEY repository secret is not set (see the architecture page)")
         return ask_cli(prompt)
+    import time
+
     import requests
 
-    head = {"Authorization": f"Bearer {os.environ['GITHUB_TOKEN']}", "Content-Type": "application/json",
-            "Accept": "application/vnd.github+json"}
+    head = {"x-goog-api-key": key, "Content-Type": "application/json"}
+    body = {"contents": [{"role": "user", "parts": [{"text": prompt}]}], "generationConfig": {"temperature": 0.4}}
     last = ""
-    for model in (m.strip() for m in GH_MODELS if m.strip()):
-        r = requests.post(GH_MODELS_URL, headers=head, timeout=240,
-                          json={"model": model, "messages": [{"role": "user", "content": prompt}]})
-        if r.status_code in (401, 403):
-            raise RuntimeError(f"GitHub Models refused the token ({r.status_code}): {r.text[:300]}")
-        if r.status_code != 200:
-            last = f"{model}: {r.status_code} {r.text[:200]}"
-            log(f"  model {last}")
-            continue
-        log(f"  answered by {model}")
-        return r.json()["choices"][0]["message"]["content"]
-    raise RuntimeError(f"no GitHub model answered, last: {last}")
+    for model in (m.strip() for m in GEMINI_MODELS if m.strip()):
+        for attempt in (1, 2):
+            try:
+                r = requests.post(GEMINI_URL.format(model), headers=head, json=body, timeout=240)
+            except requests.RequestException as exc:
+                last = f"{model}: {exc}"
+                log(f"  model {last}")
+                break
+            if r.status_code in (401, 403) or "API_KEY_INVALID" in r.text:
+                raise RuntimeError(f"Gemini refused the key ({r.status_code}): {r.text[:300]}")
+            if r.status_code in (429, 500, 503) and attempt == 1:
+                log(f"  {model}: {r.status_code}, waiting 30 s and trying again")
+                time.sleep(30)
+                continue
+            try:
+                text = gemini_text(r.json()) if r.status_code == 200 else ""
+            except ValueError:
+                text = ""
+            if not text:
+                last = f"{model}: {r.status_code} {r.text[:300]!r}"
+                log(f"  model {last}")
+                break
+            log(f"  answered by {model}")
+            return text
+    raise RuntimeError(f"no Gemini model answered, last: {last}")
 
 
 def collect_candidates(since: dt.datetime) -> list[dict]:
@@ -338,7 +365,7 @@ def curate_feeds(day: dt.date, items: list[dict]) -> dict | str | None:
     main = chosen[0]
     log(f"Picked #{n} [{got['lane']}] {main['source']}: {main['title']}")
     texts = [f"=== {c['source']} ({c['when']:%d %b %Y}): {c['title']}\n{c['link']}\n"
-             + (page_text(c["link"], c["title"], 9000 if i == 0 else 3000) or c["summary"])
+             + (page_text(c["link"], c["title"], 20000 if i == 0 else 8000) or c["summary"])
              for i, c in enumerate(chosen)]
     example = next((it for it in reversed(items) if not it.get("bench")), items[-1])
     example = {k: v for k, v in example.items() if k not in ("date", "lane", "trust", "sources", "bench")}
@@ -418,6 +445,10 @@ def main() -> int:
     tries = json.loads(TRIES.read_text(encoding="utf-8")) if TRIES.exists() else {}
     if tries.get(day.isoformat(), 0) >= MAX_TRIES and not args.dry_run:
         log(f"Already tried {MAX_TRIES} times for {day} - skipping this day (no email).")
+        return 0
+    if os.getenv("GITHUB_ACTIONS") and not (os.getenv("GEMINI_API_KEY", "").strip()
+                                            or os.getenv("ANTHROPIC_API_KEY", "").strip()):
+        log("Curating skipped: the GEMINI_API_KEY repository secret is not set yet (no try counted).")
         return 0
     if not args.dry_run:  # count the try first, so a crash also counts (the workflow commits data/)
         TRIES.write_text(json.dumps({day.isoformat(): tries.get(day.isoformat(), 0) + 1}), encoding="utf-8")
