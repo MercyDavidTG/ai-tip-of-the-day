@@ -682,5 +682,17 @@
     "link": "https://higgsfield.ai/blog/seedance-2-5",
     "title": "Seedance 2.5 vs 2.0 test",
     "source": "Seedance 2.5 vs 2.0 test"
+  },
+  {
+    "date": "2026-11-20",
+    "link": "https://e-means.github.io/",
+    "title": "k-means got 10x faster: Meta's e-means ships in Faiss 1.16",
+    "source": "e-means project page"
+  },
+  {
+    "date": "2026-11-20",
+    "link": "https://letsdatascience.com/news/meta-fair-open-sources-e-means-a-faster-k-means-replacing-ll-707a9c1d",
+    "title": "Let's Data Science",
+    "source": "Let's Data Science"
   }
 ]
