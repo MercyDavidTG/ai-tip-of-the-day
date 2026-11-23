@@ -694,5 +694,11 @@
     "link": "https://letsdatascience.com/news/meta-fair-open-sources-e-means-a-faster-k-means-replacing-ll-707a9c1d",
     "title": "Let's Data Science",
     "source": "Let's Data Science"
+  },
+  {
+    "date": "2026-11-23",
+    "link": "https://api-docs.deepseek.com/updates",
+    "title": "DeepSeek's API now does web search, OCR, speech and file reading",
+    "source": "DeepSeek API change log"
   }
 ]
