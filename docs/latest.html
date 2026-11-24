@@ -1,36 +1,36 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>AWS · One GPU, seven models: SageMaker can now slice a GPU for inference</title></head>
+<title>ML and data science · DeepSeek&#x27;s API now does web search, OCR, speech and file reading</title></head>
 <body style="margin:0;padding:0;background:#EEF1F6;">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#EEF1F6"><tr><td align="center" style="padding:20px 10px;">
 <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" bgcolor="#FFFFFF" style="width:600px;max-width:600px;background:#FFFFFF;font-family:'Segoe UI',Arial,sans-serif;color:#101828;border:1px solid #DCE2EC;">
 <tr><td bgcolor="#101828" style="background:#101828;padding:14px 28px;">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
 <td style="font-size:12px;letter-spacing:2px;font-weight:bold;color:#FFFFFF;font-family:Consolas,'Courier New',monospace;">INSIGHTS OF THE DAY</td>
-<td align="right" style="font-size:12px;color:#B8C2D6;font-family:Consolas,'Courier New',monospace;">Tue 24 Nov 2026 &nbsp;·&nbsp; 2 min read</td>
+<td align="right" style="font-size:12px;color:#B8C2D6;font-family:Consolas,'Courier New',monospace;">Mon 23 Nov 2026 &nbsp;·&nbsp; 2 min read</td>
 </tr></table></td></tr>
 <tr><td style="padding:18px 28px 0;">
-<span style="display:inline-block;font-size:12px;font-weight:bold;color:#9A5208;background:#FDF0E1;padding:3px 10px;border-radius:10px;">AWS</span>
+<span style="display:inline-block;font-size:12px;font-weight:bold;color:#17693B;background:#E3F4EA;padding:3px 10px;border-radius:10px;">ML and data science</span>
 &nbsp;<span style="display:inline-block;font-size:12px;color:#17693B;background:#E3F4EA;padding:3px 10px;border-radius:10px;">Official source</span>
 </td></tr>
-<tr><td style="padding:12px 28px 0;font-size:22px;line-height:1.25;font-weight:bold;color:#101828;">One GPU, seven models: SageMaker can now slice a GPU for inference</td></tr>
-<tr><td style="padding:8px 28px 0;font-size:14.5px;line-height:1.55;color:#27324A;">AWS added NVIDIA Multi-Instance GPU (MIG) to SageMaker real-time endpoints. One A100 or H100 is split into up to seven isolated slices, each with its own memory, and SageMaker handles placement and scaling.</td></tr>
-<tr><td style="padding:12px 28px 0;"><table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td valign="top" style="padding:0 8px 8px 0;"><table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="#F3F5F9" style="padding:6px 10px;background:#F3F5F9;"><div style="font-size:16px;font-weight:bold;color:#101828;line-height:1.2;white-space:nowrap;">up to 7</div><div style="font-size:11.5px;color:#5B6578;line-height:1.3;white-space:nowrap;">models per A100 / H100</div></td></tr></table></td><td valign="top" style="padding:0 8px 8px 0;"><table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="#F3F5F9" style="padding:6px 10px;background:#F3F5F9;"><div style="font-size:16px;font-weight:bold;color:#101828;line-height:1.2;white-space:nowrap;">P4d, P5, G7, G7e</div><div style="font-size:11.5px;color:#5B6578;line-height:1.3;white-space:nowrap;">supported instances</div></td></tr></table></td></tr></table></td></tr>
+<tr><td style="padding:12px 28px 0;font-size:22px;line-height:1.25;font-weight:bold;color:#101828;">DeepSeek's API now does web search, OCR, speech and file reading</td></tr>
+<tr><td style="padding:8px 28px 0;font-size:14.5px;line-height:1.55;color:#27324A;">DeepSeek opened the tools from its own app to developers. On <code style="font-family:Consolas,\'Courier New\',monospace;font-size:13px;background:#E9EEF7;color:#1F2A44;padding:1px 5px;">deepseek-flash</code> you switch on web search or URL reading with a tool flag, and OCR, speech-to-text and text-to-speech are now separate APIs.</td></tr>
+<tr><td style="padding:12px 28px 0;"><table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td valign="top" style="padding:0 8px 8px 0;"><table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="#F3F5F9" style="padding:6px 10px;background:#F3F5F9;"><div style="font-size:16px;font-weight:bold;color:#101828;line-height:1.2;white-space:nowrap;">5</div><div style="font-size:11.5px;color:#5B6578;line-height:1.3;white-space:nowrap;">new built-in tools</div></td></tr></table></td><td valign="top" style="padding:0 8px 8px 0;"><table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td bgcolor="#F3F5F9" style="padding:6px 10px;background:#F3F5F9;"><div style="font-size:16px;font-weight:bold;color:#101828;line-height:1.2;white-space:nowrap;">3 APIs</div><div style="font-size:11.5px;color:#5B6578;line-height:1.3;white-space:nowrap;">OCR, ASR, TTS</div></td></tr></table></td></tr></table></td></tr>
 
 <tr><td style="padding:12px 28px 0;">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
-<td style="border-left:3px solid #9A5208;padding:2px 0 2px 14px;font-size:14px;line-height:1.5;color:#27324A;">
-<div style="font-size:11px;letter-spacing:1px;font-weight:bold;color:#9A5208;font-family:Consolas,'Courier New',monospace;">WHY IT MATTERS TO YOU</div>Small models (classifiers, embedders, rerankers) no longer need a full GPU each. Same hardware, fewer endpoints, lower bill.</td>
+<td style="border-left:3px solid #17693B;padding:2px 0 2px 14px;font-size:14px;line-height:1.5;color:#27324A;">
+<div style="font-size:11px;letter-spacing:1px;font-weight:bold;color:#17693B;font-family:Consolas,'Courier New',monospace;">WHY IT MATTERS TO YOU</div>A cheap OCR plus LLM route for invoices, delivery notes and scanned forms, without stitching three services together.</td>
 </tr></table></td></tr>
 <tr><td style="padding:10px 28px 0;">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
 <td bgcolor="#F0F4FF" style="background:#F0F4FF;padding:10px 14px;font-size:14px;line-height:1.5;color:#27324A;">
-<div style="font-size:11px;letter-spacing:1px;font-weight:bold;color:#2E4BE0;font-family:Consolas,'Courier New',monospace;">TRY IT IN 5 MINUTES</div>In <code style="font-family:Consolas,\'Courier New\',monospace;font-size:13px;background:#E9EEF7;color:#1F2A44;padding:1px 5px;">CreateEndpointConfig</code> add <code style="font-family:Consolas,\'Courier New\',monospace;font-size:13px;background:#E9EEF7;color:#1F2A44;padding:1px 5px;">AcceleratorPartitionLayouts</code> (for example <code style="font-family:Consolas,\'Courier New\',monospace;font-size:13px;background:#E9EEF7;color:#1F2A44;padding:1px 5px;">mig-1g.5gb</code>), then set <code style="font-family:Consolas,\'Courier New\',monospace;font-size:13px;background:#E9EEF7;color:#1F2A44;padding:1px 5px;">AcceleratorPartitionType</code> on each inference component. Works only on inference-component endpoints, not serverless.</td>
+<div style="font-size:11px;letter-spacing:1px;font-weight:bold;color:#2E4BE0;font-family:Consolas,'Courier New',monospace;">TRY IT IN 5 MINUTES</div>Add the <code style="font-family:Consolas,\'Courier New\',monospace;font-size:13px;background:#E9EEF7;color:#1F2A44;padding:1px 5px;">deepseek_read_url</code> tool to a Chat Completions call and ask it to summarise a public report link. Then try the OCR API on one scanned document (no company data).</td>
 </tr></table></td></tr>
 
 
-
+<tr><td style="padding:10px 28px 0;font-size:13.5px;line-height:1.55;color:#5B6578;"><b style="color:#101828;">Also new:</b> AWS published a guide to tracking AI coding tool costs per team on Bedrock.</td></tr>
 <tr><td style="padding:10px 28px 0;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
-<td style="border-top:1px solid #DCE2EC;padding-top:10px;font-size:13.5px;line-height:1.6;color:#5B6578;">Read: <a href="https://aws.amazon.com/blogs/machine-learning/sagemaker-inference-now-supports-multi-instance-gpu-to-maximize-gpu-utilization-for-model-endpoints/" style="color:#2E4BE0;text-decoration:none;font-weight:bold;">AWS Machine Learning Blog</a></td></tr></table></td></tr>
+<td style="border-top:1px solid #DCE2EC;padding-top:10px;font-size:13.5px;line-height:1.6;color:#5B6578;">Read: <a href="https://api-docs.deepseek.com/updates" style="color:#2E4BE0;text-decoration:none;font-weight:bold;">DeepSeek API change log</a></td></tr></table></td></tr>
 <tr><td style="padding:10px 28px 16px;font-size:11px;color:#8A94A8;">Curated from trusted public sources · one insight a day, skipped when nothing is worth your time · <a href="https://mercydavidtg.github.io/ai-tip-of-the-day/v2/" style="color:#8A94A8;">all past insights</a></td></tr>
 </table></td></tr></table></body></html>
