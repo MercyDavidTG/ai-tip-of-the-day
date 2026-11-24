@@ -700,5 +700,11 @@
     "link": "https://api-docs.deepseek.com/updates",
     "title": "DeepSeek's API now does web search, OCR, speech and file reading",
     "source": "DeepSeek API change log"
+  },
+  {
+    "date": "2026-11-24",
+    "link": "https://aws.amazon.com/blogs/machine-learning/sagemaker-inference-now-supports-multi-instance-gpu-to-maximize-gpu-utilization-for-model-endpoints/",
+    "title": "One GPU, seven models: SageMaker can now slice a GPU for inference",
+    "source": "AWS Machine Learning Blog"
   }
 ]
