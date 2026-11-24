@@ -614,6 +614,44 @@
         ],
         "note": "Green = best in the row. Anthropic's own launch numbers. Gemini 4 Carbon beats it on AutomationBench (53.9%). Artificial Analysis Intelligence Index: 65 at max effort."
       }
+    },
+    {
+      "date": "2026-11-25",
+      "lane": "agents",
+      "trust": "reported",
+      "read_min": 2,
+      "headline": "Automate GitHub PR reviews, fixes, and approvals with Claude Ship",
+      "buzz": "Anthropic launched Claude Ship in beta for GitHub repositories on Team and Enterprise plans. It pairs the existing Code Review feature with two new beta agents, PR Steward and Claude Approvals, to fix failing CI checks, resolve merge conflicts, and approve routine code changes.",
+      "stats": [
+        [
+          "Team & Enterprise",
+          "eligible plan tiers"
+        ],
+        [
+          "Quick, Standard, Deep",
+          "available review settings"
+        ]
+      ],
+      "why": "AI coding agents generate substantial code, creating bottlenecks during review. Automating routine fixes and policy checks keeps pull requests moving fast.",
+      "try": "Enable `Claude Ship` on one GitHub repository. Add a natural language policy file to your project directory, run `Claude Approvals` in observe-only mode first, and set a monthly spending limit to manage `PR Steward` token usage.",
+      "watch": [
+        "`PR Steward` has no spending cap by default, so set a custom monthly budget to keep usage costs in check.",
+        "Organizations with specific data privacy requirements cannot use the `Claude Ship` feature."
+      ],
+      "sources": [
+        [
+          "The Decoder",
+          "https://the-decoder.com/anthropics-claude-ship-lets-ai-agents-review-fix-and-approve-pull-requests-on-their-own/"
+        ],
+        [
+          "TechCrunch AI",
+          "https://techcrunch.com/2026/11/23/anthropic-launches-claude-ship-letting-ai-agents-review-fix-and-approve-code-changes/"
+        ],
+        [
+          "The Verge AI",
+          "https://www.theverge.com/ai-artificial-intelligence/1040134/anthropic-claude-ship-ai-pull-requests"
+        ]
+      ]
     }
   ]
 }
