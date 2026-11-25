@@ -652,6 +652,40 @@
           "https://www.theverge.com/ai-artificial-intelligence/1040134/anthropic-claude-ship-ai-pull-requests"
         ]
       ]
+    },
+    {
+      "date": "2026-11-26",
+      "lane": "docker",
+      "trust": "official",
+      "read_min": 2,
+      "headline": "Update Docker Engine to `v29.10.1` to fix container security and build errors",
+      "buzz": "Docker Engine `v29.10.1` released on 24 Nov with fixes for host security vulnerabilities and engine bugs. The update upgrades BuildKit to `v0.35.1` and expands `docker login` to reference OATs authentication.",
+      "stats": [
+        [
+          "v29.10.1",
+          "Docker Engine release"
+        ],
+        [
+          "v0.35.1",
+          "updated BuildKit version"
+        ],
+        [
+          "107",
+          "commits to master since release"
+        ]
+      ],
+      "why": "Security flaws allow processes during `docker cp` to modify host directories behind read-only bind mounts. Image builds with `Expect: 100-continue` headers and concurrent `docker network rm` commands can also fail without this patch.",
+      "try": "Upgrade to Docker Engine `v29.10.1`. Test `docker login` to view OATs authentication options, and confirm container builds succeed when uploading build contexts with `Expect: 100-continue` headers.",
+      "act": "Upgrade immediately to fix `CVE-2026-135124` and `CVE-2026-135844`, preventing unauthorized host directory overwrites during `docker cp` and unbounded file reads.",
+      "watch": [
+        "Hosts with `kernel.apparmor_restrict_unprivileged_unconfined=1` like recent Ubuntu releases block container processes from signalling or tracing each other until updated to `v29.10.1`."
+      ],
+      "sources": [
+        [
+          "Docker Engine releases",
+          "https://github.com/moby/moby/releases/tag/docker-v29.10.1"
+        ]
+      ]
     }
   ]
 }
