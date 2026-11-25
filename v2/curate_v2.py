@@ -175,8 +175,13 @@ def problems_with(it: dict, day: dt.date, items: list[dict]) -> list[str]:
     probs = render_v2.check(items + [{"date": day.isoformat(), **it}])
     if len(it.get("headline", "")) > 110:
         probs.append("headline is longer than 110 characters")
+    if "`" in it.get("headline", ""):
+        probs.append("headline must be plain text, without backticks")
     if not 2 <= len(it.get("stats", [])) <= 4:
         probs.append("stats must have 2 to 4 pairs")
+    for value, label in it.get("stats", []):
+        if re.search(r"\b(commits?|stars?|views?|downloads?|comments?)\b", f"{value} {label}", re.I):
+            probs.append(f"stat '{value} {label}' is a page counter, use a figure that matters to the team")
     for name, url in it.get("sources", []):
         if url.startswith("https://") and not url_ok(url):
             probs.append(f"source does not open: {name} {url}")

@@ -658,7 +658,7 @@
       "lane": "docker",
       "trust": "official",
       "read_min": 2,
-      "headline": "Update Docker Engine to `v29.10.1` to fix container security and build errors",
+      "headline": "Update Docker Engine to v29.10.1 to fix container security and build errors",
       "buzz": "Docker Engine `v29.10.1` released on 24 Nov with fixes for host security vulnerabilities and engine bugs. The update upgrades BuildKit to `v0.35.1` and expands `docker login` to reference OATs authentication.",
       "stats": [
         [
@@ -668,10 +668,6 @@
         [
           "v0.35.1",
           "updated BuildKit version"
-        ],
-        [
-          "107",
-          "commits to master since release"
         ]
       ],
       "why": "Security flaws allow processes during `docker cp` to modify host directories behind read-only bind mounts. Image builds with `Expect: 100-continue` headers and concurrent `docker network rm` commands can also fail without this patch.",

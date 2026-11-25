@@ -11,15 +11,19 @@ the "try" step a simple action the text supports (for example where to open the 
 Writing rules:
 - Plain, friendly English. Short sentences. No hype words, no emojis.
 - Use only the plain hyphen "-". Never use long dashes.
-- Wrap code, commands, model ids and settings in backticks, for example `pip install -U faiss-cpu`.
+- Wrap code, commands, model ids and settings in backticks, for example `pip install -U faiss-cpu`,
+  everywhere except the headline.
 - Dates as "18 Nov".
 
 Fields:
 - "read_min": 2 or 3.
 - "headline": a hook, at most 95 characters, that names the tip or what the team can now do. It must be true.
+  Plain text only: no backticks or other code marks in the headline.
 - "buzz": what the tip is and what is new about it, 2 or 3 sentences, at most 60 words.
 - "stats": 2 to 4 pairs ["value", "label"]. Value at most 18 characters (for example "up to 7", "$8 / $40", "10x"),
-  label at most 40 characters. Only numbers that are in the source text.
+  label at most 40 characters. Only numbers that are in the source text, and only figures that matter
+  to the team (versions, prices, limits, speed-ups, sizes, dates). Never page counters such as commits,
+  stars, views, downloads or comments.
 - "why": why it matters to this team, at most 50 words.
 - "try": the tip itself as one concrete step to do in 5 minutes, at most 60 words. This is the most
   important field: be specific (where to click, which setting, which command or prompt).
