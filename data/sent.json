@@ -706,5 +706,17 @@
     "link": "https://aws.amazon.com/blogs/machine-learning/sagemaker-inference-now-supports-multi-instance-gpu-to-maximize-gpu-utilization-for-model-endpoints/",
     "title": "One GPU, seven models: SageMaker can now slice a GPU for inference",
     "source": "AWS Machine Learning Blog"
+  },
+  {
+    "date": "2026-11-25",
+    "link": "https://mindandmachineweekly.substack.com/p/mind-and-machine-weekly-15-november",
+    "title": "A 594B model you can download: Inkling 2 Small goes Apache 2.0",
+    "source": "Mind and Machine Weekly"
+  },
+  {
+    "date": "2026-11-25",
+    "link": "https://riorundown.substack.com/p/ai-news-nov-14-2026-local-ai-ecosystem",
+    "title": "AI News, 14 Nov",
+    "source": "AI News, 14 Nov"
   }
 ]
