@@ -724,5 +724,11 @@
     "link": "https://github.com/moby/moby/releases/tag/docker-v29.10.1",
     "title": "Update Docker Engine to v29.10.1 to fix container security and build errors",
     "source": "Docker Engine releases"
+  },
+  {
+    "date": "2026-11-27",
+    "link": "https://github.blog/changelog/2026-11-25-copilot-code-review-billing-will-default-to-the-organization",
+    "title": "Set Copilot code review billing to Member in policy settings before 30 Dec",
+    "source": "GitHub Changelog"
   }
 ]

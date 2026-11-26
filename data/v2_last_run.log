@@ -1,16 +1,18 @@
-2026-11-25 12:05:06 Curating the insight for Thu 26 Nov 2026
-2026-11-25 12:05:19 26 fresh candidates from the feeds
-2026-11-25 12:05:19   asking the model (10946 characters, about 2736 tokens)
-2026-11-25 12:09:19   model gemini-3.8-flash: HTTPSConnectionPool(host='generativelanguage.googleapis.com', port=443): Read timed out. (read timeout=240)
-2026-11-25 12:09:24   gemini-4-hydrogen: 503, waiting 30 s and trying again
-2026-11-25 12:09:56   model gemini-4-hydrogen: 503 '{\n  "error": {\n    "code": 503,\n    "message": "This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.",\n    "status": "UNAVAILABLE"\n  }\n}\n'
-2026-11-25 12:10:03   answered by gemini-3.6-flash
-2026-11-25 12:10:03 Picked #2 [docker] Docker Engine releases: v29.10.1
-2026-11-25 12:10:03   asking the model (6073 characters, about 1518 tokens)
-2026-11-25 12:10:49   gemini-3.8-flash: 503, waiting 30 s and trying again
-2026-11-25 12:11:24   model gemini-3.8-flash: 503 '{\n  "error": {\n    "code": 503,\n    "message": "This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.",\n    "status": "UNAVAILABLE"\n  }\n}\n'
-2026-11-25 12:11:36   gemini-4-hydrogen: 503, waiting 30 s and trying again
-2026-11-25 12:12:08   model gemini-4-hydrogen: 503 '{\n  "error": {\n    "code": 503,\n    "message": "This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.",\n    "status": "UNAVAILABLE"\n  }\n}\n'
-2026-11-25 12:12:22   answered by gemini-3.6-flash
-2026-11-25 12:12:22 Picked [docker/official] Update Docker Engine to `v29.10.1` to fix container security and build errors
-2026-11-25 12:12:22 HOLD is on (v2/HOLD): 2026-11-26 is saved to the v2 test page only, the team feed is not touched.
+2026-11-26 13:48:47 Curating the insight for Fri 27 Nov 2026
+2026-11-26 13:49:02 23 fresh candidates from the feeds
+2026-11-26 13:49:02   asking the model (10010 characters, about 2502 tokens)
+2026-11-26 13:52:59   gemini-3.8-flash: 503, waiting 30 s and trying again
+2026-11-26 13:53:38   model gemini-3.8-flash: 503 '{\n  "error": {\n    "code": 503,\n    "message": "This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.",\n    "status": "UNAVAILABLE"\n  }\n}\n'
+2026-11-26 13:53:45   gemini-4-hydrogen: 503, waiting 30 s and trying again
+2026-11-26 13:54:19   model gemini-4-hydrogen: 503 '{\n  "error": {\n    "code": 503,\n    "message": "This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.",\n    "status": "UNAVAILABLE"\n  }\n}\n'
+2026-11-26 13:54:25   gemini-3.6-flash: 503, waiting 30 s and trying again
+2026-11-26 13:55:01   model gemini-3.6-flash: 503 '{\n  "error": {\n    "code": 503,\n    "message": "This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.",\n    "status": "UNAVAILABLE"\n  }\n}\n'
+2026-11-26 13:55:04   answered by gemini-3.5-flash-lite
+2026-11-26 13:55:04 Picked #2 [agents] GitHub Changelog: Copilot code review billing will default to the organization
+2026-11-26 13:55:05   asking the model (6025 characters, about 1506 tokens)
+2026-11-26 13:55:07   gemini-3.8-flash: 503, waiting 30 s and trying again
+2026-11-26 13:55:39   model gemini-3.8-flash: 503 '{\n  "error": {\n    "code": 503,\n    "message": "This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.",\n    "status": "UNAVAILABLE"\n  }\n}\n'
+2026-11-26 13:55:41   gemini-4-hydrogen: 503, waiting 30 s and trying again
+2026-11-26 13:56:29   answered by gemini-4-hydrogen
+2026-11-26 13:56:29 Picked [agents/official] Set Copilot code review billing to Member in policy settings before 30 Dec
+2026-11-26 13:56:30 Published the insight for 2026-11-27.

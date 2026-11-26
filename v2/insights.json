@@ -682,6 +682,37 @@
           "https://github.com/moby/moby/releases/tag/docker-v29.10.1"
         ]
       ]
+    },
+    {
+      "date": "2026-11-27",
+      "lane": "agents",
+      "trust": "official",
+      "read_min": 2,
+      "headline": "Set Copilot code review billing to Member in policy settings before 30 Dec",
+      "buzz": "You can lock Copilot code review billing to `Member` in your Copilot policy settings to prevent automatic charges to your organization. Starting 30 Dec, GitHub will switch unset billing policies from `Default (Member)` to `Organization` for Copilot Business and Copilot Enterprise accounts.",
+      "stats": [
+        [
+          "30 Dec",
+          "default switches to Organization"
+        ],
+        [
+          "25 Nov",
+          "GitHub changelog date"
+        ]
+      ],
+      "why": "Organization billing requires AI Credits paid usage and can increase your organization's spending. Keeping `Member` selected ensures code reviews by licensed members continue using each member's Copilot entitlement instead of billing the organization that owns the repository.",
+      "try": "Open your enterprise or organization Copilot policy settings and check the Copilot code review billing option. If it shows `Default (Member)`, select `Member` to keep your current billing after the default changes. If your enterprise manages this setting, ask an enterprise owner to select `Member`.",
+      "act": "Select `Member` before 30 Dec if you want code reviews by licensed members to keep using their Copilot entitlements instead of switching to `Organization` billing.",
+      "watch": [
+        "Accounts without AI Credits paid usage enabled, with a billing lock, or with no billable customer will be set to `Member` instead.",
+        "If you already chose `Member` or `Organization`, your choice stays in effect, and the separate setting for members without a Copilot license does not change."
+      ],
+      "sources": [
+        [
+          "GitHub Changelog",
+          "https://github.blog/changelog/2026-11-25-copilot-code-review-billing-will-default-to-the-organization"
+        ]
+      ]
     }
   ]
 }
