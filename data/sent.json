@@ -727,8 +727,14 @@
   },
   {
     "date": "2026-11-27",
-    "link": "https://github.blog/changelog/2026-11-25-copilot-code-review-billing-will-default-to-the-organization",
-    "title": "Set Copilot code review billing to Member in policy settings before 30 Dec",
-    "source": "GitHub Changelog"
+    "link": "https://deepmind.google/blog/alphagenome-2-deciphering-how-cells-read-dna-to-better-understand-disease/",
+    "title": "AlphaGenome 2 predicts what a DNA change does in each cell type",
+    "source": "Google DeepMind blog"
+  },
+  {
+    "date": "2026-11-27",
+    "link": "https://www.marktechpost.com/2026/11/11/google-deepmind-alphagenome-2-cell-type-variant-effects/",
+    "title": "MarkTechPost",
+    "source": "MarkTechPost"
   }
 ]
