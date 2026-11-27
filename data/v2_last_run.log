@@ -1,8 +1,10 @@
-2026-11-27 14:05:46 Curating the insight for Mon 30 Nov 2026
-2026-11-27 14:05:59 7 fresh candidates from the feeds
-2026-11-27 14:05:59   asking the model (5798 characters, about 1449 tokens)
-2026-11-27 14:09:59   model gemini-3.8-flash: HTTPSConnectionPool(host='generativelanguage.googleapis.com', port=443): Read timed out. (read timeout=240)
-2026-11-27 14:10:02   gemini-4-hydrogen: 503, waiting 30 s and trying again
-2026-11-27 14:10:33   model gemini-4-hydrogen: 503 '{\n  "error": {\n    "code": 503,\n    "message": "This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.",\n    "status": "UNAVAILABLE"\n  }\n}\n'
-2026-11-27 14:10:35   answered by gemini-3.6-flash
-2026-11-27 14:10:35 Skipped the day: SKIP: None of the provided items contain a practical, actionable technical tip from an official source or multiple outlets.
+2026-11-27 15:12:24 Curating the insight for Mon 30 Nov 2026
+2026-11-27 15:12:44 7 fresh candidates from the feeds
+2026-11-27 15:12:44   asking the model (5798 characters, about 1449 tokens)
+2026-11-27 15:12:47   gemini-3.8-flash: 503, waiting 30 s and trying again
+2026-11-27 15:13:32   model gemini-3.8-flash: 503 '{\n  "error": {\n    "code": 503,\n    "message": "This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.",\n    "status": "UNAVAILABLE"\n  }\n}\n'
+2026-11-27 15:13:41   gemini-4-hydrogen: 503, waiting 30 s and trying again
+2026-11-27 15:14:19   model gemini-4-hydrogen: 503 '{\n  "error": {\n    "code": 503,\n    "message": "This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.",\n    "status": "UNAVAILABLE"\n  }\n}\n'
+2026-11-27 15:14:40   gemini-3.6-flash: 503, waiting 30 s and trying again
+2026-11-27 15:17:12   answered by gemini-3.6-flash
+2026-11-27 15:17:12 Skipped the day: SKIP: None of today's items contain a practical tech tip or official update with concrete steps for the data science team.
