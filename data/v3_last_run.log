@@ -1,0 +1,10 @@
+2026-11-28 23:43:26 Send day Mon 30 Nov (test): 17 candidates, 2 new since last run, current: [evergreen] Your pandas merge might be duplicating rows
+2026-11-28 23:43:26   asking the model (7098 characters)
+2026-11-28 23:46:26   gemini-4-hydrogen: 503, waiting 20 s
+2026-11-28 23:50:05   gemini-3.6-flash: 503, waiting 20 s
+2026-11-28 23:50:30   answered by gemini-3.5-flash-lite
+2026-11-28 23:50:30   pick 12 rejected (sources ['community'], lane creative, topic ai)
+2026-11-28 23:50:30   asking the model (7166 characters)
+2026-11-28 23:50:30   gemini-3.8-flash: 503, waiting 20 s
+2026-11-28 23:54:05   answered by gemini-4-hydrogen
+2026-11-28 23:54:05   pick: SKIP: No item meets both the trust rule (official source or multi-source story) and the quality bar for a broad data science and technology audience—t

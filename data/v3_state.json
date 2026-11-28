@@ -5,7 +5,9 @@
   "https://huggingface.co/blog/video-trainium3",
   "https://simonwillison.net/2026/Nov/27/datasette-charts/",
   "https://simonwillison.net/2026/Nov/27/datasette-mcp/",
+  "https://simonwillison.net/2026/Nov/28/code-driven-ai-illustrations/",
   "https://techcrunch.com/2026/11/26/nvidia-hits-pause-on-chip-shipments-to-southeast-asia/",
+  "https://techcrunch.com/2026/11/28/openais-new-countersuit-accuses-apple-of-unlawfully-pressuring-vendors/",
   "https://techcrunch.com/2026/11/28/sakana-ais-ceo-says-its-homegrown-models-are-about-more-than-japans-national-security/",
   "https://the-decoder.com/banned-nvidia-blackwell-chips-turn-up-in-a-shanghai-data-center-linked-to-alice-huang-bloomberg-reports/",
   "https://the-decoder.com/google-deepminds-humanitys-first-exam-shows-top-ai-models-still-fail-simple-everyday-tasks-under-repeated-runs/",
@@ -18,6 +20,6 @@
   "https://www.kdnuggets.com/blending-unsupervised-clustering-tasks-with-scikit-llm",
   "https://www.theverge.com/tech/1041801/android-intelligence-create-my-widget-gemini"
  ],
- "rounds": 1,
+ "rounds": 2,
  "swaps": 0
 }
