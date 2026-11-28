@@ -494,11 +494,21 @@ def main() -> int:
 if __name__ == "__main__":
     import traceback
 
+    curate_v3 = None
+    if (ROOT / "v3" / "ACTIVE").exists():  # Insights of the Day v3 runs v2 first, then builds its own email
+        try:
+            sys.path.insert(0, str(ROOT / "v3"))
+            import curate_v3
+
+            curate_v3.v2 = sys.modules[__name__]  # share this run's log, settings and HOLD switch
+        except Exception:  # a broken v3 must never stop the v2 email
+            log("v3: could not load, running v2 only: " + traceback.format_exc()[-400:])
+            curate_v3 = None
     try:
-        code = main()
+        code = curate_v3.main(sys.argv[1:]) if curate_v3 else main()
     except Exception:
         log("ERROR: " + traceback.format_exc())
         code = 1
-    if os.getenv("GITHUB_ACTIONS") and (code or any("Curating" in x for x in _lines)):
+    if os.getenv("GITHUB_ACTIONS") and (code or any("Curating" in x or "v3:" in x for x in _lines)):
         RUN_LOG.write_text(os.linesep.join(_lines) + os.linesep, encoding="utf-8")
     sys.exit(code)

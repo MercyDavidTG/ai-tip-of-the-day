@@ -1,0 +1,550 @@
+{
+ "note": "Evergreen fallback tips for Insights of the Day v3. Used only when the feeds give no good tip in time, so a weekday is never skipped. Each was checked against its official docs page on 28 Nov 2026. Plain hyphens only.",
+ "tips": [
+  {
+   "id": "pandas-merge-validate",
+   "lane": "data",
+   "trust": "official",
+   "subject": "Your pandas merge might be duplicating rows",
+   "preheader": "One argument makes pandas shout when your join keys are not unique.",
+   "hook": "A join on a key that is not unique quietly multiplies rows, and every total after it is wrong.",
+   "tip": "Add `validate=\"many_to_one\"` (or `\"one_to_one\"`) to `pd.merge` so pandas raises an error when the keys are not unique.",
+   "steps": [
+    "Find a `pd.merge` in your current notebook",
+    "Add `validate=\"many_to_one\"` if the right table should have unique keys",
+    "Add `indicator=True` and check the `_merge` column for unmatched rows"
+   ],
+   "why": "Catch silent row blow-ups before they reach a report.",
+   "number": null,
+   "deadline": null,
+   "sources": [
+    [
+     "pandas docs: merge",
+     "https://pandas.pydata.org/docs/reference/api/pandas.merge.html"
+    ]
+   ]
+  },
+  {
+   "id": "pandas-memory-deep",
+   "lane": "data",
+   "trust": "official",
+   "subject": "Find out what your DataFrame really weighs",
+   "preheader": "The default memory number hides your text columns. Here is the real one.",
+   "hook": "The memory figure pandas shows by default leaves out most of what text columns cost.",
+   "tip": "Run `df.info(memory_usage=\"deep\")` for the true size, then convert repeated text columns with `.astype(\"category\")`.",
+   "steps": [
+    "Run `df.info(memory_usage=\"deep\")` on your biggest DataFrame",
+    "Pick a text column with few unique values",
+    "Convert it with `.astype(\"category\")` and run info again"
+   ],
+   "why": "Smaller DataFrames and fewer out-of-memory crashes.",
+   "number": null,
+   "deadline": null,
+   "sources": [
+    [
+     "pandas docs: DataFrame.info",
+     "https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.info.html"
+    ],
+    [
+     "pandas docs: Series.astype",
+     "https://pandas.pydata.org/docs/reference/api/pandas.Series.astype.html"
+    ]
+   ]
+  },
+  {
+   "id": "pandas-read-csv-usecols",
+   "lane": "data",
+   "trust": "official",
+   "subject": "Load only the CSV columns you need",
+   "preheader": "Two arguments to read_csv that make big files load faster.",
+   "hook": "Most notebooks read every column of a big CSV and then use five of them.",
+   "tip": "Pass `usecols=[...]` and `dtype={...}` to `pd.read_csv` so pandas skips unused columns and stops guessing types.",
+   "steps": [
+    "List the columns you actually use",
+    "Add them as `usecols=[...]`",
+    "Add `dtype={...}` for ids and codes that should stay text"
+   ],
+   "why": "Faster loads, less memory, and ids that keep their leading zeros.",
+   "number": null,
+   "deadline": null,
+   "sources": [
+    [
+     "pandas docs: read_csv",
+     "https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html"
+    ]
+   ]
+  },
+  {
+   "id": "python-fstring-equals",
+   "lane": "data",
+   "trust": "official",
+   "subject": "Print debugging, but with labels for free",
+   "preheader": "Add one character to your print and never mix up which number is which.",
+   "hook": "A wall of bare numbers in the console is how bugs hide in plain sight.",
+   "tip": "Write `print(f\"{total=}\")` and Python prints `total=` followed by the value.",
+   "steps": [
+    "Replace a bare `print(x)` with `print(f\"{x=}\")`",
+    "Try an expression: `print(f\"{len(df)=}\")`"
+   ],
+   "why": "Readable debug output in one character.",
+   "number": [
+    "3.8+",
+    "Python version needed"
+   ],
+   "deadline": null,
+   "sources": [
+    [
+     "Python 3.8: what's new",
+     "https://docs.python.org/3/whatsnew/3.8.html"
+    ]
+   ]
+  },
+  {
+   "id": "python-breakpoint",
+   "lane": "data",
+   "trust": "official",
+   "subject": "Stop guessing: pause your code mid-run",
+   "preheader": "One built-in function beats ten print statements.",
+   "hook": "Sprinkling print statements to find a bug takes many runs. Pausing takes one.",
+   "tip": "Put `breakpoint()` on the line before the bug; Python stops there and lets you inspect every variable.",
+   "steps": [
+    "Add `breakpoint()` above the suspect line",
+    "Run the script and type a variable name to see its value",
+    "Type `c` to continue or `q` to quit"
+   ],
+   "why": "Find the bug in one run instead of ten.",
+   "number": [
+    "3.7+",
+    "Python version needed"
+   ],
+   "deadline": null,
+   "sources": [
+    [
+     "Python docs: built-in functions",
+     "https://docs.python.org/3/library/functions.html"
+    ]
+   ]
+  },
+  {
+   "id": "pytest-last-failed",
+   "lane": "data",
+   "trust": "official",
+   "subject": "Rerun only the tests that just failed",
+   "preheader": "Stop waiting for the whole suite while you fix one test.",
+   "hook": "Fixing one failing test should not mean waiting for the whole suite every time.",
+   "tip": "Run `pytest --lf` to rerun only the last run's failures, or `pytest --ff` to run them first and then the rest.",
+   "steps": [
+    "Run your test suite once",
+    "Fix the first failure",
+    "Run `pytest --lf` until it is green, then run everything"
+   ],
+   "why": "Faster fix-and-check loops.",
+   "number": null,
+   "deadline": null,
+   "sources": [
+    [
+     "pytest docs: cache",
+     "https://docs.pytest.org/en/stable/how-to/cache.html"
+    ]
+   ]
+  },
+  {
+   "id": "git-switch-dash",
+   "lane": "data",
+   "trust": "official",
+   "subject": "The back button for Git branches",
+   "preheader": "Toggle between two branches without typing their names.",
+   "hook": "Typing long branch names to hop between a fix and a feature gets old fast.",
+   "tip": "`git switch -` takes you back to the branch you were on before, like a browser's back button.",
+   "steps": [
+    "Switch to another branch",
+    "Run `git switch -` to come back",
+    "Run it again to toggle"
+   ],
+   "why": "Hop between branches without typing names.",
+   "number": null,
+   "deadline": null,
+   "sources": [
+    [
+     "Git docs: git switch",
+     "https://git-scm.com/docs/git-switch"
+    ]
+   ]
+  },
+  {
+   "id": "git-add-patch",
+   "lane": "data",
+   "trust": "official",
+   "subject": "Commit half a file, not the whole mess",
+   "preheader": "Stage only the lines that belong together, then commit.",
+   "hook": "A fix and an unrelated tweak in the same file usually end up in one messy commit.",
+   "tip": "`git add -p` walks through each change and lets you stage only the pieces that belong in this commit.",
+   "steps": [
+    "Run `git add -p`",
+    "Press `y` to stage a piece, `n` to skip it",
+    "Run `git diff --staged` before you commit"
+   ],
+   "why": "Clean commits that are easy to review and revert.",
+   "number": null,
+   "deadline": null,
+   "sources": [
+    [
+     "Git docs: git add",
+     "https://git-scm.com/docs/git-add"
+    ]
+   ]
+  },
+  {
+   "id": "git-reflog-rescue",
+   "lane": "data",
+   "trust": "official",
+   "subject": "That commit you just lost is still there",
+   "preheader": "A bad reset or rebase is rarely the end. Here is the way back.",
+   "hook": "After a bad reset or rebase, the work looks gone. Git usually still has it.",
+   "tip": "Run `git reflog` to find the commit from before the mistake and save it on a new branch.",
+   "steps": [
+    "Run `git reflog` and find the line before the mistake",
+    "Copy its commit id",
+    "Run `git branch rescue <id>` to keep it safe"
+   ],
+   "why": "Most lost work is one command away.",
+   "number": null,
+   "deadline": null,
+   "sources": [
+    [
+     "Git docs: git reflog",
+     "https://git-scm.com/docs/git-reflog"
+    ]
+   ]
+  },
+  {
+   "id": "docker-system-df",
+   "lane": "docker",
+   "trust": "official",
+   "subject": "Find what is eating your disk in Docker",
+   "preheader": "One command shows the space Docker uses and how much you can get back.",
+   "hook": "Old images, stopped containers and build cache pile up until the disk is full.",
+   "tip": "Run `docker system df` to see how much space images, containers and volumes use, and how much is reclaimable.",
+   "steps": [
+    "Run `docker system df`",
+    "Look at the RECLAIMABLE column",
+    "Free build cache with `docker builder prune`"
+   ],
+   "why": "Get disk space back without guessing what to delete.",
+   "number": null,
+   "deadline": null,
+   "sources": [
+    [
+     "Docker docs: docker system df",
+     "https://docs.docker.com/reference/cli/docker/system/df/"
+    ],
+    [
+     "Docker docs: docker builder prune",
+     "https://docs.docker.com/reference/cli/docker/builder/prune/"
+    ]
+   ]
+  },
+  {
+   "id": "dockerignore",
+   "lane": "docker",
+   "trust": "official",
+   "subject": "Make your Docker builds start faster",
+   "preheader": "Stop sending your data folder and .git to every build.",
+   "hook": "Every build sends the whole folder to Docker first, including data and .git.",
+   "tip": "Add a `.dockerignore` file so data folders, `.git` and virtual environments are left out of the build context.",
+   "steps": [
+    "Create `.dockerignore` next to your Dockerfile",
+    "Add lines like `.git`, `data/` and `.venv/`",
+    "Rebuild and compare the context size"
+   ],
+   "why": "Faster builds and no secrets copied into images by accident.",
+   "number": null,
+   "deadline": null,
+   "sources": [
+    [
+     "Docker docs: build context",
+     "https://docs.docker.com/build/concepts/context/"
+    ]
+   ]
+  },
+  {
+   "id": "postgres-explain-analyze",
+   "lane": "data",
+   "trust": "official",
+   "subject": "See exactly why your SQL query is slow",
+   "preheader": "Two words in front of a query show where the time goes.",
+   "hook": "Guessing which part of a slow query hurts is slow too.",
+   "tip": "Put `EXPLAIN ANALYZE` before a PostgreSQL query to see the real plan, row counts and time for each step.",
+   "steps": [
+    "Run `EXPLAIN ANALYZE` followed by your SELECT",
+    "Look for a Seq Scan on a big table",
+    "For UPDATE or DELETE, wrap it in `BEGIN` and `ROLLBACK`, because it really runs"
+   ],
+   "why": "Fix the step that is slow instead of rewriting everything.",
+   "number": null,
+   "deadline": null,
+   "sources": [
+    [
+     "PostgreSQL docs: EXPLAIN",
+     "https://www.postgresql.org/docs/current/sql-explain.html"
+    ]
+   ]
+  },
+  {
+   "id": "sklearn-pipeline-leakage",
+   "lane": "data",
+   "trust": "official",
+   "subject": "Your cross-validation score may be too good",
+   "preheader": "One wrapper stops test data from leaking into training.",
+   "hook": "Scaling the whole dataset before cross-validation lets test data leak into training.",
+   "tip": "Put scaling and other preprocessing inside a scikit-learn `Pipeline`, so it is fitted only on the training folds.",
+   "steps": [
+    "Wrap your steps: `make_pipeline(StandardScaler(), model)`",
+    "Pass the pipeline to `cross_val_score`",
+    "Compare the score with your old one"
+   ],
+   "why": "Honest scores that hold up in production.",
+   "number": null,
+   "deadline": null,
+   "sources": [
+    [
+     "scikit-learn: common pitfalls",
+     "https://scikit-learn.org/stable/common_pitfalls.html"
+    ]
+   ]
+  },
+  {
+   "id": "sklearn-set-output",
+   "lane": "data",
+   "trust": "official",
+   "subject": "Keep column names after scikit-learn transforms",
+   "preheader": "Stop getting bare NumPy arrays back from your pipeline.",
+   "hook": "After a transform, you get a bare array and lose track of which column is which.",
+   "tip": "Call `.set_output(transform=\"pandas\")` on a transformer or pipeline so it returns DataFrames with column names.",
+   "steps": [
+    "Add `.set_output(transform=\"pandas\")` to your pipeline",
+    "Run `fit_transform` and look at the columns",
+    "Use the names when you inspect features"
+   ],
+   "why": "Readable outputs and fewer column mix-ups.",
+   "number": null,
+   "deadline": null,
+   "sources": [
+    [
+     "scikit-learn: set_output example",
+     "https://scikit-learn.org/stable/auto_examples/miscellaneous/plot_set_output.html"
+    ]
+   ]
+  },
+  {
+   "id": "sklearn-stratify",
+   "lane": "data",
+   "trust": "official",
+   "subject": "One argument keeps rare classes in your test set",
+   "preheader": "A random split can leave your rare class out of the test set.",
+   "hook": "With rare classes, a random split can leave almost none of them in the test set.",
+   "tip": "Pass `stratify=y` to `train_test_split` so train and test keep the same class balance.",
+   "steps": [
+    "Find your `train_test_split` call",
+    "Add `stratify=y`",
+    "Compare `y_test.value_counts()` before and after"
+   ],
+   "why": "Test scores you can trust on imbalanced data.",
+   "number": null,
+   "deadline": null,
+   "sources": [
+    [
+     "scikit-learn: train_test_split",
+     "https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html"
+    ]
+   ]
+  },
+  {
+   "id": "aws-s3-sync-dryrun",
+   "lane": "aws",
+   "trust": "official",
+   "subject": "Preview an S3 sync before it deletes anything",
+   "preheader": "See every copy and delete first, then run it for real.",
+   "hook": "One wrong path in an S3 sync with delete can wipe the wrong folder.",
+   "tip": "Add `--dryrun` to `aws s3 sync` to list every copy and delete it would do, without doing it.",
+   "steps": [
+    "Write your `aws s3 sync` command",
+    "Add `--dryrun` and read the output",
+    "Run it for real only when the list looks right"
+   ],
+   "why": "No surprise deletes in shared buckets.",
+   "number": null,
+   "deadline": null,
+   "sources": [
+    [
+     "AWS CLI docs: s3 sync",
+     "https://docs.aws.amazon.com/cli/latest/reference/s3/sync.html"
+    ]
+   ]
+  },
+  {
+   "id": "aws-budgets-alert",
+   "lane": "aws",
+   "trust": "official",
+   "subject": "Hear about AWS overspend before the bill does",
+   "preheader": "A five-minute setup that emails you when costs climb.",
+   "hook": "Most cost surprises are found on the invoice, weeks after they started.",
+   "tip": "Create an AWS Budget with an email alert, so you hear about overspend while you can still act.",
+   "steps": [
+    "Open Billing and Cost Management, then Budgets",
+    "Create a monthly cost budget",
+    "Add an email alert at a threshold such as 80%"
+   ],
+   "why": "Catch runaway jobs in days, not at month end.",
+   "number": null,
+   "deadline": null,
+   "sources": [
+    [
+     "AWS docs: creating a budget",
+     "https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-create.html"
+    ]
+   ]
+  },
+  {
+   "id": "vscode-multicursor",
+   "lane": "data",
+   "trust": "official",
+   "subject": "Edit every copy of a word at once",
+   "preheader": "A VS Code shortcut that turns ten edits into one.",
+   "hook": "Changing the same word in ten places by hand is slow and easy to get wrong.",
+   "tip": "In VS Code, select a word and press `Ctrl+D` (`Cmd+D` on Mac) to add the next match, then type once to edit them all.",
+   "steps": [
+    "Double-click a word",
+    "Press `Ctrl+D` for each next match, or `Ctrl+Shift+L` for all",
+    "Type the new text"
+   ],
+   "why": "Ten edits in one go.",
+   "number": null,
+   "deadline": null,
+   "sources": [
+    [
+     "VS Code docs: basic editing",
+     "https://code.visualstudio.com/docs/editing/codebasics"
+    ]
+   ]
+  },
+  {
+   "id": "jupyter-timeit",
+   "lane": "data",
+   "trust": "official",
+   "subject": "Settle the 'which is faster' debate in one line",
+   "preheader": "Stop arguing about speed. Measure it in your notebook.",
+   "hook": "Opinions about which pandas approach is faster are cheap. Measuring is cheaper.",
+   "tip": "In Jupyter, put `%timeit` before a line of code to time it over many runs and get a fair average.",
+   "steps": [
+    "Run `%timeit` on your current version",
+    "Run `%timeit` on the alternative",
+    "Keep the faster one"
+   ],
+   "why": "Speed decisions based on numbers, not hunches.",
+   "number": null,
+   "deadline": null,
+   "sources": [
+    [
+     "IPython docs: magics",
+     "https://ipython.readthedocs.io/en/stable/interactive/magics.html"
+    ]
+   ]
+  },
+  {
+   "id": "claude-xml-tags",
+   "lane": "agents",
+   "trust": "official",
+   "subject": "Stop Claude mixing up your instructions and data",
+   "preheader": "A simple prompt habit from Anthropic's own guide.",
+   "hook": "Long prompts with pasted documents blur where your instructions end and the data starts.",
+   "tip": "Wrap each document in tags like `<contract>` and `</contract>`, and refer to the tag name in your instructions.",
+   "steps": [
+    "Paste the document between tags",
+    "Write the task outside the tags",
+    "Ask for the answer inside tags like `<answer>`"
+   ],
+   "why": "Clearer prompts and answers that are easy to pull out.",
+   "number": null,
+   "deadline": null,
+   "sources": [
+    [
+     "Anthropic docs: use XML tags",
+     "https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/use-xml-tags"
+    ]
+   ]
+  },
+  {
+   "id": "claude-quotes-first",
+   "lane": "agents",
+   "trust": "official",
+   "subject": "Make AI answers stick to your document",
+   "preheader": "Three lines in your prompt cut made-up answers.",
+   "hook": "Ask a model about a long document and it may fill gaps with confident guesses.",
+   "tip": "Ask Claude to pull direct quotes from the document first, answer only from those quotes, and allow it to say it does not know.",
+   "steps": [
+    "Add: First quote the relevant passages",
+    "Add: Answer only from those quotes",
+    "Add: If the document does not say, say you do not know"
+   ],
+   "why": "Answers you can check against the source.",
+   "number": null,
+   "deadline": null,
+   "sources": [
+    [
+     "Anthropic docs: reduce hallucinations",
+     "https://docs.claude.com/en/docs/test-and-evaluate/strengthen-guardrails/reduce-hallucinations"
+    ]
+   ]
+  },
+  {
+   "id": "gemini-few-shot",
+   "lane": "agents",
+   "trust": "official",
+   "subject": "Show Gemini an example instead of explaining",
+   "preheader": "Google's own prompting guide recommends this for almost every prompt.",
+   "hook": "Long instructions about format often get ignored. A good example rarely does.",
+   "tip": "Add 2 or 3 examples of the exact output you want to your Gemini prompt; Google's guide recommends few-shot examples.",
+   "steps": [
+    "Write the task in one line",
+    "Paste 2 or 3 example inputs with ideal outputs",
+    "Add your real input last"
+   ],
+   "why": "Consistent format and tone with less instruction text.",
+   "number": null,
+   "deadline": null,
+   "sources": [
+    [
+     "Google AI docs: prompting strategies",
+     "https://ai.google.dev/gemini-api/docs/prompting-strategies"
+    ]
+   ]
+  },
+  {
+   "id": "python-batched",
+   "lane": "data",
+   "trust": "official",
+   "subject": "Split a list into chunks without index maths",
+   "preheader": "A Python 3.12 one-liner for APIs with batch limits.",
+   "hook": "Chunking a list for an API with a batch limit usually means fiddly index maths.",
+   "tip": "`itertools.batched(items, 100)` gives you tuples of up to 100 items at a time, in order.",
+   "steps": [
+    "Check you are on Python 3.12 or newer",
+    "Loop: `for batch in batched(ids, 100):`",
+    "Send each batch to the API"
+   ],
+   "why": "Cleaner loops and no off-by-one chunk bugs.",
+   "number": [
+    "3.12+",
+    "Python version needed"
+   ],
+   "deadline": null,
+   "sources": [
+    [
+     "Python docs: itertools",
+     "https://docs.python.org/3/library/itertools.html"
+    ]
+   ]
+  }
+ ]
+}
