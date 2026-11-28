@@ -1,0 +1,59 @@
+name: Insights of the Day v3 (hourly)
+
+# Every hour, around the clock: read the trusted feeds, follow the day's trends and keep the next 10:00 IST
+# mail ready. Before 10:00 IST on a weekday the mail being prepared is today's (frozen from 09:15 IST);
+# from 10:00 IST it is the next weekday's. Runs at :17 UTC = :47 IST. Everything runs in GitHub's cloud.
+# Needs the repository secret GEMINI_API_KEY (free key from aistudio.google.com). Stand-alone: does not use
+# v0, v1 or v2. Does nothing unless v3/ACTIVE exists on the site branch.
+on:
+  schedule:
+    - cron: "17 * * * *"
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: insights-v3
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: write         # only to push the built insight (docs/, data/) to the site branch
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: site
+          fetch-depth: 0
+
+      - name: Bring in the latest code from main
+        run: |
+          git config user.name "MercyDavidTG"
+          git config user.email "285697807+MercyDavidTG@users.noreply.github.com"
+          git merge --no-edit origin/main
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install feedparser requests
+
+      - name: Scan the feeds and prepare the next insight
+        if: hashFiles('v3/ACTIVE') != ''
+        run: python v3/curate_v3.py
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+
+      - name: Publish (commit) to the site branch
+        if: always()
+        run: |
+          git add docs data
+          git commit -m "Insights v3 hourly scan $(date -u "+%F %H:%M") UTC" || { echo "Nothing new to commit"; exit 0; }
+          for i in 1 2 3; do
+            git pull --no-rebase --no-edit origin site && git push origin HEAD:site && exit 0
+            sleep 15
+          done
+          exit 1
