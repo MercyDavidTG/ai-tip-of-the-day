@@ -1,76 +1,32 @@
 {
  "cards": [
   {
-   "date": "2026-11-26",
+   "lane": "data",
+   "topic": "python",
+   "trust": "official",
+   "subject": "Your pandas merge might be duplicating rows",
+   "preheader": "One argument makes pandas shout when your join keys are not unique.",
+   "context": "A join on a key that is not unique quietly multiplies rows, and every total after it is wrong.",
+   "tip": "Add `validate=\"many_to_one\"` (or `\"one_to_one\"`) to `pd.merge` so pandas raises an error when the keys are not unique.",
+   "steps": [
+    "Find a `pd.merge` in your current notebook",
+    "Add `validate=\"many_to_one\"` if the right table should have unique keys",
+    "Add `indicator=True` and check the `_merge` column for unmatched rows"
+   ],
+   "angle": "Catch silent row blow-ups before they reach a report.",
+   "number": null,
+   "sources": [
+    [
+     "pandas docs: merge",
+     "https://pandas.pydata.org/docs/reference/api/pandas.merge.html"
+    ]
+   ],
+   "evergreen_id": "pandas-merge-validate",
+   "kind": "evergreen",
+   "date": "2026-11-30",
    "no": 1,
    "live": false,
-   "kind": "news",
-   "subject": "Patch Docker: docker cp can bypass read-only mounts",
-   "preheader": "Docker Engine v29.10.1 also fixes failing builds and concurrent network rm errors.",
-   "hook": "A process running during `docker cp` can modify host directories behind your read-only bind mounts. The fix was released on 24 Nov.",
-   "tip": "Upgrade to Docker Engine `v29.10.1` to close `CVE-2026-135124` and `CVE-2026-135844` and fix build and `docker network rm` failures.",
-   "steps": [
-    "Upgrade Docker Engine to `v29.10.1` on every host",
-    "Run `docker login` to see the new OATs authentication options",
-    "Rebuild an image and confirm build context uploads with `Expect: 100-continue` succeed"
-   ],
-   "why": "Your host directories stay protected during `docker cp`, and your builds and network removals stop failing.",
-   "number": [
-    "v29.10.1",
-    "Docker Engine release with the fix"
-   ],
-   "deadline": "Upgrade now: `CVE-2026-135124` and `CVE-2026-135844` allow host directory overwrites during `docker cp` and unbounded file reads.",
-   "sources": [
-    [
-     "Docker Engine releases",
-     "https://github.com/moby/moby/releases/tag/docker-v29.10.1"
-    ]
-   ],
-   "lane": "docker",
-   "trust": "official",
-   "riddle_index": 0,
-   "riddle": {
-    "q": "I am a number, yet I am not a number, and I am not even equal to myself. What am I?",
-    "hint": "float('...') in Python",
-    "a": "NaN",
-    "why": "NaN == NaN is False, so use math.isnan() or pandas isna() to find missing values."
-   }
-  },
-  {
-   "date": "2026-11-27",
-   "no": 2,
-   "live": false,
-   "kind": "news",
-   "subject": "One setting keeps Copilot reviews off your org's bill",
-   "preheader": "From 30 Dec, unset Copilot code review billing switches to Organization.",
-   "hook": "From 30 Dec, GitHub switches unset Copilot code review billing to `Organization`. That can increase your organization's spending.",
-   "tip": "Set Copilot code review billing to `Member` so licensed members keep using their own Copilot entitlement.",
-   "steps": [
-    "Open your enterprise or organization Copilot policy settings",
-    "Change Copilot code review billing from `Default (Member)` to `Member`",
-    "Ask an enterprise owner if your enterprise manages this setting"
-   ],
-   "why": "Code reviews by licensed members stay on their own entitlement, not your organization's bill.",
-   "number": [
-    "30 Dec",
-    "default switches to Organization"
-   ],
-   "deadline": "Select `Member` before 30 Dec. If you already chose `Member` or `Organization`, your choice stays in effect.",
-   "sources": [
-    [
-     "GitHub Changelog",
-     "https://github.blog/changelog/2026-11-25-copilot-code-review-billing-will-default-to-the-organization"
-    ]
-   ],
-   "lane": "agents",
-   "trust": "official",
-   "riddle_index": 1,
-   "riddle": {
-    "q": "I remember every change you ever made and can take you back to any moment, but I am happiest when you commit. What am I?",
-    "hint": "Three letters, starts with G",
-    "a": "Git",
-    "why": "Every commit is a save point you can return to with git checkout or git revert."
-   }
+   "riddle_index": 39
   }
  ]
 }

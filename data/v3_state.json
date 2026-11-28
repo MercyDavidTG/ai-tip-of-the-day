@@ -1,0 +1,23 @@
+{
+ "day": "2026-11-30",
+ "live": false,
+ "seen": [
+  "https://huggingface.co/blog/video-trainium3",
+  "https://simonwillison.net/2026/Nov/27/datasette-charts/",
+  "https://simonwillison.net/2026/Nov/27/datasette-mcp/",
+  "https://techcrunch.com/2026/11/26/nvidia-hits-pause-on-chip-shipments-to-southeast-asia/",
+  "https://techcrunch.com/2026/11/28/sakana-ais-ceo-says-its-homegrown-models-are-about-more-than-japans-national-security/",
+  "https://the-decoder.com/banned-nvidia-blackwell-chips-turn-up-in-a-shanghai-data-center-linked-to-alice-huang-bloomberg-reports/",
+  "https://the-decoder.com/google-deepminds-humanitys-first-exam-shows-top-ai-models-still-fail-simple-everyday-tasks-under-repeated-runs/",
+  "https://the-decoder.com/openai-countersues-apple-over-trade-secret-theft-and-alleged-coercion-of-shared-suppliers/",
+  "https://the-decoder.com/robotics-startup-embo-raises-110-million-in-seed-funding-to-build-world-model-ai-for-robots/",
+  "https://the-decoder.com/terence-tao-sees-ai-ushering-in-big-math-but-calls-major-tech-firms-proofs-toxic-waste/",
+  "https://the-decoder.com/uk-parliament-demands-unredacted-metr-safety-report-after-anthropic-redacts-most-of-the-evidence/",
+  "https://tldr.tech/ai/2026-11-27",
+  "https://www.kdnuggets.com/10-github-repositories-to-master-ai-decision-models",
+  "https://www.kdnuggets.com/blending-unsupervised-clustering-tasks-with-scikit-llm",
+  "https://www.theverge.com/tech/1041801/android-intelligence-create-my-widget-gemini"
+ ],
+ "rounds": 1,
+ "swaps": 0
+}

@@ -1,0 +1,11 @@
+{
+ "last_run_ist": "2026-11-28 21:16",
+ "send_day": "2026-11-30",
+ "mode": "test",
+ "state": "ready",
+ "subject": "Your pandas merge might be duplicating rows",
+ "kind": "evergreen",
+ "candidates": 15,
+ "rounds": 1,
+ "swaps": 0
+}
