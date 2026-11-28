@@ -70,6 +70,9 @@ STOP = set("the a an and or for with from into your you new how why what this th
            "now more than over about using use after their they them have has his her to of in on at by as it be "
            "not all out up".split())
 _lines: list[str] = []
+STARTED = time.monotonic()
+BUDGET_S = 13 * 60  # stop asking the model after this, so a run never hangs (workflow limit 20 min)
+LLM_STATE: dict = {}  # remembers the Gemini model that answered last (data/v3_llm.json)
 
 
 def log(msg: str) -> None:
@@ -142,10 +145,18 @@ def ask_llm(prompt: str, temperature: float = 0.4) -> str:
     head = {"x-goog-api-key": key, "Content-Type": "application/json"}
     body = {"contents": [{"role": "user", "parts": [{"text": prompt}]}], "generationConfig": {"temperature": temperature}}
     last = ""
-    for model in (m.strip() for m in GEMINI_MODELS if m.strip()):
+    models = [m.strip() for m in GEMINI_MODELS if m.strip()]
+    if not LLM_STATE:
+        LLM_STATE.update(jload(ROOT / "data" / "v3_llm.json", {"model": None}))
+    good = LLM_STATE.get("model")
+    if good in models:  # the model that answered last goes first
+        models = [good] + [m for m in models if m != good]
+    for model in models:
         for attempt in (1, 2):
+            if time.monotonic() - STARTED > BUDGET_S:
+                raise RuntimeError("time budget for this run used up - the next hourly run tries again")
             try:
-                r = requests.post(GEMINI_URL.format(model), headers=head, json=body, timeout=180)
+                r = requests.post(GEMINI_URL.format(model), headers=head, json=body, timeout=75)
             except requests.RequestException as exc:
                 last = f"{model}: {exc}"
                 break
@@ -161,6 +172,8 @@ def ask_llm(prompt: str, temperature: float = 0.4) -> str:
                 text = ""
             if text:
                 log(f"  answered by {model}")
+                LLM_STATE["model"] = model
+                jsave(ROOT / "data" / "v3_llm.json", LLM_STATE)
                 return text
             last = f"{model}: {r.status_code}"
             break

@@ -4,9 +4,9 @@
 <item>
 <title>Your pandas merge might be duplicating rows | Insights #1</title>
 <link>https://pandas.pydata.org/docs/reference/api/pandas.merge.html</link>
-<guid isPermaLink="false">tip-2026-11-30</guid>
-<pubDate>Sat, 28 Nov 2026 15:47:22 +0000</pubDate>
-<description><![CDATA[<!-- tip-2026-11-30 -->
+<guid isPermaLink="false">tip-2026-11-29</guid>
+<pubDate>Sat, 28 Nov 2026 18:24:48 +0000</pubDate>
+<description><![CDATA[<!-- tip-2026-11-29 --><!-- tip-2026-11-28 -->
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1"><meta name="x-apple-disable-message-reformatting">
